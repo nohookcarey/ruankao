@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { loadAll } from '../model/questions';
 import { useApp } from '../model/StateContext';
 import { computeStats, pct } from '../model/stats';
 import { formatDuration } from '../model/state';
+import { computeTopics, weakestTopics } from '../model/topics';
 import type { Question } from '../model/types';
+import { Radar } from '../components/Radar';
 
 export function Stats() {
+  const nav = useNavigate();
   const { state } = useApp();
   const [all, setAll] = useState<Question[]>([]);
 
@@ -15,6 +19,31 @@ export function Stats() {
 
   const s = useMemo(() => computeStats(state, all), [state, all]);
   const maxWeek = Math.max(1, ...s.week.map((w) => w.count));
+
+  // 预估分：有上午卷记录就取最近三次平均，否则按客观题正确率折算
+  const forecast = useMemo(() => {
+    const am = state.exams
+      .filter((e) => e.kind === 'am' && typeof e.score === 'number')
+      .slice(0, 3);
+    if (am.length > 0) {
+      const avg = Math.round(am.reduce((sum, e) => sum + (e.score ?? 0), 0) / am.length);
+      return { score: avg, basis: `最近 ${am.length} 次上午卷平均分` };
+    }
+    if (s.objectiveAccuracy !== null) {
+      return {
+        score: Math.round(s.objectiveAccuracy * 75),
+        basis: `按客观题正确率 ${pct(s.objectiveAccuracy)} 折算 75 分制`,
+      };
+    }
+    return null;
+  }, [state.exams, s.objectiveAccuracy]);
+
+  const weak = useMemo(() => weakestTopics(computeTopics(all, state), 5), [all, state]);
+
+  const radarData = useMemo(
+    () => s.areaStats.map((a) => ({ label: a.short, value: a.accuracy })),
+    [s.areaStats],
+  );
 
   const bestExam = useMemo(() => {
     if (!state.exams.length) return null;
@@ -89,7 +118,84 @@ export function Stats() {
         </div>
       </div>
 
-      <div className="section-title">各知识域掌握度</div>
+      {forecast && (
+        <div className="card" style={{ padding: 14, marginTop: 10 }}>
+          <div className="row" style={{ justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 14, fontWeight: 500 }}>预估上午卷</span>
+            <span
+              className="chip"
+              style={{
+                color: forecast.score >= 45 ? 'var(--ok)' : 'var(--bad)',
+                background: forecast.score >= 45 ? 'var(--ok-weak)' : 'var(--bad-weak)',
+              }}
+            >
+              {forecast.score} / 75
+            </span>
+          </div>
+          <div className="sub" style={{ marginTop: 4 }}>
+            {forecast.basis} · 合格线 45 分。粗估，只用来观察趋势，别当成结论。
+          </div>
+        </div>
+      )}
+
+      <div className="section-title">
+        <span>能力分布</span>
+        <span style={{ fontWeight: 400, color: 'var(--text-3)' }}>
+          覆盖 {s.areaStats.filter((a) => a.tries > 0).length}/{s.areaStats.length} 个知识域
+        </span>
+      </div>
+      <div className="card" style={{ padding: '8px 4px 4px' }}>
+        <Radar data={radarData} />
+      </div>
+      <div className="sub" style={{ textAlign: 'center', marginTop: 8 }}>
+        越靠外表示正确率越高；未练的域会贴在最内圈
+      </div>
+
+      {weak.length > 0 && (
+        <>
+          <div className="section-title">
+            <span>最该补的考点</span>
+            <button
+              className="btn btn--ghost btn--sm"
+              onClick={() => nav('/topics')}
+              style={{ flex: 'none' }}
+            >
+              全部考点
+            </button>
+          </div>
+          <div className="card">
+            {weak.map((t) => (
+              <button
+                className="area-row"
+                key={t.tag}
+                onClick={() => nav(`/play/tag/${encodeURIComponent(t.tag)}`)}
+              >
+                <span
+                  className="area-row__idx"
+                  style={{
+                    background: 'var(--bad-weak)',
+                    color: 'var(--bad)',
+                    width: 34,
+                    fontSize: 10.5,
+                    fontWeight: 700,
+                  }}
+                >
+                  {Math.round((t.accuracy ?? 0) * 100)}%
+                </span>
+                <span className="area-row__main">
+                  <span className="area-row__name">{t.tag}</span>
+                  <span className="area-row__desc">
+                    {t.areaName} · 作答 {t.tries} 次，对 {t.correct} 次
+                  </span>
+                </span>
+                <span className="chevron">›</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div className="section-title">各知识域明细</div>
       <div className="card" style={{ padding: '4px 14px 14px' }}>
         {s.areaStats.map((a) => {
           const p = a.accuracy === null ? 0 : Math.round(a.accuracy * 100);

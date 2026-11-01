@@ -8,8 +8,10 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import type { AppState, ExamRecord, Question, Settings } from './types';
+import type { AppState, DailyRecord, ExamRecord, Question, Settings } from './types';
 import { createInitialState, loadState, MASTER_STREAK, pushLog, saveState } from './state';
+import { dateKey } from './date';
+import { nextDueAt } from './review';
 
 interface AppApi {
   state: AppState;
@@ -19,6 +21,7 @@ interface AppApi {
   removeWrong: (qid: string) => void;
   restoreWrong: (qid: string) => void;
   saveExam: (rec: ExamRecord) => void;
+  saveDaily: (key: string, rec: Omit<DailyRecord, 'at'>) => void;
   updateSettings: (patch: Partial<Settings>) => void;
   setResume: (key: string, index: number) => void;
   replaceState: (next: AppState) => void;
@@ -72,18 +75,29 @@ export function StateProvider({ children }: { children: ReactNode }) {
       const now = Date.now();
       const p = prev.progress[q.id] ?? { tries: 0, correct: 0, streak: 0, lastAt: 0 };
       const streak = ok ? p.streak + 1 : 0;
+      // 记忆盒排期：答错立即到期（当天可再练），答对按间隔顺延，归档后不再排期
+      const dueAt = nextDueAt(streak, now);
 
       let wrong = prev.wrong;
       if (!ok) {
         const existed = prev.wrong[q.id];
         wrong = {
           ...prev.wrong,
-          [q.id]: { firstAt: existed?.firstAt ?? now, lastAt: now, cleared: false },
+          [q.id]: { firstAt: existed?.firstAt ?? now, lastAt: now, cleared: false, dueAt },
         };
-      } else if (prev.wrong[q.id] && !prev.wrong[q.id].cleared && streak >= MASTER_STREAK) {
+      } else if (prev.wrong[q.id] && !prev.wrong[q.id].cleared) {
+        const archived = streak >= MASTER_STREAK;
         // 连续答对 5 次 → 归档到「已学会」（仍可在错题本里找回或移回）
-        wrong = { ...prev.wrong, [q.id]: { ...prev.wrong[q.id], cleared: true } };
+        wrong = {
+          ...prev.wrong,
+          [q.id]: { ...prev.wrong[q.id], lastAt: now, cleared: archived, dueAt },
+        };
       }
+
+      const today = dateKey(now);
+      const checkins = prev.checkins.includes(today)
+        ? prev.checkins
+        : [...prev.checkins, today];
 
       return {
         ...prev,
@@ -92,6 +106,7 @@ export function StateProvider({ children }: { children: ReactNode }) {
           [q.id]: { tries: p.tries + 1, correct: p.correct + (ok ? 1 : 0), streak, lastAt: now },
         },
         wrong,
+        checkins,
         log: pushLog(prev.log, { at: now, qid: q.id, area: q.area, type: q.type, ok }),
       };
     });
@@ -124,6 +139,19 @@ export function StateProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, exams: [rec, ...prev.exams].slice(0, 50) }));
   }, []);
 
+  const saveDaily = useCallback((key: string, rec: Omit<DailyRecord, 'at'>) => {
+    setState((prev) => {
+      const daily = { ...prev.daily, [key]: { ...rec, at: Date.now() } };
+      // 只保留最近 30 天，避免键无限增长
+      const keys = Object.keys(daily).sort();
+      const trimmed = keys.length > 30 ? keys.slice(keys.length - 30) : keys;
+      return {
+        ...prev,
+        daily: Object.fromEntries(trimmed.map((k) => [k, daily[k]])),
+      };
+    });
+  }, []);
+
   const updateSettings = useCallback((patch: Partial<Settings>) => {
     setState((prev) => ({ ...prev, settings: { ...prev.settings, ...patch } }));
   }, []);
@@ -152,6 +180,7 @@ export function StateProvider({ children }: { children: ReactNode }) {
       removeWrong,
       restoreWrong,
       saveExam,
+      saveDaily,
       updateSettings,
       setResume,
       replaceState,
@@ -165,6 +194,7 @@ export function StateProvider({ children }: { children: ReactNode }) {
       removeWrong,
       restoreWrong,
       saveExam,
+      saveDaily,
       updateSettings,
       setResume,
       replaceState,

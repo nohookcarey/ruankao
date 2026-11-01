@@ -20,6 +20,8 @@ export interface QuestionViewProps {
   fillFlags?: boolean[];
   /** 是否展开解析与参考答案 */
   showExplanation: boolean;
+  /** 背题模式：直接亮出正确答案，但不判对错、不显示结果条 */
+  answerOnly?: boolean;
   disabled?: boolean;
   onPick?: (key: string) => void;
   onInput?: (index: number, value: string) => void;
@@ -37,6 +39,7 @@ export function QuestionView({
   correct = null,
   fillFlags = [],
   showExplanation,
+  answerOnly = false,
   disabled,
   onPick,
   onInput,
@@ -79,7 +82,7 @@ export function QuestionView({
         <div className="opts">
           {q.options.map((opt) => {
             const isPicked = picked === opt.key;
-            const isRight = reveal && correct !== null && opt.key === q.answer;
+            const isRight = reveal && (answerOnly || correct !== null) && opt.key === q.answer;
             const isWrongPick = reveal && isPicked && correct === false;
             const cls = [
               'opt',
@@ -128,7 +131,7 @@ export function QuestionView({
                   />
                 </div>
                 {!reveal && blank.hint && <div className="fill-hint">{blank.hint}</div>}
-                {reveal && flag === false && (
+                {(answerOnly || (reveal && flag === false)) && (
                   <div className="fill-hint" style={{ color: 'var(--ok)' }}>
                     参考答案：{blank.answers[0]}
                     {blank.answers.length > 1 && ` （也接受：${blank.answers.slice(1).join('、')}）`}
@@ -186,7 +189,7 @@ export function QuestionView({
         </div>
       )}
 
-      {reveal && q.type !== 'case' && (
+      {reveal && !answerOnly && q.type !== 'case' && (
         <div className={`banner ${correct ? 'banner--ok' : 'banner--bad'}`}>
           {correct ? <IconCheck size={18} /> : <IconClose size={18} />}
           <span>

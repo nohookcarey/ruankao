@@ -173,6 +173,22 @@ export function Home() {
 
       <div className="section-title">我的</div>
       <div className="card">
+        <button className="area-row" onClick={() => nav('/topics')}>
+          <span className="area-row__idx">点</span>
+          <span className="area-row__main">
+            <span className="area-row__name">考点诊断</span>
+            <span className="area-row__desc">按考点拆开看掌握度，一键专练薄弱项</span>
+          </span>
+          <span className="chevron">›</span>
+        </button>
+        <button className="area-row" onClick={() => nav('/play/memorize')}>
+          <span className="area-row__idx">背</span>
+          <span className="area-row__main">
+            <span className="area-row__name">背题速览</span>
+            <span className="area-row__desc">直接给答案与解析，适合考前快速过一遍</span>
+          </span>
+          <span className="chevron">›</span>
+        </button>
         <button className="area-row" onClick={() => nav('/wrong')}>
           <span className="area-row__idx">错</span>
           <span className="area-row__main">

@@ -24,6 +24,28 @@ export function IconPractice({ size = 22 }: IconProps) {
   );
 }
 
+/** 今日：日历 + 勾选 */
+export function IconToday({ size = 22 }: IconProps) {
+  return (
+    <svg {...base(size)}>
+      <rect x="3.6" y="5.2" width="16.8" height="15" rx="2.4" />
+      <path d="M3.6 9.6h16.8" />
+      <path d="M8.4 3.4v3.4M15.6 3.4v3.4" />
+      <path d="m9 14.6 2 2 3.8-3.8" />
+    </svg>
+  );
+}
+
+/** 考点：标签 */
+export function IconTopic({ size = 22 }: IconProps) {
+  return (
+    <svg {...base(size)}>
+      <path d="M11.2 3.6H5.4A1.8 1.8 0 0 0 3.6 5.4v5.8c0 .5.2.9.5 1.3l7.4 7.4a1.8 1.8 0 0 0 2.5 0l5.8-5.8a1.8 1.8 0 0 0 0-2.5L12.5 4.1a1.8 1.8 0 0 0-1.3-.5z" />
+      <circle cx="7.9" cy="7.9" r="1.3" />
+    </svg>
+  );
+}
+
 export function IconWrong({ size = 22 }: IconProps) {
   return (
     <svg {...base(size)}>

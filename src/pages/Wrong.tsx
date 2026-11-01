@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { areaMap, loadAll } from '../model/questions';
 import { useApp } from '../model/StateContext';
 import { MASTER_STREAK } from '../model/state';
+import { dueLabel, isDue } from '../model/review';
 import type { Question } from '../model/types';
 import { Markdown } from '../components/Markdown';
 
@@ -28,14 +29,20 @@ export function Wrong() {
     return { open: o, cleared: c };
   }, [all, state.wrong]);
 
+  // 只统计题库中真实存在的到期错题，和下面列表保持一致
+  const dueCount = useMemo(
+    () => open.filter((q) => isDue(state.wrong[q.id]?.dueAt)).length,
+    [open, state.wrong],
+  );
+
   const list = tab === 'open' ? open : cleared;
 
   return (
     <div className="page">
       <h1 className="h1">错题本</h1>
       <p className="sub">
-        答错自动收录 · 连续答对 {MASTER_STREAK} 次自动归档为已学会（待复习 {open.length} · 已学会{' '}
-        {cleared.length}）
+        答错自动收录 · 按 1/2/4/7 天排期复习 · 连对 {MASTER_STREAK} 次归档为已学会（待复习{' '}
+        {open.length} · 已学会 {cleared.length}）
       </p>
 
       <div className="seg" style={{ marginTop: 14 }}>
@@ -54,13 +61,24 @@ export function Wrong() {
       </div>
 
       {list.length > 0 && tab === 'open' && (
-        <button
-          className="btn btn--primary btn--block"
-          style={{ marginTop: 14 }}
-          onClick={() => nav('/play/wrong')}
-        >
-          开始复习这 {list.length} 道错题
-        </button>
+        <div className="row" style={{ marginTop: 14, gap: 10 }}>
+          <button
+            className="btn btn--primary"
+            style={{ flex: 1 }}
+            onClick={() => nav(dueCount > 0 ? '/play/review' : '/play/wrong')}
+          >
+            {dueCount > 0 ? `复习到期 ${dueCount} 题` : `重练这 ${list.length} 道错题`}
+          </button>
+          {dueCount > 0 && dueCount < list.length && (
+            <button
+              className="btn btn--ghost"
+              style={{ flex: '0 0 auto', minWidth: 96 }}
+              onClick={() => nav('/play/wrong')}
+            >
+              全部重练
+            </button>
+          )}
+        </div>
       )}
 
       {list.length === 0 ? (
@@ -88,9 +106,16 @@ export function Wrong() {
                       {q.type === 'single' ? '单选' : q.type === 'fill' ? '填空' : '案例'}
                     </span>
                     {tab === 'open' ? (
-                      <span className={`chip${streak > 0 ? ' chip--ok' : ''}`}>
-                        连对 {streak}/{MASTER_STREAK}
-                      </span>
+                      <>
+                        <span className={`chip${streak > 0 ? ' chip--ok' : ''}`}>
+                          连对 {streak}/{MASTER_STREAK}
+                        </span>
+                        <span
+                          className={`chip${isDue(state.wrong[q.id]?.dueAt) ? ' chip--bad' : ''}`}
+                        >
+                          {dueLabel(state.wrong[q.id]?.dueAt)}
+                        </span>
+                      </>
                     ) : (
                       <span className="chip chip--ok">已归档</span>
                     )}

@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { IconPractice, IconSettings, IconStats, IconWrong } from './Icons';
+import { IconPractice, IconSettings, IconStats, IconToday, IconWrong } from './Icons';
 
 const items = [
-  { to: '/', label: '刷题', Icon: IconPractice, end: true },
+  { to: '/', label: '今日', Icon: IconToday, end: true },
+  { to: '/study', label: '刷题', Icon: IconPractice, end: false },
   { to: '/wrong', label: '错题', Icon: IconWrong, end: false },
   { to: '/stats', label: '统计', Icon: IconStats, end: false },
   { to: '/settings', label: '设置', Icon: IconSettings, end: false },

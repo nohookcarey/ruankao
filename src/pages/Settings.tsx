@@ -129,6 +129,55 @@ export function Settings() {
       </div>
 
       <div className="setting-group">
+        <div className="setting-title">学习计划</div>
+        <div className="card">
+          <div className="setting-row">
+            <div className="setting-row__main">
+              <div className="setting-row__title">考试日期</div>
+              <div className="setting-row__desc">
+                {state.settings.examDate
+                  ? '「今日」页会显示倒计时，并按剩余天数给出每日题量'
+                  : '填上考试日期，首页显示倒计时；留空则不显示'}
+              </div>
+            </div>
+            <input
+              type="date"
+              value={state.settings.examDate ?? ''}
+              onChange={(e) => updateSettings({ examDate: e.target.value || undefined })}
+              style={{
+                border: '1.5px solid var(--line)',
+                borderRadius: 10,
+                padding: '7px 10px',
+                background: 'var(--bg-elev)',
+                color: 'var(--text)',
+                fontSize: 13,
+                flex: 'none',
+              }}
+            />
+          </div>
+          <div style={{ padding: 14, borderTop: '1px solid var(--line)' }}>
+            <div className="setting-row__title" style={{ marginBottom: 8 }}>
+              每日目标题数
+            </div>
+            <div className="seg">
+              {[10, 20, 30, 50].map((n) => (
+                <button
+                  key={n}
+                  className={`seg__item${(state.settings.dailyGoal || 20) === n ? ' is-active' : ''}`}
+                  onClick={() => updateSettings({ dailyGoal: n })}
+                >
+                  {n} 题
+                </button>
+              ))}
+            </div>
+            <div className="setting-row__desc" style={{ marginTop: 8 }}>
+              只用于首页进度条与达标提示，不做任何限制或提醒
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="setting-group">
         <div className="setting-title">数据备份（跨设备唯一途径）</div>
         <div className="card">
           <button className="setting-row" style={{ width: '100%' }} onClick={doExport}>

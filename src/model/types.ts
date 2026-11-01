@@ -104,6 +104,19 @@ export interface WrongEntry {
   lastAt: number;
   /** 连续答对 MASTER_STREAK 次后置 true，即移入「已学会」存档 */
   cleared: boolean;
+  /**
+   * 下次复习到期时间（毫秒）。答错 → 立即到期；答对 → 按记忆盒间隔顺延。
+   * 归档后不再排期。旧数据缺省视为立即到期。
+   */
+  dueAt?: number;
+}
+
+/** 每日一练的完成记录，key 为 YYYY-MM-DD */
+export interface DailyRecord {
+  done: number;
+  ok: number;
+  total: number;
+  at: number;
 }
 
 /** 模考类型：random 随机卷（旧）/ am 上午卷 / pm 下午卷 */
@@ -146,6 +159,10 @@ export interface Settings {
   fontScale: 0 | 1 | 2;
   /** 练习模式是否即时判定 */
   immediateJudge: boolean;
+  /** 考试日期 YYYY-MM-DD，用于倒计时与每日任务量 */
+  examDate?: string;
+  /** 每日目标题数 */
+  dailyGoal: number;
 }
 
 export interface AppState {
@@ -158,6 +175,10 @@ export interface AppState {
   log: AnswerLogEntry[];
   /** 各题集的续做位置 */
   resume: Record<string, number>;
+  /** 有作答的日期（YYYY-MM-DD），用于连续打卡统计 */
+  checkins: string[];
+  /** 每日一练完成记录，只保留最近 30 天 */
+  daily: Record<string, DailyRecord>;
 }
 
 export interface QuestionSet {

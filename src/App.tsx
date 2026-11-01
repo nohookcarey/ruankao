@@ -1,10 +1,12 @@
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { BottomTabs } from './components/BottomTabs';
+import { Today } from './pages/Today';
 import { Home } from './pages/Home';
 import { Play } from './pages/Play';
 import { Exam } from './pages/Exam';
 import { Mock } from './pages/Mock';
 import { MockRun } from './pages/MockRun';
+import { Topics } from './pages/Topics';
 import { Wrong } from './pages/Wrong';
 import { Stats } from './pages/Stats';
 import { Settings } from './pages/Settings';
@@ -20,11 +22,14 @@ function Shell() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Today />} />
+        <Route path="/study" element={<Home />} />
+        <Route path="/topics" element={<Topics />} />
         <Route path="/wrong" element={<Wrong />} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/play/chapter/:areaId" element={<Play />} />
+        <Route path="/play/tag/:tag" element={<Play />} />
         <Route path="/play/:kind" element={<Play />} />
         <Route path="/exam" element={<Exam />} />
         <Route path="/mock" element={<Mock />} />
