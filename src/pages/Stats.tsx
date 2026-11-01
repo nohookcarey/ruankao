@@ -44,7 +44,7 @@ export function Stats() {
         </div>
         <div className="stat">
           <div className="stat__num">{s.wrongOpen}</div>
-          <div className="stat__label">待复习错题 · 已掌握 {s.wrongCleared}</div>
+          <div className="stat__label">待复习错题 · 已学会 {s.wrongCleared}</div>
         </div>
         <div className="stat">
           <div className="stat__num">{bestExam ? pct(bestExam.total ? bestExam.correct / bestExam.total : 0) : '—'}</div>
@@ -137,6 +137,9 @@ export function Stats() {
         <div className="card">
           {state.exams.slice(0, 10).map((e) => {
             const p = e.total ? Math.round((e.correct / e.total) * 100) : 0;
+            const hasScore = typeof e.score === 'number';
+            const passed = e.passed ?? p >= 60;
+            const kindLabel = e.kind === 'am' ? '上午卷' : e.kind === 'pm' ? '下午卷' : '随机卷';
             const d = new Date(e.submittedAt);
             return (
               <div className="list-item" key={e.id}>
@@ -147,16 +150,17 @@ export function Stats() {
                   <span
                     className="chip"
                     style={{
-                      color: p >= 60 ? 'var(--ok)' : 'var(--bad)',
-                      background: p >= 60 ? 'var(--ok-weak)' : 'var(--bad-weak)',
+                      color: passed ? 'var(--ok)' : 'var(--bad)',
+                      background: passed ? 'var(--ok-weak)' : 'var(--bad-weak)',
                     }}
                   >
-                    {p}%
+                    {hasScore ? `${e.score}/${e.maxScore ?? 75}` : `${p}%`}
                   </span>
                 </div>
                 <div className="list-item__foot" style={{ marginTop: 6 }}>
+                  <span className="chip chip--primary">{kindLabel}</span>
                   <span className="chip">
-                    客观题 {e.correct}/{e.total}
+                    {e.kind === 'pm' ? '小问' : '客观题'} {e.correct}/{e.total}
                   </span>
                   <span className="chip">用时 {formatDuration(e.durationMs)}</span>
                 </div>

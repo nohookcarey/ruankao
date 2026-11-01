@@ -1,0 +1,723 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { areaMap, loadAll } from '../model/questions';
+import { judgeQuestion } from '../model/judge';
+import { useApp } from '../model/StateContext';
+import { formatDuration } from '../model/state';
+import {
+  buildPaper,
+  isPassed,
+  PART,
+  passLine,
+  pastPaperTitle,
+  toFullScore,
+  type PaperPart,
+} from '../model/paper';
+import type { ExamRecord, Question, ReviewItem } from '../model/types';
+import { QuestionView } from '../components/QuestionView';
+import { Markdown } from '../components/Markdown';
+import { IconBack, IconClock } from '../components/Icons';
+
+interface Answer {
+  picked?: string | null;
+  inputs?: string[];
+}
+
+interface Draft {
+  ids: string[];
+  answers: Record<string, Answer>;
+  startedAt: number;
+}
+
+interface Result {
+  score: number;
+  total: number;
+  correct: number;
+  byArea: Record<string, { correct: number; total: number }>;
+  passed: boolean;
+  durationMs: number;
+  review: ReviewItem[];
+}
+
+/** qid → 小问标识 → 是否自评会做 */
+type Marks = Record<string, Record<string, boolean>>;
+
+function draftKey(part: PaperPart, key: string) {
+  return `ruankao.paper.draft.v1:${part}:${key}`;
+}
+
+export function MockRun() {
+  const nav = useNavigate();
+  const params = useParams();
+  const part: PaperPart = params.part === 'pm' ? 'pm' : 'am';
+  const key = params.key ?? 'mock';
+  const meta = PART[part];
+  const { saveExam, recordAnswer } = useApp();
+
+  const [items, setItems] = useState<Question[] | null>(null);
+  const [answers, setAnswers] = useState<Record<string, Answer>>({});
+  const [marks, setMarks] = useState<Marks>({});
+  const [index, setIndex] = useState(0);
+  const [startedAt, setStartedAt] = useState(0);
+  const [now, setNow] = useState(Date.now());
+  const [phase, setPhase] = useState<'answer' | 'mark' | 'done'>('answer');
+  const [result, setResult] = useState<Result | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [openReview, setOpenReview] = useState<Record<string, boolean>>({});
+  const submitted = useRef(false);
+
+  const title = key === 'mock' ? `模拟${meta.label}` : `${pastPaperTitle(key)} · ${meta.label}`;
+
+  // 组卷 / 恢复草稿
+  useEffect(() => {
+    let alive = true;
+    loadAll().then((all) => {
+      if (!alive) return;
+      const raw = sessionStorage.getItem(draftKey(part, key));
+      if (raw) {
+        try {
+          const d = JSON.parse(raw) as Draft;
+          const byId = new Map(all.map((q) => [q.id, q]));
+          const restored = d.ids.map((id) => byId.get(id)).filter(Boolean) as Question[];
+          if (restored.length > 0) {
+            setItems(restored);
+            setAnswers(d.answers ?? {});
+            setStartedAt(d.startedAt || Date.now());
+            return;
+          }
+        } catch {
+          /* 草稿损坏则重新组卷 */
+        }
+      }
+      setItems(buildPaper(all, part, key));
+      setStartedAt(Date.now());
+    });
+    return () => {
+      alive = false;
+    };
+  }, [part, key]);
+
+  // 计时
+  useEffect(() => {
+    if (phase === 'done') return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [phase]);
+
+  // 答题中存草稿，防止刷新丢失
+  useEffect(() => {
+    if (!items || phase !== 'answer') return;
+    const draft: Draft = { ids: items.map((q) => q.id), answers, startedAt };
+    sessionStorage.setItem(draftKey(part, key), JSON.stringify(draft));
+  }, [items, answers, startedAt, phase, part, key]);
+
+  const elapsed = now - startedAt;
+  const remain = Math.max(0, meta.minutes * 60 * 1000 - elapsed);
+  const q = items?.[index];
+  const total = items?.length ?? 0;
+
+  /** 上午卷：交卷即判分 */
+  const submitAm = useCallback(() => {
+    if (!items || submitted.current) return;
+    submitted.current = true;
+
+    const byArea: Record<string, { correct: number; total: number }> = {};
+    const review: ReviewItem[] = [];
+    let correct = 0;
+
+    for (const it of items) {
+      const a = answers[it.id] ?? {};
+      const ok = judgeQuestion(it, { picked: a.picked ?? null, inputs: a.inputs ?? [] });
+      review.push({ id: it.id, picked: a.picked ?? null, ok });
+      if (ok) correct += 1;
+      const bucket = byArea[it.area] ?? { correct: 0, total: 0 };
+      bucket.total += 1;
+      if (ok) bucket.correct += 1;
+      byArea[it.area] = bucket;
+      recordAnswer(it, Boolean(ok));
+    }
+
+    const durationMs = Date.now() - startedAt;
+    const rec: ExamRecord = {
+      id: `paper-${Date.now()}`,
+      title,
+      startedAt,
+      submittedAt: Date.now(),
+      total,
+      correct,
+      byArea,
+      caseSelf: { known: 0, unknown: 0 },
+      durationMs,
+      kind: 'am',
+      score: toFullScore(correct, total),
+      maxScore: meta.fullScore,
+      passed: isPassed(correct, total),
+      review,
+    };
+    saveExam(rec);
+    sessionStorage.removeItem(draftKey(part, key));
+    setResult({
+      score: rec.score!,
+      total,
+      correct,
+      byArea,
+      passed: Boolean(rec.passed),
+      durationMs,
+      review,
+    });
+    setPhase('done');
+  }, [items, answers, startedAt, total, title, meta.fullScore, saveExam, recordAnswer, part, key]);
+
+  const submitPm = useCallback(() => {
+    if (!items || submitted.current) return;
+    submitted.current = true;
+    setPhase('mark');
+    setSheetOpen(false);
+  }, [items]);
+
+  const submit = useCallback(() => {
+    if (part === 'am') submitAm();
+    else submitPm();
+  }, [part, submitAm, submitPm]);
+
+  // 时间到自动交卷（下午卷仍要进入自评）
+  useEffect(() => {
+    if (!items || phase !== 'answer') return;
+    if (remain <= 0) submit();
+  }, [remain, items, phase, submit]);
+
+  /** 下午卷自评汇总 */
+  const pmSummary = useMemo(() => {
+    const byArea: Record<string, { correct: number; total: number }> = {};
+    let totalSubs = 0;
+    let knownSubs = 0;
+    for (const it of items ?? []) {
+      if (it.type !== 'case') continue;
+      const m = marks[it.id] ?? {};
+      let k = 0;
+      it.subQuestions.forEach((s, i) => {
+        if (m[s.no || String(i + 1)]) k += 1;
+      });
+      totalSubs += it.subQuestions.length;
+      knownSubs += k;
+      const b = byArea[it.area] ?? { correct: 0, total: 0 };
+      b.total += it.subQuestions.length;
+      b.correct += k;
+      byArea[it.area] = b;
+    }
+    return { totalSubs, knownSubs, byArea };
+  }, [items, marks]);
+
+  const markedCount = useMemo(() => {
+    let n = 0;
+    let all = 0;
+    for (const it of items ?? []) {
+      if (it.type !== 'case') continue;
+      const m = marks[it.id] ?? {};
+      it.subQuestions.forEach((s, i) => {
+        all += 1;
+        if (m[s.no || String(i + 1)] !== undefined) n += 1;
+      });
+    }
+    return { n, all };
+  }, [items, marks]);
+
+  /** 下午卷：自评完成后保存成绩 */
+  const finishPm = useCallback(() => {
+    if (!items) return;
+    const { totalSubs, knownSubs, byArea } = pmSummary;
+    const durationMs = Date.now() - startedAt;
+
+    for (const it of items) {
+      if (it.type !== 'case') continue;
+      const m = marks[it.id] ?? {};
+      const allKnown = it.subQuestions.every((s, i) => m[s.no || String(i + 1)]);
+      recordAnswer(it, allKnown);
+    }
+
+    const rec: ExamRecord = {
+      id: `paper-${Date.now()}`,
+      title,
+      startedAt,
+      submittedAt: Date.now(),
+      total: totalSubs,
+      correct: knownSubs,
+      byArea,
+      caseSelf: { known: knownSubs, unknown: totalSubs - knownSubs },
+      durationMs,
+      kind: 'pm',
+      score: toFullScore(knownSubs, totalSubs),
+      maxScore: meta.fullScore,
+      passed: isPassed(knownSubs, totalSubs),
+      review: items.map((it) => ({ id: it.id, picked: null, ok: null })),
+    };
+    saveExam(rec);
+    sessionStorage.removeItem(draftKey(part, key));
+    setResult({
+      score: rec.score!,
+      total: totalSubs,
+      correct: knownSubs,
+      byArea,
+      passed: Boolean(rec.passed),
+      durationMs,
+      review: rec.review ?? [],
+    });
+    setPhase('done');
+  }, [items, pmSummary, marks, startedAt, title, meta.fullScore, saveExam, recordAnswer, part, key]);
+
+  const setSubMark = (qid: string, subKey: string, known: boolean) => {
+    setMarks((prev) => ({ ...prev, [qid]: { ...prev[qid], [subKey]: known } }));
+  };
+
+  const answeredCount = useMemo(() => {
+    if (!items) return 0;
+    return items.filter((it) => Boolean(answers[it.id]?.picked)).length;
+  }, [items, answers]);
+
+  const back = () => nav('/mock');
+
+  /* ---------- 加载 / 空态 ---------- */
+  if (!items) {
+    return (
+      <div className="page page--full">
+        <div className="topbar">
+          <button className="icon-btn" onClick={back} aria-label="返回">
+            <IconBack />
+          </button>
+          <span className="topbar__title">{title}</span>
+        </div>
+        <div className="empty">正在组卷…</div>
+      </div>
+    );
+  }
+
+  if (total === 0) {
+    return (
+      <div className="page page--full">
+        <div className="topbar">
+          <button className="icon-btn" onClick={back} aria-label="返回">
+            <IconBack />
+          </button>
+          <span className="topbar__title">{title}</span>
+        </div>
+        <div className="empty">
+          <div className="empty__title">这套卷子还没有题目</div>
+          <div>题库中缺少该卷型的题目，请先补充题库</div>
+        </div>
+        <div className="actionbar">
+          <div className="actionbar__inner">
+            <button className="btn btn--primary btn--block" onClick={back}>
+              返回模考列表
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ---------- 交卷后：成绩 ---------- */
+  if (phase === 'done' && result) {
+    const rate = result.total ? Math.round((result.correct / result.total) * 100) : 0;
+    const areaRows = Object.entries(result.byArea).sort((a, b) => b[1].total - a[1].total);
+
+    return (
+      <div className="page page--full">
+        <div className="topbar">
+          <button className="icon-btn" onClick={back} aria-label="返回">
+            <IconBack />
+          </button>
+          <span className="topbar__title">成绩报告</span>
+        </div>
+
+        <div className="result-hero">
+          <div className="result-score" style={{ color: result.passed ? 'var(--ok)' : 'var(--bad)' }}>
+            {result.score}
+            <small> / {meta.fullScore}</small>
+          </div>
+          <div className="result-sub">
+            {result.passed ? '达到合格线' : `距合格线还差 ${Math.max(0, Math.round(meta.fullScore * 0.6) - result.score)} 分`}
+            {' · '}用时 {formatDuration(result.durationMs)}
+          </div>
+          <div className="result-sub" style={{ marginTop: 2 }}>
+            {part === 'am'
+              ? `客观题 ${result.correct}/${result.total}（${rate}%）· 每题 1 分`
+              : `案例小问自评 ${result.correct}/${result.total}（${rate}%）· 按比例折算 75 分`}
+          </div>
+        </div>
+
+        {!isPassed(result.correct, result.total) && part === 'am' && (
+          <div className="banner banner--info">
+            合格需答对 {passLine(result.total)} 题。错题已自动收进错题本，连对 5 次才会归档。
+          </div>
+        )}
+
+        <div className="section-title">分知识域</div>
+        <div className="card" style={{ padding: '4px 14px 14px' }}>
+          {areaRows.map(([areaId, v]) => {
+            const p = v.total ? Math.round((v.correct / v.total) * 100) : 0;
+            return (
+              <div className="bar-item" key={areaId}>
+                <div className="bar-item__head">
+                  <span>{areaMap[areaId]?.name ?? areaId}</span>
+                  <span style={{ color: 'var(--text-2)' }}>
+                    {v.correct}/{v.total} · {p}%
+                  </span>
+                </div>
+                <div className="bar-item__track">
+                  <div
+                    className="bar-item__fill"
+                    style={{ width: `${p}%`, background: p >= 60 ? 'var(--ok)' : 'var(--bad)' }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {part === 'am' ? (
+          <>
+            <div className="section-title">
+              <span>逐题回顾</span>
+              <span style={{ fontWeight: 400, color: 'var(--text-3)' }}>
+                错 {result.total - result.correct} 题
+              </span>
+            </div>
+            <div className="card">
+              {items.map((it, i) => {
+                const r = result.review.find((x) => x.id === it.id);
+                const ok = r?.ok === true;
+                const open = openReview[it.id];
+                return (
+                  <div className="list-item" key={it.id}>
+                    <button
+                      className="row"
+                      style={{ width: '100%', justifyContent: 'space-between', gap: 10 }}
+                      onClick={() => setOpenReview((prev) => ({ ...prev, [it.id]: !prev[it.id] }))}
+                    >
+                      <span style={{ fontSize: 14, fontWeight: 500 }}>
+                        {i + 1}. {areaMap[it.area]?.name ?? it.area}
+                      </span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        {ok ? (
+                          <span className="chip chip--ok">对</span>
+                        ) : (
+                          <span className="chip chip--bad">错</span>
+                        )}
+                        <span className="chevron">{open ? '⌄' : '›'}</span>
+                      </span>
+                    </button>
+                    {open && (
+                      <div style={{ marginTop: 8 }}>
+                        <QuestionView
+                          q={it}
+                          picked={r?.picked ?? null}
+                          reveal
+                          correct={ok}
+                          showExplanation
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="section-title">参考答案与自评</div>
+            <div className="card" style={{ padding: '4px 14px 14px' }}>
+              {items.map((it, i) => (
+                <div key={it.id} className="list-item">
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>
+                    第 {i + 1} 题 · {areaMap[it.area]?.name ?? it.area}
+                  </div>
+                  <div className="q-stem" style={{ fontSize: 14 }}>
+                    <Markdown>{it.stem}</Markdown>
+                  </div>
+                  {it.type === 'case' &&
+                    it.subQuestions.map((sub, si) => {
+                      const subKey = sub.no || String(si + 1);
+                      const known = marks[it.id]?.[subKey];
+                      return (
+                        <div key={subKey} className="case-sub">
+                          <div className="case-sub__no">问题 {subKey}</div>
+                          <div className="explain">
+                            <div className="explain__title">参考答案</div>
+                            <Markdown>{sub.reference}</Markdown>
+                            {sub.keyPoints.length > 0 && (
+                              <>
+                                <div className="explain__title" style={{ marginTop: 10 }}>
+                                  采分要点
+                                </div>
+                                <ul className="kp">
+                                  {sub.keyPoints.map((k) => (
+                                    <li key={k}>{k}</li>
+                                  ))}
+                                </ul>
+                              </>
+                            )}
+                          </div>
+                          <div className="self-row">
+                            <button
+                              className={`self-btn${known === true ? ' is-ok' : ''}`}
+                              onClick={() => setSubMark(it.id, subKey, true)}
+                            >
+                              我答到了
+                            </button>
+                            <button
+                              className={`self-btn${known === false ? ' is-bad' : ''}`}
+                              onClick={() => setSubMark(it.id, subKey, false)}
+                            >
+                              没答到
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className="actionbar">
+          <div className="actionbar__inner">
+            <button className="btn btn--ghost" style={{ flex: 1 }} onClick={back}>
+              返回模考
+            </button>
+            <button
+              className="btn btn--primary"
+              style={{ flex: 1 }}
+              onClick={() => {
+                sessionStorage.removeItem(draftKey(part, key));
+                loadAll().then((all) => {
+                  submitted.current = false;
+                  setItems(buildPaper(all, part, key));
+                  setAnswers({});
+                  setMarks({});
+                  setIndex(0);
+                  setStartedAt(Date.now());
+                  setResult(null);
+                  setPhase('answer');
+                  setOpenReview({});
+                });
+              }}
+            >
+              再考一次
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ---------- 下午卷：交卷后逐小问自评 ---------- */
+  if (phase === 'mark') {
+    return (
+      <div className="page page--full">
+        <div className="topbar">
+          <button className="icon-btn" onClick={back} aria-label="返回">
+            <IconBack />
+          </button>
+          <span className="topbar__title">对照答案自评</span>
+          <span className="chip">已评 {markedCount.n}/{markedCount.all}</span>
+        </div>
+
+        <div className="banner banner--info" style={{ marginTop: 12 }}>
+          下午卷为主观题，请逐个小问对照参考答案与采分要点，如实选择「我答到了 / 没答到」。
+          得分按小问比例折算，不诚实只会骗到自己的分数。
+        </div>
+
+        <div className="card" style={{ padding: '4px 14px 14px' }}>
+          {items.map((it, i) => (
+            <div key={it.id} className="list-item">
+              <div className="q-stem" style={{ fontSize: 14 }}>
+                <strong>
+                  第 {i + 1} 题 · {areaMap[it.area]?.name ?? it.area}
+                </strong>
+                <Markdown>{it.stem}</Markdown>
+              </div>
+              {it.type === 'case' &&
+                it.subQuestions.map((sub, si) => {
+                  const subKey = sub.no || String(si + 1);
+                  const known = marks[it.id]?.[subKey];
+                  return (
+                    <div key={subKey} className="case-sub">
+                      <div className="case-sub__no">问题 {subKey}</div>
+                      <Markdown>{sub.stem}</Markdown>
+                      <div className="explain" style={{ marginTop: 10 }}>
+                        <div className="explain__title">参考答案</div>
+                        <Markdown>{sub.reference}</Markdown>
+                        {sub.keyPoints.length > 0 && (
+                          <>
+                            <div className="explain__title" style={{ marginTop: 10 }}>
+                              采分要点
+                            </div>
+                            <ul className="kp">
+                              {sub.keyPoints.map((k) => (
+                                <li key={k}>{k}</li>
+                              ))}
+                            </ul>
+                          </>
+                        )}
+                      </div>
+                      <div className="self-row">
+                        <button
+                          className={`self-btn${known === true ? ' is-ok' : ''}`}
+                          onClick={() => setSubMark(it.id, subKey, true)}
+                        >
+                          我答到了
+                        </button>
+                        <button
+                          className={`self-btn${known === false ? ' is-bad' : ''}`}
+                          onClick={() => setSubMark(it.id, subKey, false)}
+                        >
+                          没答到
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          ))}
+        </div>
+
+        <div className="actionbar">
+          <div className="actionbar__inner">
+            <span className="sub" style={{ flex: 'none' }}>
+              {markedCount.n < markedCount.all
+                ? `还有 ${markedCount.all - markedCount.n} 个小问未评`
+                : `预计 ${toFullScore(pmSummary.knownSubs, pmSummary.totalSubs)}/${meta.fullScore} 分`}
+            </span>
+            <button
+              className="btn btn--primary"
+              style={{ flex: 1 }}
+              disabled={markedCount.n < markedCount.all}
+              onClick={finishPm}
+            >
+              保存成绩
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ---------- 答题中 ---------- */
+  const urgent = remain < 5 * 60 * 1000;
+  const isLast = index >= total - 1;
+
+  return (
+    <div className="page page--full">
+      <div className="topbar">
+        <button className="icon-btn" onClick={back} aria-label="返回">
+          <IconBack />
+        </button>
+        <span className="topbar__title">
+          {meta.label} {index + 1}/{total}
+        </span>
+        <span
+          className="chip"
+          style={{
+            color: urgent ? 'var(--bad)' : 'var(--text-2)',
+            background: urgent ? 'var(--bad-weak)' : 'var(--bg-sub)',
+            gap: 4,
+          }}
+        >
+          <IconClock size={15} />
+          {formatDuration(remain)}
+        </span>
+        {part === 'am' ? (
+          <button className="icon-btn" onClick={() => setSheetOpen((v) => !v)} aria-label="答题卡">
+            <span style={{ fontSize: 12, fontWeight: 700 }}>
+              {answeredCount}/{total}
+            </span>
+          </button>
+        ) : (
+          <span className="chip">共 {total} 题</span>
+        )}
+      </div>
+      <div className="progress-line">
+        <div
+          className="progress-line__bar"
+          style={{ width: `${((index + 1) / total) * 100}%` }}
+        />
+      </div>
+
+      {sheetOpen && part === 'am' && (
+        <div className="card fade-in" style={{ padding: 14, marginTop: 12 }}>
+          <div className="row" style={{ justifyContent: 'space-between', marginBottom: 2 }}>
+            <span style={{ fontSize: 14, fontWeight: 600 }}>答题卡</span>
+            <span className="sub">
+              已答 {answeredCount} / {total}
+            </span>
+          </div>
+          <div className="sheet">
+            {items.map((it, i) => {
+              const done = Boolean(answers[it.id]?.picked);
+              return (
+                <button
+                  key={it.id}
+                  className={`sheet__cell${done ? ' is-done' : ''}${i === index ? ' is-current' : ''}`}
+                  onClick={() => {
+                    setIndex(i);
+                    setSheetOpen(false);
+                  }}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {q && (
+        <QuestionView
+          q={q}
+          picked={answers[q.id]?.picked ?? null}
+          inputs={answers[q.id]?.inputs ?? []}
+          reveal={false}
+          correct={null}
+          showExplanation={false}
+          onPick={(key2) =>
+            setAnswers((prev) => ({ ...prev, [q.id]: { ...prev[q.id], picked: key2 } }))
+          }
+        />
+      )}
+
+      <div className="actionbar">
+        <div className="actionbar__inner">
+          <button
+            className="btn btn--ghost"
+            style={{ flex: '0 0 auto', minWidth: 96 }}
+            disabled={index === 0}
+            onClick={() => setIndex((i) => Math.max(0, i - 1))}
+          >
+            上一题
+          </button>
+          {!isLast ? (
+            <button className="btn btn--primary" onClick={() => setIndex((i) => i + 1)}>
+              下一题
+            </button>
+          ) : (
+            <button
+              className="btn btn--primary"
+              onClick={() => {
+                if (part === 'am' && answeredCount < total) {
+                  const ok = window.confirm(
+                    `还有 ${total - answeredCount} 题未作答，确定交卷吗？`,
+                  );
+                  if (!ok) return;
+                }
+                submit();
+              }}
+            >
+              交卷
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

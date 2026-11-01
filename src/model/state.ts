@@ -5,6 +5,12 @@ export const STORAGE_KEY = 'ruankao.state.v1';
 /** 只保留最近 2000 条作答记录，避免 localStorage 膨胀 */
 const LOG_LIMIT = 2000;
 
+/**
+ * 错题归档门槛：同一道错题「连续答对」5 次才移入已学会存档。
+ * 中途答错一次即清零重计——避免蒙对两三次就归档。
+ */
+export const MASTER_STREAK = 5;
+
 export const defaultSettings: Settings = {
   theme: 'auto',
   fontScale: 0,

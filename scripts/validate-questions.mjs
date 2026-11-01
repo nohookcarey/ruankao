@@ -32,6 +32,8 @@ const files = readdirSync(areasDir).filter((f) => f.endsWith('.json'));
 const seen = new Set();
 const perArea = {};
 const perType = { single: 0, fill: 0, case: 0 };
+/** 真题卷：key = 年份+场次（如 2023H），用于检查整卷题号是否连续 */
+const pastPapers = new Map();
 let total = 0;
 
 for (const file of files) {
@@ -68,6 +70,31 @@ for (const file of files) {
     if (!q.stem || !String(q.stem).trim()) err(qid, '题干为空');
     if (!Array.isArray(q.tags) || q.tags.length === 0) warn(qid, '没有 tags');
     if (!q.explanation || !String(q.explanation).trim()) warn(qid, '没有解析');
+
+    // 真题定位：缺 year/session/no 就拼不出整卷
+    if (q.source === 'past-exam') {
+      if (!Number.isInteger(q.year) || q.year < 2004 || q.year > 2100) {
+        err(qid, '真题必须标注 year（四位年份）');
+      }
+      if (q.session !== 'H' && q.session !== 'L') {
+        err(qid, '真题必须标注 session（H 上半年 / L 下半年）');
+      }
+      if (!Number.isInteger(q.no) || q.no <= 0) {
+        err(qid, '真题必须标注 no（卷内题号，从 1 开始）');
+      }
+      if (q.year && (q.session === 'H' || q.session === 'L') && Number.isInteger(q.no)) {
+        const key = `${q.year}${q.session}`;
+        const rec = pastPapers.get(key) ?? { single: [], case: [] };
+        const bucket = q.type === 'single' ? rec.single : q.type === 'case' ? rec.case : null;
+        if (bucket) {
+          if (bucket.includes(q.no)) err(qid, `卷 ${key} 的题号 ${q.no} 重复`);
+          else bucket.push(q.no);
+        }
+        pastPapers.set(key, rec);
+      }
+    } else if (q.year || q.session || q.no) {
+      warn(qid, '非真题却带了 year/session/no，source 是否标错');
+    }
 
     if (q.type === 'single') {
       if (!Array.isArray(q.options) || q.options.length !== 4) {
@@ -146,6 +173,32 @@ for (const a of meta.areas) {
   const n = perArea[a.id] ?? 0;
   const flag = n === 0 ? '  ← 空' : '';
   console.log(`  ${String(a.order).padStart(2)}. ${a.name.padEnd(16, '　')} ${String(n).padStart(3)} 题${flag}`);
+}
+
+// 真题卷完整性：上午卷 75 题、下午卷 5 题
+if (pastPapers.size === 0) {
+  console.log('\n真题卷：暂无（模考页只能用模拟卷，录入后自动出现整卷）');
+} else {
+  console.log(`\n真题卷：${pastPapers.size} 套`);
+  for (const [key, rec] of [...pastPapers.entries()].sort()) {
+    const am = rec.single.length;
+    const pm = rec.case.length;
+    const label = `${key.slice(0, 4)} 年${key.endsWith('H') ? '上半' : '下半'}年`;
+    const amFlag = am >= 75 ? '✓' : `缺 ${75 - am} 题`;
+    const pmFlag = pm >= 5 ? '✓' : `缺 ${5 - pm} 题`;
+    console.log(`  ${label}  上午卷 ${String(am).padStart(2)}/75（${amFlag}）· 下午卷 ${pm}/5（${pmFlag}）`);
+    for (const [name, arr, full] of [
+      ['上午卷', rec.single, 75],
+      ['下午卷', rec.case, 5],
+    ]) {
+      if (!arr.length) continue;
+      const missing = [];
+      for (let i = 1; i <= full; i++) if (!arr.includes(i)) missing.push(i);
+      if (missing.length && missing.length <= 10) {
+        console.log(`    ${name}缺题号：${missing.join('、')}`);
+      }
+    }
+  }
 }
 
 if (warnings.length) {

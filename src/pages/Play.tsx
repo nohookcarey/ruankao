@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { areaMap, loadAll, shuffle } from '../model/questions';
 import { judgeFill, judgeQuestion } from '../model/judge';
 import { useApp } from '../model/StateContext';
+import { MASTER_STREAK } from '../model/state';
 import type { Question } from '../model/types';
 import { QuestionView } from '../components/QuestionView';
 import { IconBack, IconStar } from '../components/Icons';
@@ -302,6 +303,19 @@ export function Play() {
 
       {reveal && q?.type === 'case' && !selfMark && (
         <div className="banner banner--info">对照参考答案，给自己的作答打个分</div>
+      )}
+
+      {reveal && q && state.wrong[q.id] && (
+        <div
+          className={`banner ${state.wrong[q.id].cleared ? 'banner--ok' : 'banner--info'}`}
+        >
+          {state.wrong[q.id].cleared
+            ? `这道错题已连对 ${MASTER_STREAK} 次，已归档到「已学会」`
+            : `错题连对进度 ${Math.min(
+                state.progress[q.id]?.streak ?? 0,
+                MASTER_STREAK,
+              )}/${MASTER_STREAK}，答错一次即清零重计`}
+        </div>
       )}
 
       <div className="actionbar">

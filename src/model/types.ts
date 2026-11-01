@@ -94,7 +94,7 @@ export interface AnswerLogEntry {
 export interface ProgressEntry {
   tries: number;
   correct: number;
-  /** 连续答对次数，>=2 视为已掌握 */
+  /** 连续答对次数，>= MASTER_STREAK（5）时错题归档为已学会 */
   streak: number;
   lastAt: number;
 }
@@ -102,7 +102,20 @@ export interface ProgressEntry {
 export interface WrongEntry {
   firstAt: number;
   lastAt: number;
+  /** 连续答对 MASTER_STREAK 次后置 true，即移入「已学会」存档 */
   cleared: boolean;
+}
+
+/** 模考类型：random 随机卷（旧）/ am 上午卷 / pm 下午卷 */
+export type ExamKind = 'random' | 'am' | 'pm';
+
+/** 交卷后的逐题回顾：只存最小信息，避免 localStorage 膨胀 */
+export interface ReviewItem {
+  id: string;
+  /** 单选所选项 / 填空作答拼接；案例为 null */
+  picked?: string | null;
+  /** 对错；案例题自评为 null（走 caseKnown） */
+  ok: boolean | null;
 }
 
 export interface ExamRecord {
@@ -110,7 +123,7 @@ export interface ExamRecord {
   title: string;
   startedAt: number;
   submittedAt: number;
-  /** 满分题目数（客观题） */
+  /** 满分题目数（客观题）。下午卷为小问总数 */
   total: number;
   correct: number;
   /** 按知识域：正确数 / 总数 */
@@ -118,6 +131,13 @@ export interface ExamRecord {
   /** 案例自评：会 / 不会 */
   caseSelf: { known: number; unknown: number };
   durationMs: number;
+  /** 卷型，旧记录无此字段视作 random */
+  kind?: ExamKind;
+  /** 折算到 75 分制的得分 */
+  score?: number;
+  maxScore?: number;
+  passed?: boolean;
+  review?: ReviewItem[];
 }
 
 export interface Settings {

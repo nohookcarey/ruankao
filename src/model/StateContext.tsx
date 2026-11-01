@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from 'react';
 import type { AppState, ExamRecord, Question, Settings } from './types';
-import { createInitialState, loadState, pushLog, saveState } from './state';
+import { createInitialState, loadState, MASTER_STREAK, pushLog, saveState } from './state';
 
 interface AppApi {
   state: AppState;
@@ -80,8 +80,8 @@ export function StateProvider({ children }: { children: ReactNode }) {
           ...prev.wrong,
           [q.id]: { firstAt: existed?.firstAt ?? now, lastAt: now, cleared: false },
         };
-      } else if (prev.wrong[q.id] && streak >= 2) {
-        // 连续答对两次 → 自动标记已掌握（仍可在错题本里找回）
+      } else if (prev.wrong[q.id] && !prev.wrong[q.id].cleared && streak >= MASTER_STREAK) {
+        // 连续答对 5 次 → 归档到「已学会」（仍可在错题本里找回或移回）
         wrong = { ...prev.wrong, [q.id]: { ...prev.wrong[q.id], cleared: true } };
       }
 

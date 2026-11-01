@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { areaMap, loadAll } from '../model/questions';
 import { useApp } from '../model/StateContext';
+import { MASTER_STREAK } from '../model/state';
 import type { Question } from '../model/types';
 import { Markdown } from '../components/Markdown';
 
@@ -33,7 +34,8 @@ export function Wrong() {
     <div className="page">
       <h1 className="h1">错题本</h1>
       <p className="sub">
-        答错自动收录 · 连续答对 2 次转为已掌握（待复习 {open.length}，已掌握 {cleared.length}）
+        答错自动收录 · 连续答对 {MASTER_STREAK} 次自动归档为已学会（待复习 {open.length} · 已学会{' '}
+        {cleared.length}）
       </p>
 
       <div className="seg" style={{ marginTop: 14 }}>
@@ -47,7 +49,7 @@ export function Wrong() {
           className={`seg__item${tab === 'cleared' ? ' is-active' : ''}`}
           onClick={() => setTab('cleared')}
         >
-          已掌握 {cleared.length}
+          已学会 {cleared.length}
         </button>
       </div>
 
@@ -63,46 +65,59 @@ export function Wrong() {
 
       {list.length === 0 ? (
         <div className="empty">
-          <div className="empty__title">{tab === 'open' ? '没有待复习的错题' : '还没有已掌握的题'}</div>
+          <div className="empty__title">{tab === 'open' ? '没有待复习的错题' : '已学会存档还是空的'}</div>
           <div>
             {tab === 'open'
               ? '去刷题吧，答错会自动收进来'
-              : '同一道错题连续答对两次，就会移到这里'}
+              : `同一道错题连续答对 ${MASTER_STREAK} 次，就会自动归到这里存档`}
           </div>
         </div>
       ) : (
         <div className="card" style={{ marginTop: 14 }}>
-          {list.map((q) => (
-            <div className="list-item" key={q.id}>
-              <div className="list-item__stem">
-                <Markdown>{q.stem}</Markdown>
+          {list.map((q) => {
+            const streak = Math.min(state.progress[q.id]?.streak ?? 0, MASTER_STREAK);
+            return (
+              <div className="list-item" key={q.id}>
+                <div className="list-item__stem">
+                  <Markdown>{q.stem}</Markdown>
+                </div>
+                <div className="list-item__foot">
+                  <span className="list-item__chips">
+                    <span className="chip chip--primary">{areaMap[q.area]?.name ?? q.area}</span>
+                    <span className="chip">
+                      {q.type === 'single' ? '单选' : q.type === 'fill' ? '填空' : '案例'}
+                    </span>
+                    {tab === 'open' ? (
+                      <span className={`chip${streak > 0 ? ' chip--ok' : ''}`}>
+                        连对 {streak}/{MASTER_STREAK}
+                      </span>
+                    ) : (
+                      <span className="chip chip--ok">已归档</span>
+                    )}
+                  </span>
+                  <span className="list-item__acts">
+                    {tab === 'cleared' ? (
+                      <button className="btn btn--ghost btn--sm" onClick={() => restoreWrong(q.id)}>
+                        移回待复习
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn--ghost btn--sm"
+                          onClick={() => toggleFav(q.id)}
+                        >
+                          {state.fav.includes(q.id) ? '取消收藏' : '收藏'}
+                        </button>
+                        <button className="btn btn--ghost btn--sm" onClick={() => removeWrong(q.id)}>
+                          移除
+                        </button>
+                      </>
+                    )}
+                  </span>
+                </div>
               </div>
-              <div className="list-item__foot">
-                <span className="chip chip--primary">{areaMap[q.area]?.name ?? q.area}</span>
-                <span className="chip">
-                  {q.type === 'single' ? '单选' : q.type === 'fill' ? '填空' : '案例'}
-                </span>
-                <span style={{ flex: 1 }} />
-                {tab === 'cleared' ? (
-                  <button className="btn btn--ghost btn--sm" onClick={() => restoreWrong(q.id)}>
-                    移回待复习
-                  </button>
-                ) : (
-                  <>
-                    <button
-                      className="btn btn--ghost btn--sm"
-                      onClick={() => toggleFav(q.id)}
-                    >
-                      {state.fav.includes(q.id) ? '取消收藏' : '收藏'}
-                    </button>
-                    <button className="btn btn--ghost btn--sm" onClick={() => removeWrong(q.id)}>
-                      移除
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

@@ -872,6 +872,24 @@ a {
   flex-wrap: wrap;
 }
 
+/* chip 一组、操作按钮一组：chip 换行时按钮不会被拆散 */
+.list-item__chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  min-width: 0;
+  flex: 1;
+}
+
+.list-item__acts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  margin-left: auto;
+}
+
 /* ---------- 统计 ---------- */
 .stat-grid {
   display: grid;

@@ -66,7 +66,7 @@ export function Home() {
         </div>
       </div>
 
-      <div className="section-title">整卷模考</div>
+      <div className="section-title">考试</div>
       <button
         className="card"
         style={{
@@ -75,6 +75,45 @@ export function Home() {
           alignItems: 'center',
           gap: 12,
           padding: 16,
+          textAlign: 'left',
+        }}
+        onClick={() => nav('/mock')}
+      >
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 12,
+            background: 'var(--primary-weak)',
+            color: 'var(--primary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: 700,
+            flex: 'none',
+            fontSize: 14,
+          }}
+        >
+          真题
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 15, fontWeight: 600 }}>模拟真题考试</div>
+          <div className="area-row__desc">
+            上午卷 75 单选 / 下午卷 5 案例 · 各 150 分钟 · 交卷后逐题回顾
+          </div>
+        </div>
+        <span className="chevron">›</span>
+      </button>
+
+      <button
+        className="card"
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          padding: 16,
+          marginTop: 10,
           textAlign: 'left',
         }}
         onClick={() => nav('/exam')}
@@ -91,16 +130,14 @@ export function Home() {
             justifyContent: 'center',
             fontWeight: 700,
             flex: 'none',
-            fontSize: 15,
+            fontSize: 14,
           }}
         >
-          模考
+          随机
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 15, fontWeight: 600 }}>随机组卷 · 150 分钟</div>
-          <div className="area-row__desc">
-            从当前题库抽题，交卷后出分项报告
-          </div>
+          <div className="area-row__desc">从当前题库抽题，交卷后出分项报告</div>
         </div>
         <span className="chevron">›</span>
       </button>
@@ -147,7 +184,7 @@ export function Home() {
                 </span>
               )}
             </span>
-            <span className="area-row__desc">答错自动收录，连续答对 2 次转为已掌握</span>
+            <span className="area-row__desc">答错自动收录，连续答对 5 次归档为已学会</span>
           </span>
           <span className="chevron">›</span>
         </button>

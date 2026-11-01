@@ -125,6 +125,7 @@ export function Exam() {
       byArea,
       caseSelf: { known: 0, unknown: 0 },
       durationMs: Date.now() - startedAt,
+      kind: 'random',
     };
     saveExam(rec);
     sessionStorage.removeItem(DRAFT_KEY);
