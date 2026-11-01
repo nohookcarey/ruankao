@@ -362,7 +362,7 @@ export function Exam() {
         <div className="actionbar__inner">
           <button
             className="btn btn--ghost"
-            style={{ flex: '0 0 76px' }}
+            style={{ flex: '0 0 auto', minWidth: 96 }}
             disabled={index === 0}
             onClick={() => setIndex((i) => Math.max(0, i - 1))}
           >

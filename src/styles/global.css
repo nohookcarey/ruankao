@@ -234,6 +234,7 @@ a {
   border-radius: 12px;
   font-weight: 600;
   font-size: 15px;
+  white-space: nowrap;
   background: var(--bg-sub);
   color: var(--text);
   transition: transform 0.08s ease, opacity 0.15s ease;
