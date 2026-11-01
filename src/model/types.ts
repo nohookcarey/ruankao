@@ -1,0 +1,148 @@
+/** 题目类型：单选 / 填空 / 案例（主观自评） */
+export type QuestionType = 'single' | 'fill' | 'case';
+
+export type AreaId =
+  | 'arch'
+  | 'os'
+  | 'db'
+  | 'net'
+  | 'ds'
+  | 'lang'
+  | 'se'
+  | 'oo'
+  | 'dp'
+  | 'sec';
+
+export interface AreaMeta {
+  id: AreaId;
+  name: string;
+  short: string;
+  order: number;
+  desc?: string;
+}
+
+export interface BaseQuestion {
+  /** 全局唯一，如 arch-001 / 2023H-42 */
+  id: string;
+  type: QuestionType;
+  area: AreaId;
+  /** 题干，Markdown */
+  stem: string;
+  /** 解析，Markdown */
+  explanation: string;
+  tags: string[];
+  /** 1 易 2 中 3 难 */
+  difficulty: 1 | 2 | 3;
+  source: 'seed' | 'past-exam' | 'other';
+  /** 真题定位（可选） */
+  year?: number;
+  session?: 'H' | 'L';
+  no?: number;
+}
+
+export interface Option {
+  key: 'A' | 'B' | 'C' | 'D';
+  text: string;
+}
+
+export interface SingleQuestion extends BaseQuestion {
+  type: 'single';
+  options: Option[];
+  answer: 'A' | 'B' | 'C' | 'D';
+}
+
+export interface FillBlank {
+  id: string;
+  /** 可接受答案列表（已归一化前原文），命中任一即算对 */
+  answers: string[];
+  /** 提示，如“填中文术语” */
+  hint?: string;
+  /** 预估输入宽度，用于输入框宽度 */
+  size?: 'sm' | 'md' | 'lg';
+}
+
+export interface FillQuestion extends BaseQuestion {
+  type: 'fill';
+  blanks: FillBlank[];
+}
+
+export interface CaseSubQuestion {
+  no: string;
+  stem: string;
+  /** 参考答案，Markdown */
+  reference: string;
+  /** 采分要点 */
+  keyPoints: string[];
+}
+
+export interface CaseQuestion extends BaseQuestion {
+  type: 'case';
+  subQuestions: CaseSubQuestion[];
+}
+
+export type Question = SingleQuestion | FillQuestion | CaseQuestion;
+
+/** 一次作答记录 → 用于统计趋势 */
+export interface AnswerLogEntry {
+  at: number;
+  qid: string;
+  area: AreaId;
+  type: QuestionType;
+  ok: boolean;
+}
+
+export interface ProgressEntry {
+  tries: number;
+  correct: number;
+  /** 连续答对次数，>=2 视为已掌握 */
+  streak: number;
+  lastAt: number;
+}
+
+export interface WrongEntry {
+  firstAt: number;
+  lastAt: number;
+  cleared: boolean;
+}
+
+export interface ExamRecord {
+  id: string;
+  title: string;
+  startedAt: number;
+  submittedAt: number;
+  /** 满分题目数（客观题） */
+  total: number;
+  correct: number;
+  /** 按知识域：正确数 / 总数 */
+  byArea: Record<string, { correct: number; total: number }>;
+  /** 案例自评：会 / 不会 */
+  caseSelf: { known: number; unknown: number };
+  durationMs: number;
+}
+
+export interface Settings {
+  theme: 'light' | 'dark' | 'auto';
+  /** 0 标准 1 大 2 特大 */
+  fontScale: 0 | 1 | 2;
+  /** 练习模式是否即时判定 */
+  immediateJudge: boolean;
+}
+
+export interface AppState {
+  version: 1;
+  progress: Record<string, ProgressEntry>;
+  wrong: Record<string, WrongEntry>;
+  fav: string[];
+  exams: ExamRecord[];
+  settings: Settings;
+  log: AnswerLogEntry[];
+  /** 各题集的续做位置 */
+  resume: Record<string, number>;
+}
+
+export interface QuestionSet {
+  key: string;
+  title: string;
+  subtitle?: string;
+  items: Question[];
+}
