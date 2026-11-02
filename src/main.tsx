@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import './styles/global.css';
 
 /**
@@ -12,6 +13,15 @@ import './styles/global.css';
  */
 const BASE = '/ruankao/';
 const SKIP = new Set(['', '/', '/index.html', '/404.html', '/404']);
+
+/**
+ * 部署新版本后文件名哈希会变，已打开的旧页面仍指向旧 chunk，加载即 404。
+ * 捕获 Vite 的 preloadError 后直接刷新，拿到新版本。
+ */
+window.addEventListener('vite:preloadError', (event) => {
+  event.preventDefault();
+  window.location.reload();
+});
 
 /** 返回 true 表示正在跳转，此时不渲染，避免先闪一下首页 */
 function normalizeDeepLink(): boolean {
@@ -31,7 +41,9 @@ function normalizeDeepLink(): boolean {
 if (!normalizeDeepLink()) {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </StrictMode>,
   );
 }
