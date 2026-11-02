@@ -28,7 +28,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,json}'],
+        globPatterns: ['**/*.{js,css,html,svg,json}'],
+        // 题目配图共 15MB，按需加载即可，不进首屏预缓存
+        globIgnores: ['**/figures/**'],
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         navigateFallback: '/ruankao/index.html',
       },
