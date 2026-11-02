@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { areaMap, loadAll } from '../model/questions';
-import { judgeQuestion } from '../model/judge';
+import { hasAnswer, judgeQuestion } from '../model/judge';
 import { useApp } from '../model/StateContext';
 import { formatDuration } from '../model/state';
 import {
@@ -9,6 +9,7 @@ import {
   isPassed,
   PART,
   passLine,
+  passScore,
   pastPaperTitle,
   toFullScore,
   type PaperPart,
@@ -27,16 +28,26 @@ interface Draft {
   ids: string[];
   answers: Record<string, Answer>;
   startedAt: number;
+  /** 最后写入时间，用于判断草稿是否过期 */
+  updatedAt?: number;
+  index?: number;
 }
 
 interface Result {
   score: number;
+  /** 卷面题数（分母，按它折算 75 分） */
   total: number;
+  /** 实际作答数 */
+  answered: number;
   correct: number;
-  byArea: Record<string, { correct: number; total: number }>;
+  byArea: Record<string, { correct: number; total: number; answered: number }>;
   passed: boolean;
   durationMs: number;
   review: ReviewItem[];
+  /** 卷面不足真实卷量时给出提示 */
+  shortPaper: boolean;
+  /** 卷面题数：上午卷为题数，下午卷为案例道数 */
+  paperSize: number;
 }
 
 /** qid → 小问标识 → 是否自评会做 */
@@ -44,6 +55,17 @@ type Marks = Record<string, Record<string, boolean>>;
 
 function draftKey(part: PaperPart, key: string) {
   return `ruankao.paper.draft.v1:${part}:${key}`;
+}
+
+/**
+ * 草稿存活时限：超过这个时间（或已过考试时长）的草稿视为废弃，
+ * 免得几天后打开还在续一场早就该算弃考的卷子。
+ */
+const DRAFT_TTL_MS = 12 * 60 * 60 * 1000;
+
+/** 试卷标识是否合法：'mock' 或形如 2023H / 2024L */
+function isValidKey(key: string): boolean {
+  return key === 'mock' || /^\d{4}[HL]$/.test(key);
 }
 
 export function MockRun() {
@@ -64,27 +86,38 @@ export function MockRun() {
   const [result, setResult] = useState<Result | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [openReview, setOpenReview] = useState<Record<string, boolean>>({});
+  const [restoredDraft, setRestoredDraft] = useState(false);
   const submitted = useRef(false);
 
-  const title = key === 'mock' ? `模拟${meta.label}` : `${pastPaperTitle(key)} · ${meta.label}`;
+  const keyOk = isValidKey(key);
+  const title = !keyOk
+    ? '未知试卷'
+    : key === 'mock'
+      ? `模拟${meta.label}`
+      : `${pastPaperTitle(key)} · ${meta.label}`;
 
-  // 组卷 / 恢复草稿
+  // 组卷 / 恢复草稿（草稿放 localStorage，关标签页、换标签页都能接着做）
   useEffect(() => {
     let alive = true;
     loadAll().then((all) => {
       if (!alive) return;
-      const raw = sessionStorage.getItem(draftKey(part, key));
+      const raw = localStorage.getItem(draftKey(part, key));
       if (raw) {
         try {
           const d = JSON.parse(raw) as Draft;
+          const stamp = d.updatedAt ?? d.startedAt ?? 0;
+          const stale = Date.now() - stamp > DRAFT_TTL_MS;
           const byId = new Map(all.map((q) => [q.id, q]));
           const restored = d.ids.map((id) => byId.get(id)).filter(Boolean) as Question[];
-          if (restored.length > 0) {
+          if (!stale && restored.length > 0) {
             setItems(restored);
             setAnswers(d.answers ?? {});
             setStartedAt(d.startedAt || Date.now());
+            setIndex(Math.min(d.index ?? 0, restored.length - 1));
+            setRestoredDraft(true);
             return;
           }
+          localStorage.removeItem(draftKey(part, key));
         } catch {
           /* 草稿损坏则重新组卷 */
         }
@@ -104,36 +137,58 @@ export function MockRun() {
     return () => clearInterval(t);
   }, [phase]);
 
-  // 答题中存草稿，防止刷新丢失
+  // 答题中存草稿，防止刷新/关页丢失
   useEffect(() => {
     if (!items || phase !== 'answer') return;
-    const draft: Draft = { ids: items.map((q) => q.id), answers, startedAt };
-    sessionStorage.setItem(draftKey(part, key), JSON.stringify(draft));
-  }, [items, answers, startedAt, phase, part, key]);
+    const draft: Draft = {
+      ids: items.map((q) => q.id),
+      answers,
+      startedAt,
+      updatedAt: Date.now(),
+      index,
+    };
+    try {
+      localStorage.setItem(draftKey(part, key), JSON.stringify(draft));
+    } catch {
+      /* 存储不可用时由全局提示接管，不阻塞答题 */
+    }
+  }, [items, answers, startedAt, phase, part, key, index]);
 
   const elapsed = now - startedAt;
   const remain = Math.max(0, meta.minutes * 60 * 1000 - elapsed);
   const q = items?.[index];
   const total = items?.length ?? 0;
 
-  /** 上午卷：交卷即判分 */
+  /** 上午卷：交卷即判分。缺考的题不算对也不算错，绝不写进统计与错题本 */
   const submitAm = useCallback(() => {
     if (!items || submitted.current) return;
     submitted.current = true;
 
-    const byArea: Record<string, { correct: number; total: number }> = {};
+    const byArea: Record<string, { correct: number; total: number; answered: number }> = {};
     const review: ReviewItem[] = [];
     let correct = 0;
+    let answered = 0;
 
     for (const it of items) {
-      const a = answers[it.id] ?? {};
-      const ok = judgeQuestion(it, { picked: a.picked ?? null, inputs: a.inputs ?? [] });
-      review.push({ id: it.id, picked: a.picked ?? null, ok });
-      if (ok) correct += 1;
-      const bucket = byArea[it.area] ?? { correct: 0, total: 0 };
+      const a = answers[it.id];
+      const bucket = byArea[it.area] ?? { correct: 0, total: 0, answered: 0 };
       bucket.total += 1;
-      if (ok) bucket.correct += 1;
       byArea[it.area] = bucket;
+
+      // 未作答：只记「跳过」，不计分、不记录、不进错题本
+      if (!hasAnswer(it, a)) {
+        review.push({ id: it.id, picked: null, ok: null, skipped: true });
+        continue;
+      }
+
+      answered += 1;
+      bucket.answered += 1;
+      const ok = judgeQuestion(it, { picked: a?.picked ?? null, inputs: a?.inputs ?? [] });
+      if (ok) {
+        correct += 1;
+        bucket.correct += 1;
+      }
+      review.push({ id: it.id, picked: a?.picked ?? null, ok: Boolean(ok) });
       recordAnswer(it, Boolean(ok));
     }
 
@@ -144,6 +199,7 @@ export function MockRun() {
       startedAt,
       submittedAt: Date.now(),
       total,
+      answered,
       correct,
       byArea,
       caseSelf: { known: 0, unknown: 0 },
@@ -155,15 +211,18 @@ export function MockRun() {
       review,
     };
     saveExam(rec);
-    sessionStorage.removeItem(draftKey(part, key));
+    localStorage.removeItem(draftKey(part, key));
     setResult({
       score: rec.score!,
       total,
+      answered,
       correct,
-      byArea,
+      byArea: byArea as Result['byArea'],
       passed: Boolean(rec.passed),
       durationMs,
       review,
+      shortPaper: part === 'am' && total < PART.am.size,
+      paperSize: total,
     });
     setPhase('done');
   }, [items, answers, startedAt, total, title, meta.fullScore, saveExam, recordAnswer, part, key]);
@@ -241,6 +300,7 @@ export function MockRun() {
       startedAt,
       submittedAt: Date.now(),
       total: totalSubs,
+      answered: totalSubs,
       correct: knownSubs,
       byArea,
       caseSelf: { known: knownSubs, unknown: totalSubs - knownSubs },
@@ -252,15 +312,21 @@ export function MockRun() {
       review: items.map((it) => ({ id: it.id, picked: null, ok: null })),
     };
     saveExam(rec);
-    sessionStorage.removeItem(draftKey(part, key));
+    localStorage.removeItem(draftKey(part, key));
     setResult({
       score: rec.score!,
       total: totalSubs,
+      answered: totalSubs,
       correct: knownSubs,
-      byArea,
+      byArea: Object.fromEntries(
+        Object.entries(byArea).map(([k, v]) => [k, { ...v, answered: v.total }]),
+      ),
       passed: Boolean(rec.passed),
       durationMs,
       review: rec.review ?? [],
+      // 下午卷的 total 是小问数，判断缺题要看案例道数
+      shortPaper: items.length < PART.pm.size,
+      paperSize: items.length,
     });
     setPhase('done');
   }, [items, pmSummary, marks, startedAt, title, meta.fullScore, saveExam, recordAnswer, part, key]);
@@ -271,8 +337,19 @@ export function MockRun() {
 
   const answeredCount = useMemo(() => {
     if (!items) return 0;
-    return items.filter((it) => Boolean(answers[it.id]?.picked)).length;
+    return items.filter((it) => hasAnswer(it, answers[it.id])).length;
   }, [items, answers]);
+
+  /** 交卷统一入口：未答满时二次确认，并说明未作答不会计错 */
+  const confirmSubmit = useCallback(() => {
+    if (part === 'am' && answeredCount < total) {
+      const ok = window.confirm(
+        `还有 ${total - answeredCount} 题未作答，确定交卷吗？未作答的题按缺考处理，不计入已刷题、不进错题本。`,
+      );
+      if (!ok) return;
+    }
+    submit();
+  }, [part, answeredCount, total, submit]);
 
   const back = () => nav('/mock');
 
@@ -301,8 +378,14 @@ export function MockRun() {
           <span className="topbar__title">{title}</span>
         </div>
         <div className="empty">
-          <div className="empty__title">这套卷子还没有题目</div>
-          <div>题库中缺少该卷型的题目，请先补充题库</div>
+          <div className="empty__title">
+            {keyOk ? '这套卷子还没有题目' : '这套卷子不存在'}
+          </div>
+          <div>
+            {keyOk
+              ? '题库中缺少该卷型的题目，请先补充题库'
+              : '链接里的试卷编号不正确，请从模考列表重新选择'}
+          </div>
         </div>
         <div className="actionbar">
           <div className="actionbar__inner">
@@ -317,8 +400,10 @@ export function MockRun() {
 
   /* ---------- 交卷后：成绩 ---------- */
   if (phase === 'done' && result) {
-    const rate = result.total ? Math.round((result.correct / result.total) * 100) : 0;
+    const rate = result.answered ? Math.round((result.correct / result.answered) * 100) : 0;
     const areaRows = Object.entries(result.byArea).sort((a, b) => b[1].total - a[1].total);
+    const skipped = result.total - result.answered;
+    const pass = passScore(meta.fullScore);
 
     return (
       <div className="page page--full">
@@ -335,32 +420,49 @@ export function MockRun() {
             <small> / {meta.fullScore}</small>
           </div>
           <div className="result-sub">
-            {result.passed ? '达到合格线' : `距合格线还差 ${Math.max(0, Math.round(meta.fullScore * 0.6) - result.score)} 分`}
+            {result.passed ? '达到合格线' : `距合格线还差 ${Math.max(0, pass - result.score)} 分`}
             {' · '}用时 {formatDuration(result.durationMs)}
           </div>
           <div className="result-sub" style={{ marginTop: 2 }}>
             {part === 'am'
-              ? `客观题 ${result.correct}/${result.total}（${rate}%）· 每题 1 分`
-              : `案例小问自评 ${result.correct}/${result.total}（${rate}%）· 按比例折算 75 分`}
+              ? `已答 ${result.answered}/${result.total} 题 · 答对 ${result.correct} 题（正确率 ${rate}%）`
+              : `案例小问自评 ${result.correct}/${result.total}（${rate}%）· 按比例折算 ${meta.fullScore} 分`}
           </div>
         </div>
 
-        {!isPassed(result.correct, result.total) && part === 'am' && (
+        {part === 'am' && skipped > 0 && (
           <div className="banner banner--info">
-            合格需答对 {passLine(result.total)} 题。错题已自动收进错题本，连对 5 次才会归档。
+            有 {skipped} 题未作答，按缺考处理：不计入已刷题、不进错题本，但本卷得分按整卷 {result.total} 题折算，
+            这 {skipped} 题拿不到分。
+          </div>
+        )}
+
+        {result.shortPaper && (
+          <div className="banner banner--info">
+            {part === 'am'
+              ? `题库中这套卷子只有 ${result.paperSize} 题（真实卷面 ${PART.am.size} 题），分数已按现有题数折算，只作趋势参考，补题后会自动按完整卷面成卷。`
+              : `题库中这套下午卷只有 ${result.paperSize} 道案例（真实卷面 ${PART.pm.size} 道），得分按现有小问比例折算，只作趋势参考。`}
+          </div>
+        )}
+
+        {!result.passed && part === 'am' && (
+          <div className="banner banner--info">
+            合格需答对 {passLine(result.total)} 题（{pass} 分）。答错的题已收进错题本，连对 5 次才会归档。
           </div>
         )}
 
         <div className="section-title">分知识域</div>
         <div className="card" style={{ padding: '4px 14px 14px' }}>
           {areaRows.map(([areaId, v]) => {
-            const p = v.total ? Math.round((v.correct / v.total) * 100) : 0;
+            const at = v.answered ?? v.total;
+            const p = at ? Math.round((v.correct / at) * 100) : 0;
             return (
               <div className="bar-item" key={areaId}>
                 <div className="bar-item__head">
                   <span>{areaMap[areaId]?.name ?? areaId}</span>
                   <span style={{ color: 'var(--text-2)' }}>
-                    {v.correct}/{v.total} · {p}%
+                    {at === 0 ? '未作答' : `${v.correct}/${at} · ${p}%`}
+                    {at < v.total && at > 0 ? `（卷面 ${v.total} 题）` : ''}
                   </span>
                 </div>
                 <div className="bar-item__track">
@@ -379,13 +481,15 @@ export function MockRun() {
             <div className="section-title">
               <span>逐题回顾</span>
               <span style={{ fontWeight: 400, color: 'var(--text-3)' }}>
-                错 {result.total - result.correct} 题
+                答错 {result.answered - result.correct} 题
+                {result.total - result.answered > 0 && ` · 未答 ${result.total - result.answered} 题`}
               </span>
             </div>
             <div className="card">
               {items.map((it, i) => {
                 const r = result.review.find((x) => x.id === it.id);
                 const ok = r?.ok === true;
+                const missed = r?.skipped === true;
                 const open = openReview[it.id];
                 return (
                   <div className="list-item" key={it.id}>
@@ -398,7 +502,9 @@ export function MockRun() {
                         {i + 1}. {areaMap[it.area]?.name ?? it.area}
                       </span>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        {ok ? (
+                        {missed ? (
+                          <span className="chip">未答</span>
+                        ) : ok ? (
                           <span className="chip chip--ok">对</span>
                         ) : (
                           <span className="chip chip--bad">错</span>
@@ -489,7 +595,7 @@ export function MockRun() {
               className="btn btn--primary"
               style={{ flex: 1 }}
               onClick={() => {
-                sessionStorage.removeItem(draftKey(part, key));
+                localStorage.removeItem(draftKey(part, key));
                 loadAll().then((all) => {
                   submitted.current = false;
                   setItems(buildPaper(all, part, key));
@@ -500,6 +606,7 @@ export function MockRun() {
                   setResult(null);
                   setPhase('answer');
                   setOpenReview({});
+                  setRestoredDraft(false);
                 });
               }}
             >
@@ -644,6 +751,27 @@ export function MockRun() {
         />
       </div>
 
+      {restoredDraft && (
+        <div className="banner banner--info fade-in" style={{ marginTop: 10 }}>
+          已恢复上次的作答进度（第 {index + 1} 题，已答 {answeredCount}/{total}）。
+          进度保存在本机浏览器，关掉页面也不会丢。
+          <button
+            className="btn btn--ghost btn--sm"
+            style={{ marginLeft: 8 }}
+            onClick={() => {
+              localStorage.removeItem(draftKey(part, key));
+              submitted.current = false;
+              setAnswers({});
+              setIndex(0);
+              setStartedAt(Date.now());
+              setRestoredDraft(false);
+            }}
+          >
+            重新开始
+          </button>
+        </div>
+      )}
+
       {sheetOpen && part === 'am' && (
         <div className="card fade-in" style={{ padding: 14, marginTop: 12 }}>
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: 2 }}>
@@ -654,7 +782,7 @@ export function MockRun() {
           </div>
           <div className="sheet">
             {items.map((it, i) => {
-              const done = Boolean(answers[it.id]?.picked);
+              const done = hasAnswer(it, answers[it.id]);
               return (
                 <button
                   key={it.id}
@@ -669,6 +797,16 @@ export function MockRun() {
               );
             })}
           </div>
+          <button
+            className="btn btn--ghost btn--block"
+            style={{ marginTop: 12 }}
+            onClick={() => {
+              setSheetOpen(false);
+              confirmSubmit();
+            }}
+          >
+            交卷（已答 {answeredCount}/{total}）
+          </button>
         </div>
       )}
 
@@ -690,32 +828,24 @@ export function MockRun() {
         <div className="actionbar__inner">
           <button
             className="btn btn--ghost"
-            style={{ flex: '0 0 auto', minWidth: 96 }}
+            style={{ flex: '0 0 auto', minWidth: 84 }}
             disabled={index === 0}
             onClick={() => setIndex((i) => Math.max(0, i - 1))}
           >
             上一题
           </button>
-          {!isLast ? (
-            <button className="btn btn--primary" onClick={() => setIndex((i) => i + 1)}>
+          {!isLast && (
+            <button className="btn btn--primary" style={{ flex: 1 }} onClick={() => setIndex((i) => i + 1)}>
               下一题
             </button>
-          ) : (
-            <button
-              className="btn btn--primary"
-              onClick={() => {
-                if (part === 'am' && answeredCount < total) {
-                  const ok = window.confirm(
-                    `还有 ${total - answeredCount} 题未作答，确定交卷吗？`,
-                  );
-                  if (!ok) return;
-                }
-                submit();
-              }}
-            >
-              交卷
-            </button>
           )}
+          <button
+            className={`btn ${isLast ? 'btn--primary' : 'btn--ghost'}`}
+            style={{ flex: isLast ? 1 : '0 0 auto', minWidth: 84 }}
+            onClick={confirmSubmit}
+          >
+            交卷
+          </button>
         </div>
       </div>
     </div>

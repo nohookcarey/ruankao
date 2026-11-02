@@ -88,16 +88,38 @@ export function loadState(): AppState {
   }
 }
 
-export function saveState(state: AppState): void {
+/** 存储写入失败时广播的事件名，UI 层据此提示用户「这次没存上」 */
+export const STORAGE_ERROR_EVENT = 'ruankao:storage-error';
+
+/** 失败提示的节流，避免连续作答时刷屏 */
+let lastStorageWarnAt = 0;
+
+/**
+ * 保存状态。返回是否真的写进去了 ——
+ * 隐私模式 / 配额写满时 setItem 会抛错，绝不能静默吞掉，
+ * 否则用户以为答完了，刷新后全部消失。
+ */
+export function saveState(state: AppState): boolean {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
   } catch (e) {
     // localStorage 满了（极少见）：裁剪日志后重试一次
     try {
       const slim: AppState = { ...state, log: state.log.slice(-200) };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(slim));
+      return true;
     } catch {
       console.warn('保存失败：本地存储不可用', e);
+      if (Date.now() - lastStorageWarnAt > 8000) {
+        lastStorageWarnAt = Date.now();
+        try {
+          window.dispatchEvent(new CustomEvent(STORAGE_ERROR_EVENT));
+        } catch {
+          /* 非浏览器环境忽略 */
+        }
+      }
+      return false;
     }
   }
 }

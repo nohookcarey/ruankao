@@ -41,8 +41,8 @@ export function Wrong() {
     <div className="page">
       <h1 className="h1">错题本</h1>
       <p className="sub">
-        答错自动收录 · 按 1/2/4/7 天排期复习 · 连对 {MASTER_STREAK} 次归档为已学会（待复习{' '}
-        {open.length} · 已学会 {cleared.length}）
+        答错自动收录 · 答错后 10 分钟先重来一次，答对后按 1/2/4/7 天排期 · 连对 {MASTER_STREAK}{' '}
+        次归档为已学会（待复习 {open.length} · 已学会 {cleared.length}）
       </p>
 
       <div className="seg" style={{ marginTop: 14 }}>

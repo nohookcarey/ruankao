@@ -31,6 +31,8 @@ export function Home() {
   }, [all, state.progress]);
 
   const wrongCount = Object.values(state.wrong).filter((w) => !w.cleared).length;
+  // 下午卷题库里实际有多少道案例，文案按真实数量走，不写死「5 道」
+  const caseCount = useMemo(() => all.filter((q) => q.type === 'case').length, [all]);
 
   // 最近的续做位置
   const resumeTarget = useMemo(() => {
@@ -48,7 +50,7 @@ export function Home() {
         <div className="hero__label">已刷题</div>
         <div className="hero__num">
           {stats.answered}
-          <small>/ {stats.total}</small>
+          <small>/{stats.total}</small>
         </div>
         <div className="progress" style={{ background: 'rgba(255,255,255,.25)', marginBottom: 14 }}>
           <div className="progress__bar" style={{ width: `${stats.pct}%`, background: '#fff' }} />
@@ -99,7 +101,8 @@ export function Home() {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 15, fontWeight: 600 }}>模拟真题考试</div>
           <div className="area-row__desc">
-            上午卷 75 单选 / 下午卷 5 案例 · 各 150 分钟 · 交卷后逐题回顾
+            上午卷 75 单选 · 下午卷案例{caseCount > 0 ? `（现有 ${caseCount} 道）` : ''} · 各 150
+            分钟 · 交卷后逐题回顾
           </div>
         </div>
         <span className="chevron">›</span>

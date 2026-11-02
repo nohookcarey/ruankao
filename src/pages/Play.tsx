@@ -33,6 +33,8 @@ export function Play() {
   const { state, recordAnswer, toggleFav, setResume, saveDaily } = useApp();
 
   const [items, setItems] = useState<Question[] | null>(null);
+  /** 全量题库，用于判断章节/考点是否存在（空态时 items 是空的，判断不了） */
+  const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [inputs, setInputs] = useState<string[]>([]);
@@ -48,12 +50,18 @@ export function Play() {
   const snapshot = useRef(state);
   snapshot.current = state;
   const dailySaved = useRef(false);
+  /**
+   * 判定锁：同一帧内连点选项时，state 里的 reveal 还没更新，
+   * 光靠 reveal 判断会重复判分（一次连点能刷满连对进度）。用 ref 立刻上锁。
+   */
+  const judging = useRef(false);
 
   // 组卷：只在挂载时快照一次，避免答题过程中列表变动导致错位
   useEffect(() => {
     let alive = true;
     loadAll().then((all) => {
       if (!alive) return;
+      setAllQuestions(all);
       let list: Question[];
       switch (kind) {
         case 'chapter':
@@ -105,6 +113,7 @@ export function Play() {
 
   // 换题时清空作答态；背题模式直接展开答案
   useEffect(() => {
+    judging.current = false;
     setPicked(null);
     setInputs([]);
     setReveal(memorize);
@@ -118,6 +127,11 @@ export function Play() {
   const total = items?.length ?? 0;
   const isLast = index >= total - 1;
 
+  const allTags = useMemo(
+    () => new Set(allQuestions.flatMap((item) => item.tags)),
+    [allQuestions],
+  );
+
   // 每日一练做完 → 记一次完成状态，供「今日」页展示
   useEffect(() => {
     if (kind !== 'daily' || total === 0 || index < total || dailySaved.current) return;
@@ -127,7 +141,8 @@ export function Play() {
 
   const judgeAndRecord = useCallback(
     (ok: boolean) => {
-      if (!q) return;
+      if (!q || judging.current) return;
+      judging.current = true;
       setReveal(true);
       setShowExp(true);
       setCorrect(ok);
@@ -138,7 +153,7 @@ export function Play() {
   );
 
   const handlePick = (key: string) => {
-    if (!q || reveal) return;
+    if (!q || reveal || judging.current) return;
     setPicked(key);
     if (state.settings.immediateJudge) {
       judgeAndRecord(key === (q.type === 'single' ? q.answer : ''));
@@ -261,6 +276,28 @@ export function Play() {
   }
 
   if (total === 0) {
+    // 区分「范围不存在」和「范围存在但没题」，别把路由写错说成题库为空
+    const badChapter = kind === 'chapter' && !areaMap[areaId ?? ''];
+    const badTag =
+      kind === 'tag' && tagParam && allQuestions.length > 0
+        ? !allTags.has(tagParam)
+        : false;
+    const badRoute = badChapter || badTag;
+
+    const emptyText = badChapter
+      ? `没有叫「${areaId}」的知识域，请从章节列表进入`
+      : badTag
+        ? `题库里没有「${tagParam}」这个考点，换个考点试试`
+        : kind === 'wrong'
+          ? '答错过的题会自动出现在这里'
+          : kind === 'fav'
+            ? '在答题页点右上角星标即可收藏'
+            : kind === 'review'
+              ? '今天没有到期该复习的错题，明天再来'
+              : kind === 'daily'
+                ? '今天这组题还没生成出来，刷新页面试试'
+                : '题库为空，请先导入题目';
+
     return (
       <div className="page page--full">
         <div className="topbar">
@@ -270,18 +307,8 @@ export function Play() {
           <span className="topbar__title">{title}</span>
         </div>
         <div className="empty">
-          <div className="empty__title">这里还没有题目</div>
-          <div>
-            {kind === 'wrong'
-              ? '答错过的题会自动出现在这里'
-              : kind === 'fav'
-                ? '在答题页点右上角星标即可收藏'
-                : kind === 'review'
-                  ? '今天没有到期该复习的错题，明天再来'
-                  : kind === 'daily'
-                    ? '题库为空，导入题目后才能生成每日一练'
-                    : '题库为空，请先导入题目'}
-          </div>
+          <div className="empty__title">{badRoute ? '这个页面不存在' : '这里还没有题目'}</div>
+          <div>{emptyText}</div>
         </div>
         <div className="actionbar">
           <div className="actionbar__inner">

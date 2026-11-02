@@ -34,13 +34,24 @@ export function isDue(dueAt: number | undefined, now = Date.now()): boolean {
   return (dueAt ?? 0) <= now;
 }
 
-/** 给错题本用的排期文案 */
+/**
+ * 给错题本用的排期文案。
+ * 首轮是「答错后 10 分钟」的冷却期，必须如实说「10 分钟后」，
+ * 不能一律写「明天复习」，否则文案和实际到期时间对不上。
+ */
 export function dueLabel(dueAt: number | undefined, now = Date.now()): string {
   if (dueAt === undefined) return '待复习';
   const diff = dueAt - now;
   if (diff <= 0) return '已到期';
-  const days = Math.ceil(diff / DAY_MS);
-  return days <= 1 ? '明天复习' : `${days} 天后复习`;
+  const mins = diff / 60_000;
+  if (mins < 60) return `${Math.max(1, Math.round(mins))} 分钟后复习`;
+  const hours = diff / 3_600_000;
+  if (hours < 12) return `${Math.round(hours)} 小时后复习`;
+  // 半天以内且跨到今天之后 → 就是「今天」
+  if (dateKey(dueAt) === dateKey(now)) return '今天复习';
+  const days = Math.round(diff / DAY_MS);
+  if (days <= 1) return '明天复习';
+  return `${days} 天后复习`;
 }
 
 /**

@@ -20,12 +20,18 @@ export const PART: Record<
     minutes: 150,
     size: 5,
     fullScore: 75,
-    desc: '应用技术 · 5 道案例 · 150 分钟',
+    // 不写死「5 道案例」：题库现有案例数不足 5 道，文案按实际成卷题量走
+    desc: '应用技术 · 案例分析 · 150 分钟',
   },
 };
 
 /** 合格线 45/75，即 60% */
 export const PASS_RATE = 0.6;
+
+/** 合格分数，与百分比口径统一（75 分制 → 45 分） */
+export function passScore(fullScore = 75): number {
+  return Math.round(fullScore * PASS_RATE);
+}
 
 /**
  * 上午卷知识域配比（合计 100，按 75 题折算）。

@@ -31,8 +31,8 @@ export function Mock() {
       </div>
 
       <p className="sub" style={{ marginTop: 10 }}>
-        按真实卷面组卷：上午 75 道单选、下午 5 道案例，各 150 分钟，满分 75 分、45 分合格。
-        交卷后才统一判分，中途不给对错提示。
+        按真实卷面组卷：上午卷 75 道单选、下午卷案例分析，各 150 分钟，满分 75 分、45 分合格。
+        交卷后才统一判分，中途不给对错提示。未作答的题按缺考处理，不计入刷题统计。
       </p>
 
       <div className="seg" style={{ marginTop: 14 }}>
@@ -81,7 +81,9 @@ export function Mock() {
               <span className="area-row__main">
                 <span className="area-row__name">{e.title}</span>
                 <span className="area-row__desc">
-                  {e.available}/{e.size} 题{e.note ? ` · ${e.note}` : ''}
+                  {e.complete
+                    ? `${e.available} 题 · 完整卷面`
+                    : `现有 ${e.available} 题 · 缺 ${e.size - e.available} 题`}
                 </span>
               </span>
               {!e.complete && <span className="chip chip--bad">缺题</span>}
@@ -103,7 +105,9 @@ export function Mock() {
             <span className="area-row__main">
               <span className="area-row__name">{e.title}</span>
               <span className="area-row__desc">
-                {e.available}/{e.size} 题{e.note ? ` · ${e.note}` : ''}
+                {e.complete
+                  ? `${e.available} 题 · 按知识域配比抽题`
+                  : `题库现有 ${e.available} 题 · 按现有题量成卷`}
               </span>
             </span>
             <span className="chevron">›</span>

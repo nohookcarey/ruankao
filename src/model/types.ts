@@ -127,8 +127,10 @@ export interface ReviewItem {
   id: string;
   /** 单选所选项 / 填空作答拼接；案例为 null */
   picked?: string | null;
-  /** 对错；案例题自评为 null（走 caseKnown） */
+  /** 对错；案例题自评为 null（走 caseKnown），缺考跳过也为 null 并置 skipped */
   ok: boolean | null;
+  /** 交卷时该题未作答（不计入统计与错题本） */
+  skipped?: boolean;
 }
 
 export interface ExamRecord {
@@ -136,11 +138,13 @@ export interface ExamRecord {
   title: string;
   startedAt: number;
   submittedAt: number;
-  /** 满分题目数（客观题）。下午卷为小问总数 */
+  /** 卷面题目数（客观题）。下午卷为小问总数 */
   total: number;
+  /** 实际作答数（缺考题为空）。旧记录无此字段时按 total 处理 */
+  answered?: number;
   correct: number;
-  /** 按知识域：正确数 / 总数 */
-  byArea: Record<string, { correct: number; total: number }>;
+  /** 按知识域：正确数 / 卷面题数；answered 为实际作答数 */
+  byArea: Record<string, { correct: number; total: number; answered?: number }>;
   /** 案例自评：会 / 不会 */
   caseSelf: { known: number; unknown: number };
   durationMs: number;

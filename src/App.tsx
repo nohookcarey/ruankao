@@ -1,5 +1,6 @@
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { BottomTabs } from './components/BottomTabs';
+import { StorageAlert } from './components/StorageAlert';
 import { Today } from './pages/Today';
 import { Home } from './pages/Home';
 import { Play } from './pages/Play';
@@ -21,6 +22,7 @@ function Shell() {
 
   return (
     <div className="app">
+      <StorageAlert />
       <Routes>
         <Route path="/" element={<Today />} />
         <Route path="/study" element={<Home />} />

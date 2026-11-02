@@ -150,8 +150,8 @@ export function Today() {
             </span>
             <span className="area-row__desc">
               {view.due.length
-                ? '按记忆曲线到期：答错当天重来，答对间隔逐次拉长'
-                : '暂无到期错题，答错的题会按 1/2/4/7 天自动排期'}
+                ? '按记忆曲线到期：答错 10 分钟后重来，答对后间隔逐次拉长'
+                : '暂无到期错题，答错的题会先隔 10 分钟、再按 1/2/4/7 天排期'}
             </span>
           </span>
           <span className="chevron">›</span>

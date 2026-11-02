@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { areaMap, loadAll, shuffle } from '../model/questions';
-import { judgeQuestion } from '../model/judge';
+import { hasAnswer, judgeQuestion } from '../model/judge';
 import { useApp } from '../model/StateContext';
 import { formatDuration } from '../model/state';
 import type { ExamRecord, Question } from '../model/types';
@@ -10,6 +10,8 @@ import { IconBack, IconClock } from '../components/Icons';
 
 const DURATION_MIN = 150;
 const DRAFT_KEY = 'ruankao.exam.draft.v1';
+/** 草稿超过这个时间视为废弃，避免几天后续上一场早该算弃考的卷子 */
+const DRAFT_TTL_MS = 12 * 60 * 60 * 1000;
 
 interface Answer {
   picked?: string | null;
@@ -20,12 +22,17 @@ interface Draft {
   ids: string[];
   answers: Record<string, Answer>;
   startedAt: number;
+  updatedAt?: number;
+  index?: number;
 }
 
 interface Result {
   correct: number;
+  /** 参与判分的客观题数 */
   total: number;
-  byArea: Record<string, { correct: number; total: number }>;
+  /** 实际作答数 */
+  answered: number;
+  byArea: Record<string, { correct: number; total: number; answered: number }>;
   caseCount: number;
   durationMs: number;
 }
@@ -41,6 +48,7 @@ export function Exam() {
   const [now, setNow] = useState(Date.now());
   const [result, setResult] = useState<Result | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [restoredDraft, setRestoredDraft] = useState(false);
   const submitted = useRef(false);
 
   // 组卷或恢复草稿
@@ -48,18 +56,23 @@ export function Exam() {
     let alive = true;
     loadAll().then((all) => {
       if (!alive) return;
-      const raw = sessionStorage.getItem(DRAFT_KEY);
+      const raw = localStorage.getItem(DRAFT_KEY);
       if (raw) {
         try {
           const d = JSON.parse(raw) as Draft;
+          const stamp = d.updatedAt ?? d.startedAt ?? 0;
+          const stale = Date.now() - stamp > DRAFT_TTL_MS;
           const byId = new Map(all.map((q) => [q.id, q]));
           const restored = d.ids.map((id) => byId.get(id)).filter(Boolean) as Question[];
-          if (restored.length > 0) {
+          if (!stale && restored.length > 0) {
             setItems(restored);
             setAnswers(d.answers ?? {});
             setStartedAt(d.startedAt || Date.now());
+            setIndex(Math.min(d.index ?? 0, restored.length - 1));
+            setRestoredDraft(true);
             return;
           }
+          localStorage.removeItem(DRAFT_KEY);
         } catch {
           /* 草稿损坏则重新组卷 */
         }
@@ -80,12 +93,22 @@ export function Exam() {
     return () => clearInterval(t);
   }, [result]);
 
-  // 草稿持久化（防刷新丢失）
+  // 草稿持久化（防刷新/关页丢失）
   useEffect(() => {
     if (!items || result) return;
-    const draft: Draft = { ids: items.map((q) => q.id), answers, startedAt };
-    sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-  }, [items, answers, startedAt, result]);
+    const draft: Draft = {
+      ids: items.map((q) => q.id),
+      answers,
+      startedAt,
+      updatedAt: Date.now(),
+      index,
+    };
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch {
+      /* 存储不可用时由全局提示接管 */
+    }
+  }, [items, answers, startedAt, result, index]);
 
   const elapsed = now - startedAt;
   const remain = Math.max(0, DURATION_MIN * 60 * 1000 - elapsed);
@@ -94,25 +117,34 @@ export function Exam() {
     if (!items || submitted.current) return;
     submitted.current = true;
 
-    const byArea: Record<string, { correct: number; total: number }> = {};
+    const byArea: Record<string, { correct: number; total: number; answered: number }> = {};
     let correct = 0;
     let total = 0;
+    let answered = 0;
     let caseCount = 0;
 
     for (const q of items) {
-      const a = answers[q.id] ?? {};
-      const ok = judgeQuestion(q, { picked: a.picked ?? null, inputs: a.inputs ?? [] });
-      if (ok === null) {
+      const a = answers[q.id];
+      if (q.type === 'case') {
         caseCount += 1;
         continue;
       }
       total += 1;
-      if (ok) correct += 1;
-      const bucket = byArea[q.area] ?? { correct: 0, total: 0 };
+      const bucket = byArea[q.area] ?? { correct: 0, total: 0, answered: 0 };
       bucket.total += 1;
-      if (ok) bucket.correct += 1;
       byArea[q.area] = bucket;
-      recordAnswer(q, ok);
+
+      // 缺考题不判分、不写统计，避免把「没做」当成「做错」
+      if (!hasAnswer(q, a)) continue;
+
+      answered += 1;
+      bucket.answered += 1;
+      const ok = judgeQuestion(q, { picked: a?.picked ?? null, inputs: a?.inputs ?? [] });
+      if (ok) {
+        correct += 1;
+        bucket.correct += 1;
+      }
+      recordAnswer(q, Boolean(ok));
     }
 
     const rec: ExamRecord = {
@@ -121,6 +153,7 @@ export function Exam() {
       startedAt,
       submittedAt: Date.now(),
       total,
+      answered,
       correct,
       byArea,
       caseSelf: { known: 0, unknown: 0 },
@@ -128,8 +161,8 @@ export function Exam() {
       kind: 'random',
     };
     saveExam(rec);
-    sessionStorage.removeItem(DRAFT_KEY);
-    setResult({ correct, total, byArea, caseCount, durationMs: rec.durationMs });
+    localStorage.removeItem(DRAFT_KEY);
+    setResult({ correct, total, answered, byArea, caseCount, durationMs: rec.durationMs });
   }, [items, answers, startedAt, saveExam, recordAnswer]);
 
   // 时间到自动交卷
@@ -142,14 +175,25 @@ export function Exam() {
 
   const answeredCount = useMemo(() => {
     if (!items) return 0;
-    return items.filter((it) => {
-      const a = answers[it.id];
-      if (!a) return false;
-      if (it.type === 'single') return Boolean(a.picked);
-      if (it.type === 'fill') return (a.inputs ?? []).some((x) => x?.trim());
-      return false;
-    }).length;
+    // 案例题不进客观题作答统计（交卷时单独计数）
+    return items.filter((it) => it.type !== 'case' && hasAnswer(it, answers[it.id])).length;
   }, [items, answers]);
+
+  const objectiveCount = useMemo(
+    () => (items ?? []).filter((it) => it.type !== 'case').length,
+    [items],
+  );
+
+  const confirmSubmit = useCallback(() => {
+    if (!items) return;
+    if (answeredCount < objectiveCount) {
+      const ok = window.confirm(
+        `还有 ${objectiveCount - answeredCount} 题未作答，确定交卷吗？未作答的题按缺考处理，不计入已刷题、不进错题本。`,
+      );
+      if (!ok) return;
+    }
+    submit();
+  }, [items, answeredCount, objectiveCount, submit]);
 
   if (!items) {
     return (
@@ -184,7 +228,8 @@ export function Exam() {
 
   /* ---------- 交卷后：成绩报告 ---------- */
   if (result) {
-    const score = result.total ? Math.round((result.correct / result.total) * 100) : 0;
+    const score = result.answered ? Math.round((result.correct / result.answered) * 100) : 0;
+    const skipped = result.total - result.answered;
     const areaRows = Object.entries(result.byArea).sort(
       (a, b) => b[1].total - a[1].total,
     );
@@ -203,15 +248,22 @@ export function Exam() {
             style={{ color: score >= 60 ? 'var(--ok)' : 'var(--bad)' }}
           >
             {score}
-            <small>分</small>
+            <small>%</small>
           </div>
           <div className="result-sub">
-            客观题 {result.correct}/{result.total} 题正确 · 用时 {formatDuration(result.durationMs)}
+            已答 {result.answered}/{result.total} 题 · 答对 {result.correct} 题 · 用时{' '}
+            {formatDuration(result.durationMs)}
           </div>
           <div className="result-sub" style={{ marginTop: 2 }}>
-            软考上午卷满分 75 分、45 分合格，可对照本比例自估
+            软考上午卷满分 75 分、45 分合格，可按本正确率自估
           </div>
         </div>
+
+        {skipped > 0 && (
+          <div className="banner banner--info">
+            有 {skipped} 题未作答，按缺考处理：不计入已刷题数，也不进错题本。
+          </div>
+        )}
 
         {result.caseCount > 0 && (
           <div className="banner banner--info">
@@ -222,13 +274,14 @@ export function Exam() {
         <div className="section-title">分知识域</div>
         <div className="card" style={{ padding: '4px 14px 14px' }}>
           {areaRows.map(([areaId, v]) => {
-            const p = Math.round((v.correct / v.total) * 100);
+            const at = v.answered ?? v.total;
+            const p = at ? Math.round((v.correct / at) * 100) : 0;
             return (
               <div className="bar-item" key={areaId}>
                 <div className="bar-item__head">
                   <span>{areaMap[areaId]?.name ?? areaId}</span>
                   <span style={{ color: 'var(--text-2)' }}>
-                    {v.correct}/{v.total} · {p}%
+                    {at === 0 ? '未作答' : `${v.correct}/${at} · ${p}%`}
                   </span>
                 </div>
                 <div className="bar-item__track">
@@ -251,11 +304,12 @@ export function Exam() {
               className="btn btn--ghost"
               style={{ flex: 1 }}
               onClick={() => {
-                sessionStorage.removeItem(DRAFT_KEY);
+                localStorage.removeItem(DRAFT_KEY);
                 submitted.current = false;
                 setResult(null);
                 setAnswers({});
                 setIndex(0);
+                setRestoredDraft(false);
                 loadAll().then((all) => {
                   const list = shuffle(all).slice(0, Math.min(75, all.length));
                   setItems(list);
@@ -310,6 +364,26 @@ export function Exam() {
         />
       </div>
 
+      {restoredDraft && (
+        <div className="banner banner--info fade-in" style={{ marginTop: 10 }}>
+          已恢复上次的作答进度（第 {index + 1} 题，已答 {answeredCount}/{items.length}）。
+          <button
+            className="btn btn--ghost btn--sm"
+            style={{ marginLeft: 8 }}
+            onClick={() => {
+              localStorage.removeItem(DRAFT_KEY);
+              submitted.current = false;
+              setAnswers({});
+              setIndex(0);
+              setStartedAt(Date.now());
+              setRestoredDraft(false);
+            }}
+          >
+            重新开始
+          </button>
+        </div>
+      )}
+
       {sheetOpen && (
         <div className="card fade-in" style={{ padding: 14, marginTop: 12 }}>
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: 2 }}>
@@ -318,11 +392,7 @@ export function Exam() {
           </div>
           <div className="sheet">
             {items.map((it, i) => {
-              const a = answers[it.id];
-              const done =
-                it.type === 'single'
-                  ? Boolean(a?.picked)
-                  : (a?.inputs ?? []).some((x) => x?.trim());
+              const done = hasAnswer(it, answers[it.id]);
               return (
                 <button
                   key={it.id}
@@ -337,6 +407,16 @@ export function Exam() {
               );
             })}
           </div>
+          <button
+            className="btn btn--ghost btn--block"
+            style={{ marginTop: 12 }}
+            onClick={() => {
+              setSheetOpen(false);
+              confirmSubmit();
+            }}
+          >
+            交卷（已答 {answeredCount}/{items.length}）
+          </button>
         </div>
       )}
 
@@ -363,32 +443,28 @@ export function Exam() {
         <div className="actionbar__inner">
           <button
             className="btn btn--ghost"
-            style={{ flex: '0 0 auto', minWidth: 96 }}
+            style={{ flex: '0 0 auto', minWidth: 84 }}
             disabled={index === 0}
             onClick={() => setIndex((i) => Math.max(0, i - 1))}
           >
             上一题
           </button>
-          {index < items.length - 1 ? (
-            <button className="btn btn--primary" onClick={() => setIndex((i) => i + 1)}>
-              下一题
-            </button>
-          ) : (
+          {index < items.length - 1 && (
             <button
               className="btn btn--primary"
-              onClick={() => {
-                if (answeredCount < items.length) {
-                  const ok = window.confirm(
-                    `还有 ${items.length - answeredCount} 题未作答，确定交卷吗？`,
-                  );
-                  if (!ok) return;
-                }
-                submit();
-              }}
+              style={{ flex: 1 }}
+              onClick={() => setIndex((i) => i + 1)}
             >
-              交卷
+              下一题
             </button>
           )}
+          <button
+            className={`btn ${index >= items.length - 1 ? 'btn--primary' : 'btn--ghost'}`}
+            style={{ flex: index >= items.length - 1 ? 1 : '0 0 auto', minWidth: 84 }}
+            onClick={confirmSubmit}
+          >
+            交卷
+          </button>
         </div>
       </div>
     </div>

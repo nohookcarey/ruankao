@@ -63,7 +63,7 @@ export function Stats() {
         <div className="stat">
           <div className="stat__num">
             {s.answered}
-            <small>/ {s.totalQuestions}</small>
+            <small>/{s.totalQuestions}</small>
           </div>
           <div className="stat__label">已刷题数</div>
         </div>

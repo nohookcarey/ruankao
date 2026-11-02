@@ -64,6 +64,22 @@ export function judgeQuestion(
   return null;
 }
 
+/**
+ * 该题是否真的作答过。
+ * 交卷时必须先过这道关：没作答的题既不算对也不算错，
+ * 不能写进 progress / log / wrong，否则一次模考就能把统计彻底污染。
+ */
+export function hasAnswer(
+  q: Question,
+  answer: { picked?: string | null; inputs?: string[] } | undefined,
+): boolean {
+  if (!answer) return false;
+  if (q.type === 'single') return Boolean(answer.picked);
+  if (q.type === 'fill') return (answer.inputs ?? []).some((x) => (x ?? '').trim() !== '');
+  // 案例题走自评，没有「作答」概念
+  return true;
+}
+
 /** 解析题干中的图片相对路径 → 拼接 base */
 export function resolveAsset(src: string): string {
   if (/^(https?:)?\/\//.test(src) || src.startsWith('data:')) return src;
