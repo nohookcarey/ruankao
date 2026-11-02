@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>软考刷题 · 正在返回</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --text: #1b1d22;
+    --muted: #7a7f8a;
+    --line: #e7e9ef;
+    --brand: #4f46e5;
+    --brand-soft: #eef0ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --text: #eef0f4;
+      --muted: #9aa0ac;
+      --line: #262b35;
+      --brand: #8b87ff;
+      --brand-soft: #1e2033;
+    }
+  }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+                 "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .card {
+    width: 100%;
+    max-width: 340px;
+    padding: 28px 24px 24px;
+    box-sizing: border-box;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(20, 22, 30, .06);
+  }
+  .icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-soft);
+    border-radius: 14px;
+    font-size: 24px;
+    line-height: 1;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: .2px;
+  }
+  p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .path {
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 12px;
+    padding: 5px 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .go {
+    display: block;
+    margin-top: 20px;
+    padding: 11px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background: var(--brand);
+    border-radius: 10px;
+  }
+  .go:active { opacity: .85; }
+  .tip {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🧭</div>
+    <h1>这个地址走丢了</h1>
+    <p>正在带你回到软考刷题首页，请稍候…</p>
+    <div class="path" id="path"></div>
+    <a class="go" id="go" href="/ruankao/">立即返回</a>
+    <div class="tip" id="tip">如果没有自动跳转，点上面的按钮</div>
+  </div>
+<script>
+(function () {
+  var BASE = '/ruankao/';
+  var path = location.pathname || '';
+  var search = location.search || '';
+  var hash = location.hash || '';
+  var sub = '';
+
+  // 去掉站点子路径前缀，剩下的就是要转成 hash 的路由
+  if (path.indexOf('/ruankao') === 0) {
+    sub = path.slice('/ruankao'.length);
+  } else {
+    sub = path;
+  }
+
+  // 404.html 自身被直接访问时，直接回首页
+  if (sub === '/404.html' || sub === '/404' || sub === '/index.html') sub = '';
+
+  // 规范化：去掉尾部斜杠，保证只有一个前导 '/'
+  sub = sub.replace(/\/+$/, '');
+  if (sub && sub.charAt(0) !== '/') sub = '/' + sub;
+
+  var target = BASE;
+  if (sub) target += '#' + sub;
+  target += search + hash;
+
+  var el = document.getElementById('path');
+  if (el) el.textContent = path + search + hash || '/';
+
+  var go = document.getElementById('go');
+  if (go) go.setAttribute('href', target);
+
+  var tip = document.getElementById('tip');
+  var left = 2;
+  if (tip) {
+    tip.textContent = left + ' 秒后自动返回…';
+    var timer = setInterval(function () {
+      left -= 1;
+      if (left > 0) {
+        tip.textContent = left + ' 秒后自动返回…';
+      } else {
+        clearInterval(timer);
+        tip.textContent = '如果没有自动跳转，点上面的按钮';
+      }
+    }, 1000);
+  }
+
+  // 用 replace 覆盖历史记录，避免用户点返回又回到 404
+  setTimeout(function () {
+    location.replace(target);
+  }, 250);
+})();
+</script>
+</body>
+</html>
