@@ -293,7 +293,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "",
+    "explanation": "本题考查面向对象方法中的设计模式知识。题中的类图是抽象工厂设计模式，该设计模式意图是提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。使用抽象工厂设计模式的常见情形是：一个系统要独立于其产品的创建、组合和表示时；一个系统要由多个产品系列中的一个来配置时；当需要强调一系列相关产品对象的设计以便进行联合使用时；当提供一个产品类库，而只想显示它们的接口而不是实现时。对于希望使用己经存在的类，但其接口不符合需求的情形，应当考虑桥接设计模式。",
     "year": 2010,
     "session": "H",
     "no": 43
@@ -395,7 +395,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "本题考查设计模式钓基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，就能重复地使用该方案而不必做重复劳动。设计模式的核心在于提供了相关问题解决方案。因此，面向对象软件开发过程中，采用设计模式的主要目的就是复用成功的设计。",
+    "explanation": "本题考查设计模式的基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，就能重复地使用该方案而不必做重复劳动。设计模式的核心在于提供了相关问题解决方案。因此，面向对象软件开发过程中，采用设计模式的主要目的就是复用成功的设计。",
     "year": 2011,
     "session": "H",
     "no": 43
@@ -429,7 +429,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。 Bridge（桥接）模式将对象的抽象和其实现分离，从而可以独立地改变它们，抽象类定义对该抽象的接口，如上图中 Implementor，而具体的子类则用不同方式加以实现，如 ConcretelmplementorA 和 ConcreteImplementorB。 Composite（组合）模式是结构型对象模式的一个实例。它描述了如何构造一个类层次式结构，这一结构由两种类型的对象所对应的类构成，其中的组合对象使得用户可以组合基元对象以及其他的组合对象，从而形成任意复杂的结构。Facade（外观）模式则描述了如何用单个对象表示整个子系统。 Singleton（单例）模式保证一个类只产生唯一的一个实例。",
     "year": 2011,
     "session": "H",
     "no": 44
@@ -463,7 +463,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "试题（44）、（45）分析本题考查设计模式钓基本知识。\n\nBridge（桥接）模式将对象抽象和其实现分离，从而可以独立地改变它们，抽象类定义对该抽象的接口，如上图中 Implementor，而具体的子类则用不同方式加以实现，如 ConcreteImplementorA 和 ConcreteTmplementorB。Composite（组合）模式是结构型对象模式一个实例。它描述了如何构造一个类层次式结构，这一结构由两种类型对象所对应的类构成，其中的组合对象使得用户可以组合基元对象以及其他的组合对象，从而形成任意复杂结构。Facade（外观）模式则描述了如何用单个对象表示整个子系统。\n\nSingleton（单例）模式保证一个类只产生唯一的一个实例。",
+    "explanation": "试题（44）、（45）分析本题考查设计模式的基本知识。\n\nBridge（桥接）模式将对象抽象和其实现分离，从而可以独立地改变它们，抽象类定义对该抽象的接口，如上图中 Implementor，而具体的子类则用不同方式加以实现，如 ConcreteImplementorA 和 ConcreteTmplementorB。Composite（组合）模式是结构型对象模式一个实例。它描述了如何构造一个类层次式结构，这一结构由两种类型对象所对应的类构成，其中的组合对象使得用户可以组合基元对象以及其他的组合对象，从而形成任意复杂结构。Facade（外观）模式则描述了如何用单个对象表示整个子系统。\n\nSingleton（单例）模式保证一个类只产生唯一的一个实例。",
     "year": 2011,
     "session": "H",
     "no": 45
@@ -497,7 +497,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "本题考查设计模式钓基本知识。\n\n例如，通常用户可以对应用系统进行配置，并将配置信息保存在配置文件中，应用系统启动时首先加载配置文件，而这一配置信息在内存中仅有一份。为了保证这一配置实例只有一份，采用 Singleton（单例）模式，以保证一个类只产生唯一的一个实例。",
+    "explanation": "本题考查设计模式的基本知识。\n\n例如，通常用户可以对应用系统进行配置，并将配置信息保存在配置文件中，应用系统启动时首先加载配置文件，而这一配置信息在内存中仅有一份。为了保证这一配置实例只有一份，采用 Singleton（单例）模式，以保证一个类只产生唯一的一个实例。",
     "year": 2011,
     "session": "H",
     "no": 46
@@ -599,7 +599,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "试题（40）、（41）分析本题考查设计模式钓基本知识。\n\n命令（Command）模式通过将请求封装为一个对象，可将不同的请求对客户进行参数化。责任链 （Chain of Responsibility）模式将多个对象的请求连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止，避免请求的发送者和接收者之间的耦合关系。观察者（Observer）模式定义对象之间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n在上述观察者模式的类图中，Subject（目标）知道其观察者，可以有任意多个观察者观察同一个目标，提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知对象定义一个更新接口。ConcreteSubject（具体目标）将有关状态存入各 ConcreteObserver 对象，当它钓状态发生改变时，向它钓各个观察者发出通知。ConcreteObserver（具体观察者）维护一个指向 ConcreteSubject 对象引用，存储有关状态，实现 Observer的更新接口以使自身状态与目标的状态保持一致。\n\n-ObserversSubjectObserver+Attach（Observer）+Update（）+Detach（Observer）for all o in observers ｛+NotityO0->Update（ConcreteObserverConcreteSubject-subject-observerState-subjectStateobserverState=+Updatel+GetState（）subject->GetState（）return subjectState+SetState（）",
+    "explanation": "试题（40）、（41）分析本题考查设计模式的基本知识。\n\n命令（Command）模式通过将请求封装为一个对象，可将不同的请求对客户进行参数化。责任链 （Chain of Responsibility）模式将多个对象的请求连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止，避免请求的发送者和接收者之间的耦合关系。观察者（Observer）模式定义对象之间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n在上述观察者模式的类图中，Subject（目标）知道其观察者，可以有任意多个观察者观察同一个目标，提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知对象定义一个更新接口。ConcreteSubject（具体目标）将有关状态存入各 ConcreteObserver 对象，当它的状态发生改变时，向它的各个观察者发出通知。ConcreteObserver（具体观察者）维护一个指向 ConcreteSubject 对象引用，存储有关状态，实现 Observer的更新接口以使自身状态与目标的状态保持一致。\n\n-ObserversSubjectObserver+Attach（Observer）+Update（）+Detach（Observer）for all o in observers ｛+NotityO0->Update（ConcreteObserverConcreteSubject-subject-observerState-subjectStateobserverState=+Updatel+GetState（）subject->GetState（）return subjectState+SetState（）",
     "year": 2011,
     "session": "L",
     "no": 41
@@ -701,7 +701,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。代理（Proxy）模式是为其他对象提供一种代理以控制对这个对象的访问，使得只有在确实需要这个对象时才对其进行创建和初始化。桥接器（Bridge）模式将对象的抽象和其实现分离，从而可以独立地改变它们，当一个抽象可能有多个实现时，抽象类定义对该抽象接口，而具体子类则用不同方式加以实现。组合（Composite）模式描述了如何将对象组合成树形结构以构造一个层次结构来表示“部分-整体”，使得客户对单个对象和组合对象的使用具有一致性，这一结构由两种类型的对象所对应的类构成，使得可以组合基元对象以及其他的组合对象，从而形成任意复杂结构。上图中的 Composite 定义有子部件的那些部件行为；组合部件的对象由 Client通过 Component提供的接口操作。装饰器（Decorator）模式则描述动态地给一个对象添加一些额外的职责。",
     "year": 2012,
     "session": "H",
     "no": 45
@@ -735,7 +735,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。代理（Proxy）模式是为其他对象提供一种代理以控制对这个对象的访问，使得只有在确实需要这个对象时才对其进行创建和初始化。桥接器（Bridge）模式将对象的抽象和其实现分离，从而可以独立地改变它们，当一个抽象可能有多个实现时，抽象类定义对该抽象接口，而具体子类则用不同方式加以实现。组合（Composite）模式描述了如何将对象组合成树形结构以构造一个层次结构来表示“部分-整体”，使得客户对单个对象和组合对象的使用具有一致性，这一结构由两种类型的对象所对应的类构成，使得可以组合基元对象以及其他的组合对象，从而形成任意复杂结构。上图中的 Composite 定义有子部件的那些部件行为；组合部件的对象由 Client通过 Component提供的接口操作。装饰器（Decorator）模式则描述动态地给一个对象添加一些额外的职责。",
     "year": 2012,
     "session": "H",
     "no": 46
@@ -769,7 +769,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "试题（45）～（47）分析本题考查设计模式的基本知识。\n\n代理（Proxy）模式是为其他对象提供一种代理以控制对这个对象的访问，使得只有在确实需要这个对象时才对其进行创建和初始化。桥接器（Bridge）模式将对象的抽象和其实现分离，从而可以独立地改变它们，当一个抽象可能有多个实现时，抽象类定义对该抽象的接口，而具体的子类则用不同方式加以实现。组合（Composite）模式描述了如何将对象组合成树形结构以构造一个层次结构来表示“部分-整体”，使得客户对单个对象和组合对象的使用具有一致性，这一结构由两种类型的对象所对应的类构成，使得可以组合基元对象以及其他的组合对象，从而形成任意复杂的结构。上图中的 Composite定义有子部件那些部件的行为；组合部件对象由 Client通过 Component提供接口操作。装饰器（Decorator）模式则描还动态地给一个对象添加一些额外的职责。",
+    "explanation": "试题（45）～（47）分析本题考查设计模式的基本知识。\n\n代理（Proxy）模式是为其他对象提供一种代理以控制对这个对象的访问，使得只有在确实需要这个对象时才对其进行创建和初始化。桥接器（Bridge）模式将对象的抽象和其实现分离，从而可以独立地改变它们，当一个抽象可能有多个实现时，抽象类定义对该抽象的接口，而具体的子类则用不同方式加以实现。组合（Composite）模式描述了如何将对象组合成树形结构以构造一个层次结构来表示“部分-整体”，使得客户对单个对象和组合对象的使用具有一致性，这一结构由两种类型的对象所对应的类构成，使得可以组合基元对象以及其他的组合对象，从而形成任意复杂的结构。上图中的 Composite定义有子部件那些部件的行为；组合部件对象由 Client通过 Component提供接口操作。装饰器（Decorator）模式则描述动态地给一个对象添加一些额外的职责。",
     "year": 2012,
     "session": "H",
     "no": 47
@@ -803,7 +803,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。每种设计模式都有特定的意图。适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。命令（Command）模式将一个请求封装为一个对象，从而使使用者可以采用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。观察者 （Visitor）模式表示一个作用于某对象结构中的各元素的操作，是使用者可以在不改变各元素的类的前提下定义作用于这些元素的新操作。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。题目中是一个标识网络连接的实例，网络连接类为 TCPConnection，其对象的状态处于不同状态之一：连接已建立（Established）、正在监听（Listening）、连接已关闭 （Closed）。当一个 TCPConnection 对象受到其他对象的请求时，它根据自身的当前状态作出相应的反应。例如，一个 Open请求结果依赖于该连接是出于连接已关闭状态还是连接已建立状态。State 模式描述了 TCPConnection 如何做每一种状态下表现出不同行为。这一模式思想是引入了一个称为 TCPState 的抽象类来表示网络的连接状态。 TCPState 类为各表示不同操作状态子类声明了一个公共接口。TCPState 子类实现与特定状态相关的行为。例如，TCPEstablished 和 TCPClosed 类分别实现了特定于 TCPConnection 的连接已建立状态和连接已关闭状态行为…",
     "year": 2012,
     "session": "L",
     "no": 44
@@ -837,7 +837,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。每种设计模式都有特定的意图。适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。命令（Command）模式将一个请求封装为一个对象，从而使使用者可以采用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。观察者 （Visitor）模式表示一个作用于某对象结构中的各元素的操作，是使用者可以在不改变各元素的类的前提下定义作用于这些元素的新操作。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。题目中是一个标识网络连接的实例，网络连接类为 TCPConnection，其对象的状态处于不同状态之一：连接已建立（Established）、正在监听（Listening）、连接已关闭 （Closed）。当一个 TCPConnection 对象受到其他对象的请求时，它根据自身的当前状态作出相应的反应。例如，一个 Open请求结果依赖于该连接是出于连接已关闭状态还是连接已建立状态。State 模式描述了 TCPConnection 如何做每一种状态下表现出不同行为。这一模式思想是引入了一个称为 TCPState 的抽象类来表示网络的连接状态。 TCPState 类为各表示不同操作状态子类声明了一个公共接口。TCPState 子类实现与特定状态相关的行为。例如，TCPEstablished 和 TCPClosed 类分别实现了特定于 TCPConnection 的连接已建立状态和连接已关闭状态行为…",
     "year": 2012,
     "session": "L",
     "no": 45
@@ -871,7 +871,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "试题（44）～（46）分析本题考查设计模式的基本知识。\n\n每种设计模式都有特定的意图。适配器（Adapter）模式将一个类的接口转换成客户希望另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n命令（Command）模式将一个请求封装为一个对象，从而使使用者可以采用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。观察者（Visitor）模式表示一个作用于某对象结构中的各元素的操作，是使用者可以在不改变各元素的类的前提下定义作用于这些元素的新操作。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。\n\n题目中是一个标识网络连接的实例，网络连接类为 TCPConnection，其对象状态处于不同状态之一：连接已建立（Established）、正在监听（Listening）、连接已关闭（Closed）。当一个 TCPConnection 对象受到其他对象的请求时，它根据自身的当前状态作出相应的反应。例如，一个 Open 请求的结果依赖于该连接是出于连接已关闭状态还是连接已建立状态。State 模式描还了 TCPConnection 如何做每一种状态下表现出不同行为。这一模式思想是引入了一个称为 TCPState 的抽象类来表示网络的连接状态。\n\nTCPState 类为各表示不同时操作状态的子类声明了一个公共接口。TCPState 的子类实现与特定状态相关的行为。例如，TCPEstablished 和 TCPClosed 类分别实现了特定于TCPConnection的连接已建立状态和连接已关闭状态钓行为。",
+    "explanation": "试题（44）～（46）分析本题考查设计模式的基本知识。\n\n每种设计模式都有特定的意图。适配器（Adapter）模式将一个类的接口转换成客户希望另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n命令（Command）模式将一个请求封装为一个对象，从而使使用者可以采用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。观察者（Visitor）模式表示一个作用于某对象结构中的各元素的操作，是使用者可以在不改变各元素的类的前提下定义作用于这些元素的新操作。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。\n\n题目中是一个标识网络连接的实例，网络连接类为 TCPConnection，其对象状态处于不同状态之一：连接已建立（Established）、正在监听（Listening）、连接已关闭（Closed）。当一个 TCPConnection 对象受到其他对象的请求时，它根据自身的当前状态作出相应的反应。例如，一个 Open 请求的结果依赖于该连接是出于连接已关闭状态还是连接已建立状态。State 模式描述了 TCPConnection 如何做每一种状态下表现出不同行为。这一模式思想是引入了一个称为 TCPState 的抽象类来表示网络的连接状态。\n\nTCPState 类为各表示不同时操作状态的子类声明了一个公共接口。TCPState 的子类实现与特定状态相关的行为。例如，TCPEstablished 和 TCPClosed 类分别实现了特定于TCPConnection的连接已建立状态和连接已关闭状态的行为。",
     "year": 2012,
     "session": "L",
     "no": 46
@@ -905,7 +905,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "本题考查设计模式的基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n将类标识为 final限制类不能再被继承；将设计为 abstract 表示类中定义出类提供什么服务，而有些具体服务需要通过其子类来实现：单例（Singleton）模式是指系统运行过程中，一个类只有一个对象实例；备忘模式是指不破坏封装性的前提下捕获一个对象钓内部状态，并在该对象之外保存这个状态。",
+    "explanation": "本题考查设计模式的基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n将类标识为 final限制类不能再被继承；将设计为 abstract 表示类中定义出类提供什么服务，而有些具体服务需要通过其子类来实现：单例（Singleton）模式是指系统运行过程中，一个类只有一个对象实例；备忘模式是指不破坏封装性的前提下捕获一个对象的内部状态，并在该对象之外保存这个状态。",
     "year": 2012,
     "session": "L",
     "no": 47
@@ -1007,7 +1007,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。组合（Composite）模式将对象组合成树形结构以表示“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。组件 Component 为组合的对象声明接口，通常定义父组件引用，Leaf 和 Composite 类可以继承这个引用以及管理这个应用的那些操作。装饰器（Decorator）模式描述了以透明围栏来支持修饰的类和对象的关系，动态地给一个对象添加一些额外的职责，从增加功能的角度来看，装饰器模式相比生成子类更加灵活。",
     "year": 2013,
     "session": "L",
     "no": 46
@@ -1041,7 +1041,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n组合（Composite）模式将对象组合成树形结构以表示“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。组件 Component 为组合的对象声明接口，通常定义父组件引用，Leaf 和 Composite 类可以继承这个引用以及管理这个应用的那些操作。\n\n装饰器（Decorator）模式描还了以透明围栏来支持修饰的类和对象的关系，动态地给一个对象添加一些额外的职责，从增加功能的角度来看，装饰器模式相比生成子类更加灵活。",
+    "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n组合（Composite）模式将对象组合成树形结构以表示“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。组件 Component 为组合的对象声明接口，通常定义父组件引用，Leaf 和 Composite 类可以继承这个引用以及管理这个应用的那些操作。\n\n装饰器（Decorator）模式描述了以透明围栏来支持修饰的类和对象的关系，动态地给一个对象添加一些额外的职责，从增加功能的角度来看，装饰器模式相比生成子类更加灵活。",
     "year": 2013,
     "session": "L",
     "no": 47
@@ -1075,7 +1075,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图和适用场景。适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。适用于想使用一个已经存在的类，而其接口不符合要求的情况。贡任链（Chain of Responsibility）模式便多个对象都有机会处理请求，从而避免请求的发送者和接收者之间耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。适用于有多个的对象可以处理一个请求，哪个对象处理该请求运行时刻自动确定的情况。桥接（Bridge）模式将抽象部分与其实现部分分离，使它们都可以独立地变化。适用于不希望在抽象和它的实现部分之间有一个固定的绑定关系的情况。外观（Facade）模式为子系统中一组接口提供一个一致的界面，Facade 模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。适用于需要为一个复杂子系统提供一个简单接口的情况。",
     "year": 2014,
     "session": "H",
     "no": 44
@@ -1143,7 +1143,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "",
+    "explanation": "本题考查设计模式基本概念。每种设计模式都有特定前意图，描述一个在我们周围不断重复发生的问题，以及该问题前解决方案的核心，使该方案能够重用而不必做重复劳动。抽象工厂（Abstract Factory）模式提供一个创建一系列相关或相互依赖对象前接口，而无须指定他们具体的类。抽象工厂模式适用于一个系统要独立于它产品的创建、组合和表示时；一个系统要由多个产品系列中前一个来配置时；当要强调一系列相关的产品对象前设计以便进行联合使用时；当提供一个产品类库，而只想显示它们的接口而不是实现时。生成番（Builder）模式将一个复杂对象构建与它的表示分离，使得同样构建过程可以创建不同表示。生成器模式适用于当创建复杂对象韵算法应该独立于该对象组成部分以及它们的装配方式时；当构造过程必须允许被构造对象有不同的表示时。工厂方法 （Factory Method）定义一个用于创建对象接口，让子类决定将哪一个类实例化，便一个类的实例化延迟到其子类。工厂方法模式适用于当一个类不知道它所必须创建对象前类的时候；当一个类希望由它的子类来指定它所创建对象的时候：当类将创建对象前职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化前时候。原型（Prototype）模式用原型实例指定创建对象前种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于：当一个系统应该独立于它的产品创建、构成和表示时：当要实例化的类是在运行时刻指定时，例如通过动态装载，为了避免创建一个与产品类层次平行的工厂类层次时：当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状…",
     "year": 2014,
     "session": "L",
     "no": 46
@@ -1211,7 +1211,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。每一个设计模式都集中于一个特定的面向对象设计问题或设计要点，描述了什么时候使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。按照设计模式的目的可以分为创建型、结构型和行为型三大类。创建型模式与对象的创建有关：结构型模式处理类或对象的组合；行为型模式对类或对象怎样交互和怎样分配职责进行描述。每种设计模式都有其适应性，描述适用于解决的问题场合。创建型模式包括 Factory Method、Abstract Factory、Builder、Prototype 和 Singleton。结构型模式包括 Adapter（类）、Adapter（对象）、Bridge、Composite、Decorator、Fagade、 Flyweight 和 Proxy。行为型模式包括 Interpreter、Template Method、Chain of Responsibility、 Command、Iterator、Mediator、Memento Observer State Strategy 和 Visitor. Proxy 模式的结构图如下所示： 2015 上半年软件设计师上午试题分析与解答 Client Swbject Reqtestf RealSubject realSubject Proxy Requesto Request（） -- realSubjcct->RequestO）； Proxy 模式适用于在需要比较通用和复杂的对象指针代替简单的指针的时候，常见情况有：远程代理（Remote Proxy）为一个对象在不同地址空间提供据不代表；…",
     "year": 2015,
     "session": "H",
     "no": 44
@@ -1245,7 +1245,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。每一个设计模式都集中于一个特定的面向对象设计问题或设计要点，描述了什么时候使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。按照设计模式的目的可以分为创建型、结构型和行为型三大类。创建型模式与对象的创建有关：结构型模式处理类或对象的组合；行为型模式对类或对象怎样交互和怎样分配职责进行描述。每种设计模式都有其适应性，描述适用于解决的问题场合。创建型模式包括 Factory Method、Abstract Factory、Builder、Prototype 和 Singleton。结构型模式包括 Adapter（类）、Adapter（对象）、Bridge、Composite、Decorator、Fagade、 Flyweight 和 Proxy。行为型模式包括 Interpreter、Template Method、Chain of Responsibility、 Command、Iterator、Mediator、Memento Observer State Strategy 和 Visitor. Proxy 模式的结构图如下所示： 2015 上半年软件设计师上午试题分析与解答 Client Swbject Reqtestf RealSubject realSubject Proxy Requesto Request（） -- realSubjcct->RequestO）； Proxy 模式适用于在需要比较通用和复杂的对象指针代替简单的指针的时候，常见情况有：远程代理（Remote Proxy）为一个对象在不同地址空间提供据不代表；…",
     "year": 2015,
     "session": "H",
     "no": 45
@@ -1279,7 +1279,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "试题（44）～（46）分析本题考查设计模式的基本概念。\n\n每一个设计模式都集中于一个特定面向对象设计问题或设计要点，描述了什么时候使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。按照设计模式的目的可以分为创建型、结构型和行为型三大类。创建型模式与对象的创建有关：结构型模式处理类或对象的组合；行为型模式对类或对象怎样交互和怎样分配职责进行描述。每种设计模式都有其适应性，描述适用于解决问题场合。\n\n创建型模式包括 Factory Method、 Abstract Factory、Builder、Prototype 和 Singleton。\n\n结构型模式包括 Adapter（类）、Adapter（对象）、Bridge、 Composite、Decorator、 Fagade、Flyweight和 Proxy。行为型模式包括 Interpreter、Template Method、Chain of Responsibility、Command、Iterator、Mediator、Memento Observer State Strategy 和 Visitor。\n\nProxy 模式结构图如下所示：ClientSubjectRequestO-11111RealSubjectrealSubjectProxyRequest（Request（） or--------realSubjcct->Request（）sProxy 模式适用于在需要比较通用和复杂的对象指针代替简单的指针的时候，常见情况有：远程代理（Remote Proxy）为一个对象在不同地址空间提供据不代表；虚代理（Virtual Proxy）根据需要创建开销很大对象；保护代理（Protection Proxy） 控制对原始对象访问，用于对象应该有不同的访问权限的时候；智能指引（Smart Reference）取代了简单的指针，它在访问对象时执行一些附加操作。\n\nBuilder模式的结构图如下所示：DirectorbuilderBuilderConstructO oBuildPuriOfor all objects in structure ｛builder-> BuildPartOConcreteBuilderProductBuildPartoGetResult（Builder 模式适用于当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；当构造过程必须允许被构造前对象有不同的表示时。\n\nComposite 模式钓结构图如下所示：ClientComponentOperation（AdafComponent）Remove（Component）GerChild（int）childrenLeafCompesiteOperation（）Operation（） o--forallg in childrengOperation（：Add（Component）Remove（Component）GetChild（int）Composite 模式适用于：想表示对象部分-整体层次结构；希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\nObserver 模式的结构图如下所示：SubjectObserversObserverAttach（Observer）UpdateoDetach（Observer）for all o in observers （-NotifyO o--0-> Update（ConcreteObserversubjectobserverState=ConereteSubjeetUpdatelsubject-> GetState（）GetState（）•--observerStaterelum subjectStaleSetState（）subjectStateObserver模式适用于：当一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这两者封装在独立地对象中以使它们可以各自独立地改变和复用；当对一个对象的改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合的。",
+    "explanation": "试题（44）～（46）分析本题考查设计模式的基本概念。\n\n每一个设计模式都集中于一个特定面向对象设计问题或设计要点，描述了什么时候使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。按照设计模式的目的可以分为创建型、结构型和行为型三大类。创建型模式与对象的创建有关：结构型模式处理类或对象的组合；行为型模式对类或对象怎样交互和怎样分配职责进行描述。每种设计模式都有其适应性，描述适用于解决问题场合。\n\n创建型模式包括 Factory Method、 Abstract Factory、Builder、Prototype 和 Singleton。\n\n结构型模式包括 Adapter（类）、Adapter（对象）、Bridge、 Composite、Decorator、 Fagade、Flyweight和 Proxy。行为型模式包括 Interpreter、Template Method、Chain of Responsibility、Command、Iterator、Mediator、Memento Observer State Strategy 和 Visitor。\n\nProxy 模式结构图如下所示：ClientSubjectRequestO-11111RealSubjectrealSubjectProxyRequest（Request（） or--------realSubjcct->Request（）sProxy 模式适用于在需要比较通用和复杂的对象指针代替简单的指针的时候，常见情况有：远程代理（Remote Proxy）为一个对象在不同地址空间提供据不代表；虚代理（Virtual Proxy）根据需要创建开销很大对象；保护代理（Protection Proxy） 控制对原始对象访问，用于对象应该有不同的访问权限的时候；智能指引（Smart Reference）取代了简单的指针，它在访问对象时执行一些附加操作。\n\nBuilder模式的结构图如下所示：DirectorbuilderBuilderConstructO oBuildPuriOfor all objects in structure ｛builder-> BuildPartOConcreteBuilderProductBuildPartoGetResult（Builder 模式适用于当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；当构造过程必须允许被构造前对象有不同的表示时。\n\nComposite 模式的结构图如下所示：ClientComponentOperation（AdafComponent）Remove（Component）GerChild（int）childrenLeafCompesiteOperation（）Operation（） o--forallg in childrengOperation（：Add（Component）Remove（Component）GetChild（int）Composite 模式适用于：想表示对象部分-整体层次结构；希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\nObserver 模式的结构图如下所示：SubjectObserversObserverAttach（Observer）UpdateoDetach（Observer）for all o in observers （-NotifyO o--0-> Update（ConcreteObserversubjectobserverState=ConereteSubjeetUpdatelsubject-> GetState（）GetState（）•--observerStaterelum subjectStaleSetState（）subjectStateObserver模式适用于：当一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这两者封装在独立地对象中以使它们可以各自独立地改变和复用；当对一个对象的改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合的。",
     "year": 2015,
     "session": "H",
     "no": 46
@@ -1313,7 +1313,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "试题（47）某些设计模式会引入总是被用作参数的对象。例如（47）对象是一个多态的 accept方法参数。\n\n（47） A. VisitorB. CommandC. MementoD. Observer本题考查设计模式的概念，对行为模式进行比较。\n\n很多行为模式注重封装变化。当一个程序的某个方面的特征经常发生改变时，这些模式就定义一个封装这个方面的对象。这样，当该程序其他部分依赖于这个方面时，它们都可以与此对象协作。一些模式引入总是被用作参数的对象。有些模式定义一些可作为令牌进行传递前对象，这些对象将在稍后被调用。\n\n在 Visitor 模式中，一个 Visitor 对象是一个多态旳 accept 操作的参数，这个操作作用于该 Visitor 对象访问的对象。在 Command模式中，令牌代表一个请求：在 Memento模式中，它代表在一个对象在某个特定时刻的内部状态。在这两种情况下，令牌都可以有一个复杂的内部表示，但客户并不会意识到这一点。在 Observer模式中，通过引入Observer 和 Subject 对象来分布通信。",
+    "explanation": "试题（47）某些设计模式会引入总是被用作参数的对象。例如（47）对象是一个多态的 accept方法参数。\n\n（47） A. VisitorB. CommandC. MementoD. Observer本题考查设计模式的概念，对行为模式进行比较。\n\n很多行为模式注重封装变化。当一个程序的某个方面的特征经常发生改变时，这些模式就定义一个封装这个方面的对象。这样，当该程序其他部分依赖于这个方面时，它们都可以与此对象协作。一些模式引入总是被用作参数的对象。有些模式定义一些可作为令牌进行传递前对象，这些对象将在稍后被调用。\n\n在 Visitor 模式中，一个 Visitor 对象是一个多态的 accept 操作的参数，这个操作作用于该 Visitor 对象访问的对象。在 Command模式中，令牌代表一个请求：在 Memento模式中，它代表在一个对象在某个特定时刻的内部状态。在这两种情况下，令牌都可以有一个复杂的内部表示，但客户并不会意识到这一点。在 Observer模式中，通过引入Observer 和 Subject 对象来分布通信。",
     "year": 2015,
     "session": "H",
     "no": 47
@@ -1381,7 +1381,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n命令（Command）将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化：对请求排队或记录请求日志，以及支持可撤销的操作。\n\n责任链（Chain of Responsibility）使多个对象都有机会处理请求，从而避免请求发送者和接收者之间钓耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象前状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n策略（Strategy）定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。",
+    "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n命令（Command）将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化：对请求排队或记录请求日志，以及支持可撤销的操作。\n\n责任链（Chain of Responsibility）使多个对象都有机会处理请求，从而避免请求发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象前状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n策略（Strategy）定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。",
     "year": 2016,
     "session": "H",
     "no": 45
@@ -1483,7 +1483,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图和适用情况。命令（Command）将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化：对请求排队或记录请求日志，以及支持可撤销的操作。命令模式适用于以下几种情况： ① 抽象出待执行动作以参数化某对象，此模式是过程语言中回调（callback）机制的一个面向对象替代方式： ② 在不同的时刻指定、排列和执行请求； ③ 支持取消操作； ④ 支持修改日志，这样当系统崩溃时，这些修改可以被重做一遍； ⑤ 用构建在原语操作上高层操作构造一个系统。责任链（Chain of Responsibility）使多个对象都有机会处理请求，从而避免请求发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。责任链模式适用于以下几种情况： ① 有多个的对象可以处理一个请求，哪个对象处理该请求在运行时刻自动确定； ② 在不明确指定接收者的情况下，向多个对象中的一个提交一个请求； ③ 可处理一个请求的对象集合应被动态指定。观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。观察者适用于以下几种情况： ① 当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立地对象中以使它们可以各自独立地改变和复用； ② 当对一个对象的改变需要同时改变其他对象，而不知道具体有多少对象有待改变时； ③ 当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即：不希望这些对象是紧耦合。策略（Strategy）定义一…",
     "year": 2016,
     "session": "L",
     "no": 44
@@ -1551,7 +1551,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。每种设计模式都集中于一个特定面向对象设计问题或设计要点，有特定的意图和适用情况。生成器（Builder）模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式适用于以下几种情况： ① 当创建复杂对象算法应该独立于该对象的组成部分以及它们的装配方式时； ② 当构造过程必须允许被构造的对象有不同的表示时。工厂方法（Factory Method）定义一个用于创建对象的接口，让子类决定将哪一个类实例化，使一个类的实例化延迟到其子类。工厂方法适用于以下几种情况： ① 当一个类不知道它所必须创建的对象前类的时候： ② 当一个类希望由它的子类来指定它所创建的对象时候； ③ 当类将创建对象职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化的时候。原型（Prototype）模式用原型实例指定创建对象种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于以下几种情况： ① 当一个系统应该独立于它产品创建、构成和表示时； ② 当要实例化的类是在运行时刻指定时，例如，通过动态装载； ③ 为了避免创建一个与产品类层次平行工厂类层次时； ④ 当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。单例（Singleton）设计模式是一种创建型模式，其意图是保证一个类仅有一个实例，并提供一个访问这个唯一实例全局访问点。单例模式适用于以下情况： ① 当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时； ② 当这个唯一实例应该是通过子类化可…",
     "year": 2016,
     "session": "L",
     "no": 46
@@ -1585,7 +1585,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都集中于一个特定的面向对象设计问题或设计要点，有特定的意图和适用情况。\n\n生成器（Builder）模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式适用于以下几种情况：① 当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；\n\n② 当构造过程必须允许被构造的对象有不同表示时。\n\n工厂方法 （Factory Method）定义一个用于创建对象的接口，让子类决定将哪一个类实例化，使一个类的实例化延迟到其子类。工厂方法适用于以下儿种情况：① 当一个类不知道它所必须创建的对象的类的时候；\n\n② 当一个类希望由它子类来指定它所创建的对象时候；\n\n③ 当类将创建对象职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化时候。\n\n原型（Prototype）模式用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于以下几种情况：① 当一个系统应该独立于它产品创建、构成和表示时；\n\n② 当要实例化的类是在运行时刻指定时，例如，通过动态装载；\n\n③ 为了避免创建一个与产品类层次平行钓工厂类层次时；\n\n④ 当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。\n\n单例（Singleton）设计模式是一种创建型模式，其意图是保证一个类仅有一个实例，并提供一个访问这个唯一实例的全局访问点。单例模式适用于以下情况：① 当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时；\n\n② 当这个唯一实例应该是通过子类化可扩展，并且客户应该无须更改代码就能使用一个扩展的实例时。",
+    "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都集中于一个特定的面向对象设计问题或设计要点，有特定的意图和适用情况。\n\n生成器（Builder）模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式适用于以下几种情况：① 当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；\n\n② 当构造过程必须允许被构造的对象有不同表示时。\n\n工厂方法 （Factory Method）定义一个用于创建对象的接口，让子类决定将哪一个类实例化，使一个类的实例化延迟到其子类。工厂方法适用于以下儿种情况：① 当一个类不知道它所必须创建的对象的类的时候；\n\n② 当一个类希望由它子类来指定它所创建的对象时候；\n\n③ 当类将创建对象职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化时候。\n\n原型（Prototype）模式用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于以下几种情况：① 当一个系统应该独立于它产品创建、构成和表示时；\n\n② 当要实例化的类是在运行时刻指定时，例如，通过动态装载；\n\n③ 为了避免创建一个与产品类层次平行的工厂类层次时；\n\n④ 当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。\n\n单例（Singleton）设计模式是一种创建型模式，其意图是保证一个类仅有一个实例，并提供一个访问这个唯一实例的全局访问点。单例模式适用于以下情况：① 当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时；\n\n② 当这个唯一实例应该是通过子类化可扩展，并且客户应该无须更改代码就能使用一个扩展的实例时。",
     "year": 2016,
     "session": "L",
     "no": 47
@@ -1687,7 +1687,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "",
+    "explanation": "本题考查设计模式基本概念。装饰器（Decorator）模式和外观（Facade）模式均为对象结构型设计模式。装饰器模式动态地给一个对象添加一些额外的职责。就增加功能而言，此模式比生成子类更加灵活。外观模式为子系统中的一组接口提供一个统一的界面，此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。这两种模式适用于不同的情况。装饰嚣模式适用于以下几种情况： ① 在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责； ② 处理那些可以撤销的职责； ③ 当不能采用生成子类方式进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，便得子类数目呈爆炸性增长。另一种情况可能是，由于类定义被隐藏，或类定义不能用于生成子类。外观模式适用于以下几种情况： ① 要为一个复杂子系统提供一个简单接口时，子系统往往因为不断演化而变得越来越复杂，Facade 可以提供一个简单的默认视图，这一视图对大多数用户来说已经足够，而那些需要更多可定制性的用户可以越过 Facade层； ② 客户程序与抽象类的实现部分之间存在着很大前依赖性。引入 Facade 将这个子系统与客户以及其他的子系统分离，可以提高子系统的独立性和可移植性； ③ 当需要构建一个层次结构的子系统时，使用 Facade 模式定义子系统中每层的入口点。如果子系统之间是相互依赖的，则可以让它们仅通过 Facade 进行通信，从而简化了它们之间的依赖关系。本题所给4种情况中，②将一个对象加以包装以提供一些额外的行为符合装饰器的动态、透明地给单个对象添加职责适用性：④将一系列对象加以包装以简化其接口符合外观模式…",
     "year": 2017,
     "session": "H",
     "no": 46
@@ -1755,7 +1755,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "",
+    "explanation": "本题考查设计模式基本概念。按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。行为模式涉及算法和对象问职责分配。行为模式不仅描述对象或类的模式，还描述它们之间的通信模式。观察者模式、状态模式、策略模式和访问者模式均为行为设计模式。每种设计模式都有特定意图和适用情况。观察者（Observer）模式主要意图是：定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式前结构图如下所示。 Subject observers Observer Attach（Observer） Detach（Observer） Upaatel NotifyO o-- for all o in observers ｛ o->Update（） ConcreteObserver ConcreteSubject subject Update（） O- observerState= subject->GetState（） GetState（） 0-- observer State SetState（ return subjectState subjectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。状态（State）模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。其结构图如下所示。 Context state State Requesto 9 Handl…",
     "year": 2017,
     "session": "L",
     "no": 44
@@ -1789,7 +1789,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "",
+    "explanation": "本题考查设计模式基本概念。按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。行为模式涉及算法和对象问职责分配。行为模式不仅描述对象或类的模式，还描述它们之间的通信模式。观察者模式、状态模式、策略模式和访问者模式均为行为设计模式。每种设计模式都有特定意图和适用情况。观察者（Observer）模式主要意图是：定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式前结构图如下所示。 Subject observers Observer Attach（Observer） Detach（Observer） Upaatel NotifyO o-- for all o in observers ｛ o->Update（） ConcreteObserver ConcreteSubject subject Update（） O- observerState= subject->GetState（） GetState（） 0-- observer State SetState（ return subjectState subjectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。状态（State）模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。其结构图如下所示。 Context state State Requesto 9 Handl…",
     "year": 2017,
     "session": "L",
     "no": 45
@@ -1823,7 +1823,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "",
+    "explanation": "本题考查设计模式基本概念。按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。行为模式涉及算法和对象问职责分配。行为模式不仅描述对象或类的模式，还描述它们之间的通信模式。观察者模式、状态模式、策略模式和访问者模式均为行为设计模式。每种设计模式都有特定意图和适用情况。观察者（Observer）模式主要意图是：定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式前结构图如下所示。 Subject observers Observer Attach（Observer） Detach（Observer） Upaatel NotifyO o-- for all o in observers ｛ o->Update（） ConcreteObserver ConcreteSubject subject Update（） O- observerState= subject->GetState（） GetState（） 0-- observer State SetState（ return subjectState subjectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。状态（State）模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。其结构图如下所示。 Context state State Requesto 9 Handl…",
     "year": 2017,
     "session": "L",
     "no": 46
@@ -1857,7 +1857,7 @@
       }
     ],
     "answer": "C",
-    "explanation": "试题（44）～（47）分析本题考查设计模式钓基本概念。\n\n按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。行为模式涉及算法和对象问职责的分配。行为模式不仅描述对象或类的模式，还描述它们之间的通信模式。观察者模式、状态模式、策略模式和访问者模式均为行为设计模式。\n\n每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它对象都得到通知并被自动更新。此模式结构图如下所示。\n\nSubjectobservers-● ObserverAttach（Observer）UpdatelDetach（Observer）for all o in observers ｛YNotifyO o---o-Update（）ConcreteObserverConcrete SubjectsubjectUpdate（）O-observerState=subject->GietState（）GetState（） 0--ObserverStateSetState（）retumn subjectStatesubjectSate其中，Subject（目标）知道它观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State）模式主要意图是：允许一个对象在其内部状态改变时改变它钓行为。\n\n对象看起来似乎修改了它的类。其结构图如下所示。\n\n其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State） 模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。\n\n对象看起来似乎修改了它类。其结构图如下所示。\n\nstateContextStateRequesto 9Handle（）state→>Handle（）ConcreteStateAConcreteStateBHandleOHandle（其中，Context（上下文）定义客户感兴趣的接口；State（状态）定义一个接口以封装与Context的一个特定状态相关行为。\n\n策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们客户而变化。其结构图如下所示。\n\nstrategyContextStrategyContextlnterface（）AlgorithmIntertace（）ConcreteStrategyAConcrete StrategyBConcrete StrategyCAlgorithmInterface（）AlgorithmInterface（）Algorithmlnterface（）其中，Strategy（策略）定义所有支持钓算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义算法。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrctc Visitor1ConcrctcVisitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）VisitConcreteElementB（ConcrcElementB）ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitorv） 9Accept（Visitor v）OperationA（OperationBOV→>VisitConcreteElementA（this）V→>VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\n本题描述自动售货机适合采用状态模式，属于行为型对象模式。自动售货机根据库存、存放货币量、找零能力、所选项目等项目不同而具有不同状态，这些内部状态改变会使自动售货机的行为也发生改变。在用户存入货币并选择购买时，自动售货机根据状态的不同会有以下几种不同行为：交付产品，不找零钱：交付产品并找零：因存入钱数不足而不交付产品：因库存不足而不交付产品。\n\n题图所示类图中，VendingMachineState 接口定义了所有具体状态公共接口handleO，封装与特定状态相关所有行为。VendingDepositState、VendingStockState 和Change AvailableState 是实现 VendingMachineState 接口的具体状态类，各自实现自己handle0行为。当 Buy发送请求并改变状态时，这些具体状态类中相关那个进行响应。\n\n此模式中，状态的变化发生在运行时，而非由客户端来决定。客户程序感兴趣和使用主要接口定义在 Buy 中，即对应于状态模式结构图中的 Context，可用状态来对其进行配置。",
+    "explanation": "试题（44）～（47）分析本题考查设计模式的基本概念。\n\n按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。行为模式涉及算法和对象问职责的分配。行为模式不仅描述对象或类的模式，还描述它们之间的通信模式。观察者模式、状态模式、策略模式和访问者模式均为行为设计模式。\n\n每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它对象都得到通知并被自动更新。此模式结构图如下所示。\n\nSubjectobservers-● ObserverAttach（Observer）UpdatelDetach（Observer）for all o in observers ｛YNotifyO o---o-Update（）ConcreteObserverConcrete SubjectsubjectUpdate（）O-observerState=subject->GietState（）GetState（） 0--ObserverStateSetState（）retumn subjectStatesubjectSate其中，Subject（目标）知道它观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State）模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。\n\n对象看起来似乎修改了它的类。其结构图如下所示。\n\n其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State） 模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。\n\n对象看起来似乎修改了它类。其结构图如下所示。\n\nstateContextStateRequesto 9Handle（）state→>Handle（）ConcreteStateAConcreteStateBHandleOHandle（其中，Context（上下文）定义客户感兴趣的接口；State（状态）定义一个接口以封装与Context的一个特定状态相关行为。\n\n策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们客户而变化。其结构图如下所示。\n\nstrategyContextStrategyContextlnterface（）AlgorithmIntertace（）ConcreteStrategyAConcrete StrategyBConcrete StrategyCAlgorithmInterface（）AlgorithmInterface（）Algorithmlnterface（）其中，Strategy（策略）定义所有支持的算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义算法。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrctc Visitor1ConcrctcVisitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）VisitConcreteElementB（ConcrcElementB）ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitorv） 9Accept（Visitor v）OperationA（OperationBOV→>VisitConcreteElementA（this）V→>VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\n本题描述自动售货机适合采用状态模式，属于行为型对象模式。自动售货机根据库存、存放货币量、找零能力、所选项目等项目不同而具有不同状态，这些内部状态改变会使自动售货机的行为也发生改变。在用户存入货币并选择购买时，自动售货机根据状态的不同会有以下几种不同行为：交付产品，不找零钱：交付产品并找零：因存入钱数不足而不交付产品：因库存不足而不交付产品。\n\n题图所示类图中，VendingMachineState 接口定义了所有具体状态公共接口handleO，封装与特定状态相关所有行为。VendingDepositState、VendingStockState 和Change AvailableState 是实现 VendingMachineState 接口的具体状态类，各自实现自己handle0行为。当 Buy发送请求并改变状态时，这些具体状态类中相关那个进行响应。\n\n此模式中，状态的变化发生在运行时，而非由客户端来决定。客户程序感兴趣和使用主要接口定义在 Buy 中，即对应于状态模式结构图中的 Context，可用状态来对其进行配置。",
     "year": 2017,
     "session": "L",
     "no": 47
@@ -1891,7 +1891,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。按照设计模式的目的可以分为创建新模式、结构型模式以及行为型模式三大类。创建型模式与对象的创建有关；结构型模式处理类或对象组合以获得更大的结构；行为型模式对类或对象怎样交互和怎样分配职责进行描述。观察者模式、策略模式和访问者模式均为行为设计模式。桥接模式是结构型对象模式。每种设计模式都有特定的意图和适用情况。观察者（Observer）模式的主要意图是：定义对象间的一种一对多依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。 Subject observers Observer Attach（Observer） Detach（Observer） Upaate（） NotifyO o-- for all o in observers 1 o-wpaate（） ConcreteObserver ConcreteSubject subject Updatel o-|--observerState= GetState（） o----- 口 subject->GetState（） observerState SetState（） return subjectState subjectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于…",
     "year": 2018,
     "session": "H",
     "no": 44
@@ -1925,7 +1925,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。按照设计模式的目的可以分为创建新模式、结构型模式以及行为型模式三大类。创建型模式与对象的创建有关；结构型模式处理类或对象组合以获得更大的结构；行为型模式对类或对象怎样交互和怎样分配职责进行描述。观察者模式、策略模式和访问者模式均为行为设计模式。桥接模式是结构型对象模式。每种设计模式都有特定的意图和适用情况。观察者（Observer）模式的主要意图是：定义对象间的一种一对多依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。 Subject observers Observer Attach（Observer） Detach（Observer） Upaate（） NotifyO o-- for all o in observers 1 o-wpaate（） ConcreteObserver ConcreteSubject subject Updatel o-|--observerState= GetState（） o----- 口 subject->GetState（） observerState SetState（） return subjectState subjectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于…",
     "year": 2018,
     "session": "H",
     "no": 45
@@ -1959,7 +1959,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本知识。按照设计模式的目的可以分为创建新模式、结构型模式以及行为型模式三大类。创建型模式与对象的创建有关；结构型模式处理类或对象组合以获得更大的结构；行为型模式对类或对象怎样交互和怎样分配职责进行描述。观察者模式、策略模式和访问者模式均为行为设计模式。桥接模式是结构型对象模式。每种设计模式都有特定的意图和适用情况。观察者（Observer）模式的主要意图是：定义对象间的一种一对多依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。 Subject observers Observer Attach（Observer） Detach（Observer） Upaate（） NotifyO o-- for all o in observers 1 o-wpaate（） ConcreteObserver ConcreteSubject subject Updatel o-|--observerState= GetState（） o----- 口 subject->GetState（） observerState SetState（） return subjectState subjectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于…",
     "year": 2018,
     "session": "H",
     "no": 46
@@ -2027,7 +2027,7 @@
       }
     ],
     "answer": "B",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。按照设计模式目的可以分为创建型模式、结构型模式以及行为型模式三大类。结构型模式涉及如何组合类和对象以获得更大的结构，行为模式涉及算法和对象间职责分配。桥接器模式属于结构型设计模式，观察者模式、访问者模式和策略模式均为行为设计模式。每种设计模式都有特定的意图和适用情况。观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。 2018下半年试题分析与解答 Subject Observers Observer Attach（Observer） Detach（Observer） Updatel Notify（） o-- or all o in observers / 0->Update（ ConcreteObserver ConcreteSubject subject Upaatel observerState= GetStateO O-. subject->GetState（ observerState SetState（） return subjectState™ sublectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个日标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素的操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。…",
     "year": 2018,
     "session": "L",
     "no": 44
@@ -2061,7 +2061,7 @@
       }
     ],
     "answer": "A",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。按照设计模式目的可以分为创建型模式、结构型模式以及行为型模式三大类。结构型模式涉及如何组合类和对象以获得更大的结构，行为模式涉及算法和对象间职责分配。桥接器模式属于结构型设计模式，观察者模式、访问者模式和策略模式均为行为设计模式。每种设计模式都有特定的意图和适用情况。观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。 2018下半年试题分析与解答 Subject Observers Observer Attach（Observer） Detach（Observer） Updatel Notify（） o-- or all o in observers / 0->Update（ ConcreteObserver ConcreteSubject subject Upaatel observerState= GetStateO O-. subject->GetState（ observerState SetState（） return subjectState™ sublectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个日标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素的操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。…",
     "year": 2018,
     "session": "L",
     "no": 45
@@ -2095,7 +2095,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "",
+    "explanation": "本题考查设计模式的基本概念。按照设计模式目的可以分为创建型模式、结构型模式以及行为型模式三大类。结构型模式涉及如何组合类和对象以获得更大的结构，行为模式涉及算法和对象间职责分配。桥接器模式属于结构型设计模式，观察者模式、访问者模式和策略模式均为行为设计模式。每种设计模式都有特定的意图和适用情况。观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。 2018下半年试题分析与解答 Subject Observers Observer Attach（Observer） Detach（Observer） Updatel Notify（） o-- or all o in observers / 0->Update（ ConcreteObserver ConcreteSubject subject Upaatel observerState= GetStateO O-. subject->GetState（ observerState SetState（） return subjectState™ sublectSate 其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个日标；提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素的操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。…",
     "year": 2018,
     "session": "L",
     "no": 46
@@ -2163,7 +2163,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "本题考查设计模式的基本概念。\n\n每一种设计模式都集中于一个特定前面向对象设计问题或设计要点，描还了什么时候适合使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。\n\n观察者（Observer）模式的结构图如下图所示。\n\nSubjectObserversObserverAttach（Observer）UpdateODetach（Observer）or allo in observers tNotityO o-o-paatelConcreteObserverConcreteSubjectsubjectUpdatelO-1-observerState=subject->GietState（）GetState（） 0--observerStateSetState（）return subjectStatesubjectSate观察者模式适用于在以下几种情况时定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新：①当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立的对象中以使它们可以各自独立地改变和复用；②当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；③当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合时。",
+    "explanation": "本题考查设计模式的基本概念。\n\n每一种设计模式都集中于一个特定前面向对象设计问题或设计要点，描述了什么时候适合使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。\n\n观察者（Observer）模式的结构图如下图所示。\n\nSubjectObserversObserverAttach（Observer）UpdateODetach（Observer）or allo in observers tNotityO o-o-paatelConcreteObserverConcreteSubjectsubjectUpdatelO-1-observerState=subject->GietState（）GetState（） 0--observerStateSetState（）return subjectStatesubjectSate观察者模式适用于在以下几种情况时定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新：①当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立的对象中以使它们可以各自独立地改变和复用；②当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；③当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合时。",
     "year": 2019,
     "session": "H",
     "no": 47
