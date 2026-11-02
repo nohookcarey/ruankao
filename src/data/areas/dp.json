@@ -1,2715 +1,2715 @@
 [
- {
-  "id": "dp-001",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 1,
-  "source": "seed",
-  "tags": [
-   "单例模式"
-  ],
-  "stem": "某类要求在整个系统中只能存在一个实例，并提供全局访问点，应采用（　）模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "工厂方法"
-   },
-   {
-    "key": "B",
-    "text": "单例"
-   },
-   {
-    "key": "C",
-    "text": "原型"
-   },
-   {
-    "key": "D",
-    "text": "建造者"
-   }
-  ],
-  "answer": "B",
-  "explanation": "**单例模式（Singleton）**要点：\n\n1. 私有化构造函数，禁止外部 new；\n2. 内部持有静态私有实例；\n3. 提供静态公有方法返回该实例。\n\n常见变体：饿汉式（类加载即创建，线程安全但可能浪费）、懒汉式（首次使用时创建，需处理并发，通常用双重检查锁定）。\n\n对比：原型（Prototype）用于复制已有对象；建造者（Builder）用于分步构建复杂对象；工厂方法用于把对象创建延迟到子类。"
- },
- {
-  "id": "dp-002",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "seed",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新，这种设计应采用（　）模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "中介者"
-   },
-   {
-    "key": "B",
-    "text": "观察者"
-   },
-   {
-    "key": "C",
-    "text": "责任链"
-   },
-   {
-    "key": "D",
-    "text": "命令"
-   }
-  ],
-  "answer": "B",
-  "explanation": "**观察者模式（Observer）**定义对象间一对多的依赖关系：被观察者（Subject）维护一个观察者列表，状态变化时遍历通知所有观察者。\n\n典型应用：GUI 事件监听、发布订阅、MVC 中 Model 变化通知 View。\n\n易混对比：\n- **中介者（Mediator）**：把多对多的网状交互收敛为一对多（星形），减少对象间直接引用；\n- **责任链（Chain of Responsibility）**：请求沿链传递直到被处理；\n- **命令（Command）**：把请求封装成对象，支持撤销与队列。"
- },
- {
-  "id": "dp-003",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "seed",
-  "tags": [
-   "适配器模式"
-  ],
-  "stem": "需要将一个类的接口转换成客户希望的另一个接口，使原本因接口不兼容而无法合作的类能一起工作，应采用（　）模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器"
-   },
-   {
-    "key": "B",
-    "text": "桥接"
-   },
-   {
-    "key": "C",
-    "text": "外观"
-   },
-   {
-    "key": "D",
-    "text": "代理"
-   }
-  ],
-  "answer": "A",
-  "explanation": "四个易混结构型模式的判别关键词：\n\n| 模式 | 目的 |\n|---|---|\n| **适配器** | **转换接口**，让不兼容的接口能协作（事后补救，如旧系统对接） |\n| 桥接 | **分离抽象与实现**两个独立变化的维度 |\n| 外观 | 为一组子系统提供**统一的高层接口**，简化调用 |\n| 代理 | **控制对对象的访问**（远程、虚拟、保护、智能引用） |\n\n一句话区分：适配器改接口，桥接拆维度，外观做简化，代理控访问。"
- },
- {
-  "id": "dp-004",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "seed",
-  "tags": [
-   "策略模式"
-  ],
-  "stem": "系统需要支持多种排序算法，并允许在运行时动态切换，最适宜采用（　）模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "模板方法"
-   },
-   {
-    "key": "B",
-    "text": "策略"
-   },
-   {
-    "key": "C",
-    "text": "装饰器"
-   },
-   {
-    "key": "D",
-    "text": "访问者"
-   }
-  ],
-  "answer": "B",
-  "explanation": "**策略模式（Strategy）**把一系列可互换的算法各自封装成类，使它们可以互相替换，且算法的变化独立于使用它的客户。\n\n与**状态模式**的区别（高频混淆点）：\n- 策略：由**客户端**选择算法，策略之间通常互不感知；\n- 状态：由对象**内部状态**驱动行为切换，状态之间会相互转移。\n\n与**模板方法**的区别：模板方法用继承固定算法骨架、由子类填充步骤；策略用组合替换整个算法，更灵活。"
- },
- {
-  "id": "dp-005",
-  "type": "fill",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "seed",
-  "tags": [
-   "装饰器模式"
-  ],
-  "stem": "需要在不改变对象接口的前提下，动态地给一个对象增加额外职责，应采用（1）模式。",
-  "blanks": [
-   {
-    "id": "b1",
-    "answers": [
-     "装饰器",
-     "装饰",
-     "Decorator",
-     "装饰者",
-     "装饰模式"
+  {
+    "id": "dp-001",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 1,
+    "source": "seed",
+    "tags": [
+      "单例模式"
     ],
-    "hint": "填三个字，中文名称",
-    "size": "md"
-   }
-  ],
-  "explanation": "**装饰器模式（Decorator）**通过持有一个与被装饰对象相同的接口的引用，在调用前后附加行为，从而在运行时叠加职责。\n\n优点：比继承更灵活，可任意组合；避免子类数量爆炸。Java I/O 中的 `BufferedInputStream(new FileInputStream(...))` 就是典型应用。\n\n与代理的区别：装饰器目的是**增强功能**，且可层层嵌套；代理目的是**控制访问**，通常只包一层。"
- },
- {
-  "id": "dp-006",
-  "type": "case",
-  "area": "dp",
-  "difficulty": 3,
-  "source": "seed",
-  "tags": [
-   "设计模式综合",
-   "桥接模式"
-  ],
-  "stem": "阅读下列说明，回答问题。\n\n某系统需要实现一个日志组件，要求如下：\n\n1. 日志可以输出到控制台、本地文件或远程服务器；\n2. 输出目标的种类可能在系统运行期间增加；\n3. 日志格式也有多种（纯文本、JSON），且格式的变化与输出目标无关；\n4. 不希望输出目标与格式的组合导致类的数量爆炸。",
-  "subQuestions": [
-   {
-    "no": "1",
-    "stem": "若采用继承方式分别实现“输出目标 × 日志格式”的所有组合，会产生什么问题？",
-    "reference": "会产生**类爆炸**：若有 m 种输出目标、n 种格式，就需要 m × n 个具体类（控制台-文本、控制台-JSON、文件-文本、文件-JSON……）。\n\n更严重的是**两个维度被耦合在一个继承层次中**：新增一种输出目标要写 n 个新类，新增一种格式要写 m 个新类，扩展方向是乘法关系；而且编译期就固定了组合，无法在运行时切换格式。",
-    "keyPoints": [
-     "指出类数量为 m×n 的乘积关系",
-     "指出两个变化维度被耦合",
-     "指出无法运行时切换或扩展成本高"
-    ]
-   },
-   {
-    "no": "2",
-    "stem": "给出合适的设计模式（可组合使用多个），并说明各模式承担的角色。",
-    "reference": "推荐以**桥接模式（Bridge）**为主，可选配合**工厂方法**：\n\n- **抽象部分（Abstraction）**：`Logger`，持有对 `LogOutput` 的引用，对外提供 `log(msg)`；`Logger` 向下细分为 `TextLogger`、`JsonLogger`，体现“格式”这一维度。\n- **实现部分（Implementor）**：`LogOutput` 接口，声明 `write(String)`；具体实现为 `ConsoleOutput`、`FileOutput`、`RemoteOutput`，体现“输出目标”这一维度。\n- **工厂方法**：用于根据配置创建具体的 `LogOutput` 实例，把创建逻辑集中在一处，便于新增目标类型。\n\n若格式的组装逻辑本身很复杂、需要动态叠加（如加时间戳、加请求 ID），可再用**装饰器**包装格式化结果。",
-    "keyPoints": [
-     "识别出桥接模式分离两个独立变化维度",
-     "明确抽象侧与实现侧的类职责",
-     "提到工厂方法/配置化创建",
-     "（可选）提到装饰器叠加格式职责"
-    ]
-   },
-   {
-    "no": "3",
-    "stem": "说明改造后新增一种输出目标需要修改哪些类，并解释该方案如何满足需求 2 和 3。",
-    "reference": "新增输出目标（例如数据库输出）时：\n\n- 只需新增一个实现 `LogOutput` 的类 `DbOutput`；\n- 在工厂的创建分支中增加一个 case（若用配置化反射则连这里都不用改）；\n- **无需修改** `Logger`、`TextLogger`、`JsonLogger` 等任何已有类，符合开闭原则。\n\n满足需求 2：输出目标与格式各自独立扩展，新增 m 种目标或 n 种格式都是**加法**关系，不是乘法。\n满足需求 3：`Logger` 只在运行时持有一个 `LogOutput` 引用，通过 `setOutput()` 即可在运行期切换目标，格式与目标互不感知。",
-    "keyPoints": [
-     "新增类只需实现统一接口",
-     "不修改既有类（开闭原则）",
-     "说明扩展从乘法变加法",
-     "说明运行时切换依赖组合而非继承"
-    ]
-   }
-  ],
-  "explanation": "这是软考下午题设计模式部分的典型形态：先问“不用模式会怎样”，再问“用什么模式”，最后问“改造成本”。三问层层递进，实际考的是你能否把**变化点**识别出来。\n\n识别变化点的通用方法：看题干里出现“多种”“可能增加”“与……无关”这类表述，每一个独立变化的维度就应该被抽象成一个继承层次，维度之间用**组合**连接——这正是桥接模式的定义。"
- },
- {
-  "id": "2009L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下列UML类图表示的是 （　） 设计模式。该设计模式中， （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "备忘录（Memento）"
-   },
-   {
-    "key": "B",
-    "text": "策略（Strategy）"
-   },
-   {
-    "key": "C",
-    "text": "状态（State）"
-   },
-   {
-    "key": "D",
-    "text": "观察者（Observer）"
-   }
-  ],
-  "answer": "D",
-  "explanation": "SubjectObserver-Observer-subject+Attach（Observer）+Detach（Observer）+Update（）+NotityOfor allo in observer！\n\n0->UpdatelConcreteObserverConereteSubject-observerState-subjectState+Update（）observerState=+GietState（）return subjectStatesubject->GietState（）+SetState（",
-  "year": 2009,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2009L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下列UML类图表示的是 （　） 设计模式。该设计模式中， （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "一个Subject对象可对应多个Observer对象"
-   },
-   {
-    "key": "B",
-    "text": "Subject只能有一个ConcreteSubject子类"
-   },
-   {
-    "key": "C",
-    "text": "Observer只能有一个ConcreteObserver子类"
-   },
-   {
-    "key": "D",
-    "text": "一个Subject对象必须至少对应一个Observer对象"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（46）、（47）分析本题考查面向对象设计中的设计模式。\n\n题中的图标是观察者设计模式，在该设计模式中，一个 Subject 类可以有多个ConcreteSubject 子类，一个 Observer 类也可以有多个 ConcreteObserver 予类；一个 Subject对象可以对应多个 Observer 对象。\n\nSubjectObserver-Observer-subject+Attach（Observer）+Detach（Observer）+Update（）+NotityOfor allo in observer！\n\n0->UpdatelConcreteObserverConereteSubject-observerState-subjectState+Update（）observerState=+GietState（）return subjectStatesubject->GietState（）+SetState（",
-  "year": 2009,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2010H-43",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "抽象工厂模式"
-  ],
-  "stem": "下列UML类图表示的是 （　） 设计模式。关于该设计模式的叙述中，错误的是（　） 。\n\n![题图](figures/fig-6eb8110614.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "工厂方法"
-   },
-   {
-    "key": "B",
-    "text": "策略"
-   },
-   {
-    "key": "C",
-    "text": "抽象工厂"
-   },
-   {
-    "key": "D",
-    "text": "观察者"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2010,
-  "session": "H",
-  "no": 43
- },
- {
-  "id": "2010L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下面的UML类图描绘的是 （　） 设计模式。关于该设计模式的叙述中，错误的是（　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "桥接"
-   },
-   {
-    "key": "B",
-    "text": "策略"
-   },
-   {
-    "key": "C",
-    "text": "抽象工厂"
-   },
-   {
-    "key": "D",
-    "text": "观察者"
-   }
-  ],
-  "answer": "D",
-  "explanation": "SubjectObserver-Observers-subject+Attach （Observer）+Detach （Observer）+UpdateO）+NotifyOfor all o in observers！\n\n0->Update（）ConcreteObserverConcreteSubject-observerState-subjectState+UpdateOobserverState=+GetStatcOreturn subjectState+SetState（）subject->GietState（）",
-  "year": 2010,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2010L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下面的UML类图描绘的是 （　） 设计模式。关于该设计模式的叙述中，错误的是（　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "该设计模式中的Observer需要维护至少一个Subject对象"
-   },
-   {
-    "key": "B",
-    "text": "该设计模式中的ConcreteObserver可以绕过Subject及其子类的封装"
-   },
-   {
-    "key": "C",
-    "text": "该设计模式中一个Subject对象需要维护多个Observer对象"
-   },
-   {
-    "key": "D",
-    "text": "该设计模式中Subject需要通知Observer对象其自身的状态变化"
-   }
-  ],
-  "answer": "B",
-  "explanation": "试题（46）、（47）分析本题考查面向对象设计中的设计模式。\n\n题中的类图是观察者设计模式，在该设计模式中的 Subject 和 Observer 分别表示抽象的被观察者和观察者。通常，一个观察者（Observer）观察一个被观察者（Subject），而一个被观察者可以被多个观察者关注。当 Subject 的状态发生变化时，Subject 将通知所有 Observer，告知状态已经发生了变化，而 Observer 收到通知后，将查询 Subject状态。\n\nSubjectObserver-Observers-subject+Attach （Observer）+Detach （Observer）+UpdateO）+NotifyOfor all o in observers！\n\n0->Update（）ConcreteObserverConcreteSubject-observerState-subjectState+UpdateOobserverState=+GetStatcOreturn subjectState+SetState（）subject->GietState（）",
-  "year": 2010,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2011H-43",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "设计模式"
-  ],
-  "stem": "在面向对象软件开发过程中，采用设计模式 （　） ，",
-  "options": [
-   {
-    "key": "A",
-    "text": "以复用成功的设计"
-   },
-   {
-    "key": "B",
-    "text": "以保证程序的运行速度达到最优值"
-   },
-   {
-    "key": "C",
-    "text": "以减少设计过程创建的类的个数"
-   },
-   {
-    "key": "D",
-    "text": "允许在非面向对象程序设计语言中使用面向对象的概念"
-   }
-  ],
-  "answer": "A",
-  "explanation": "本题考查设计模式钓基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，就能重复地使用该方案而不必做重复劳动。设计模式的核心在于提供了相关问题解决方案。因此，面向对象软件开发过程中，采用设计模式的主要目的就是复用成功的设计。",
-  "year": 2011,
-  "session": "H",
-  "no": 43
- },
- {
-  "id": "2011H-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 44 空〕\n\n设计模式 （　） 将抽象部分与其实现部分相分离，使它们都可以独立地变化。下图为该设计模式的类图，其中， （　） 用于定义实现部分的接口。\n\n![题图](figures/fig-5180a9df3b.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "Bridge（桥接）"
-   },
-   {
-    "key": "B",
-    "text": "Composite（组合）"
-   },
-   {
-    "key": "C",
-    "text": "Facade（外观）"
-   },
-   {
-    "key": "D",
-    "text": "Singleton（单例）"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2011,
-  "session": "H",
-  "no": 44
- },
- {
-  "id": "2011H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 45 空〕\n\n设计模式 （　） 将抽象部分与其实现部分相分离，使它们都可以独立地变化。下图为该设计模式的类图，其中， （　） 用于定义实现部分的接口。\n\n![题图](figures/fig-5180a9df3b.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "Abstraction"
-   },
-   {
-    "key": "B",
-    "text": "ConcretelmplementorA"
-   },
-   {
-    "key": "C",
-    "text": "ConcretelmplementorB"
-   },
-   {
-    "key": "D",
-    "text": "Implementor"
-   }
-  ],
-  "answer": "D",
-  "explanation": "试题（44）、（45）分析本题考查设计模式钓基本知识。\n\nBridge（桥接）模式将对象抽象和其实现分离，从而可以独立地改变它们，抽象类定义对该抽象的接口，如上图中 Implementor，而具体的子类则用不同方式加以实现，如 ConcreteImplementorA 和 ConcreteTmplementorB。Composite（组合）模式是结构型对象模式一个实例。它描述了如何构造一个类层次式结构，这一结构由两种类型对象所对应的类构成，其中的组合对象使得用户可以组合基元对象以及其他的组合对象，从而形成任意复杂结构。Facade（外观）模式则描述了如何用单个对象表示整个子系统。\n\nSingleton（单例）模式保证一个类只产生唯一的一个实例。",
-  "year": 2011,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2011H-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "单例模式"
-  ],
-  "stem": "以下关于Singleton（单例）模式的描述中，正确的是 （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "它描述了只有一个方法的类的集合"
-   },
-   {
-    "key": "B",
-    "text": "它描述了只有一个属性的类的集合"
-   },
-   {
-    "key": "C",
-    "text": "它能够保证一个类的方法只能被一个唯一的类调用"
-   },
-   {
-    "key": "D",
-    "text": "它能够保证一个类只产生唯一的一个实例"
-   }
-  ],
-  "answer": "D",
-  "explanation": "本题考查设计模式钓基本知识。\n\n例如，通常用户可以对应用系统进行配置，并将配置信息保存在配置文件中，应用系统启动时首先加载配置文件，而这一配置信息在内存中仅有一份。为了保证这一配置实例只有一份，采用 Singleton（单例）模式，以保证一个类只产生唯一的一个实例。",
-  "year": 2011,
-  "session": "H",
-  "no": 46
- },
- {
-  "id": "2011H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "适配器模式"
-  ],
-  "stem": "（　） 将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。",
-  "options": [
-   {
-    "key": "A",
-    "text": "Adapter（适配器）模式"
-   },
-   {
-    "key": "B",
-    "text": "Command（命令）模式"
-   },
-   {
-    "key": "C",
-    "text": "Singleton（单例）模式"
-   },
-   {
-    "key": "D",
-    "text": "Strategy（策略）模式"
-   }
-  ],
-  "answer": "A",
-  "explanation": "本题考查设计模式的基本知识。\n\nAdapter 模式是将类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作那些类可以一起工作。Command 模式将请求封装在对象中，这样它就可作为参数来传递，也可以被存储在历史列表里，或者以其他方式使用。Singleton（单例）模式保证一个类只产生唯一的一个实例。策略模式（Strategy）定义一系列算法，把它们一个个封装起来，并便它们可以相互替换，这一模式使得算法可以独立于使用它的客户而变化。",
-  "year": 2011,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2011L-40",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 40 空〕\n\n（　） 设计模式允许一个对象在其状态改变时，通知依赖它的所有对象。该设计模式的类图如下图，其中， （　） 在其状态发生改变时，向它的各个观察者发出通知。",
-  "options": [
-   {
-    "key": "A",
-    "text": "命令（Command）"
-   },
-   {
-    "key": "B",
-    "text": "责任链（Chain of Responsibility）"
-   },
-   {
-    "key": "C",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "D",
-    "text": "迭代器（Iterator）"
-   }
-  ],
-  "answer": "C",
-  "explanation": "-ObserversSubjectObserver+Attach（Observer）+Update（）+Detach（Observer）for all o in observers ｛+NotityO0->Update（ConcreteObserverConcreteSubject-subject-observerState-subjectStateobserverState=+Updatel+GetState（）subject->GetState（）return subjectState+SetState（）",
-  "year": 2011,
-  "session": "L",
-  "no": 40
- },
- {
-  "id": "2011L-41",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 41 空〕\n\n（　） 设计模式允许一个对象在其状态改变时，通知依赖它的所有对象。该设计模式的类图如下图，其中， （　） 在其状态发生改变时，向它的各个观察者发出通知。",
-  "options": [
-   {
-    "key": "A",
-    "text": "Subject"
-   },
-   {
-    "key": "B",
-    "text": "ConcreteSubject"
-   },
-   {
-    "key": "C",
-    "text": "Observer"
-   },
-   {
-    "key": "D",
-    "text": "ConcreteObserver"
-   }
-  ],
-  "answer": "B",
-  "explanation": "试题（40）、（41）分析本题考查设计模式钓基本知识。\n\n命令（Command）模式通过将请求封装为一个对象，可将不同的请求对客户进行参数化。责任链 （Chain of Responsibility）模式将多个对象的请求连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止，避免请求的发送者和接收者之间的耦合关系。观察者（Observer）模式定义对象之间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n在上述观察者模式的类图中，Subject（目标）知道其观察者，可以有任意多个观察者观察同一个目标，提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知对象定义一个更新接口。ConcreteSubject（具体目标）将有关状态存入各 ConcreteObserver 对象，当它钓状态发生改变时，向它钓各个观察者发出通知。ConcreteObserver（具体观察者）维护一个指向 ConcreteSubject 对象引用，存储有关状态，实现 Observer的更新接口以使自身状态与目标的状态保持一致。\n\n-ObserversSubjectObserver+Attach（Observer）+Update（）+Detach（Observer）for all o in observers ｛+NotityO0->Update（ConcreteObserverConcreteSubject-subject-observerState-subjectStateobserverState=+Updatel+GetState（）subject->GetState（）return subjectState+SetState（）",
-  "year": 2011,
-  "session": "L",
-  "no": 41
- },
- {
-  "id": "2011L-43",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "装饰器模式"
-  ],
-  "stem": "欲动态地给一个对象添加职责，宜采用 （　） 模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "B",
-    "text": "桥接（Bridge）"
-   },
-   {
-    "key": "C",
-    "text": "组合（Composite）"
-   },
-   {
-    "key": "D",
-    "text": "装饰器（Decorator）"
-   }
-  ],
-  "answer": "D",
-  "explanation": "本题考查设计模式的基本知识。\n\n适配器（Adapter）模式是将类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。Bridge（桥接）模式将对象抽象和其实现分离，从而可以独立地改变它们。组合（Composite）模式描述了如何构造一个类层次式结构。装饰器（Decorator）模式的意图是动态地给一个对象添加一些额外职责。在需要给某个对象而不是整个类添加一些功能时使用。这种模式对增加功能比生成子类更加灵活。",
-  "year": 2011,
-  "session": "L",
-  "no": 43
- },
- {
-  "id": "2011L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "代理模式"
-  ],
-  "stem": "（　） 模式通过提供与对象相同的接口来控制对这个对象的访问。",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "B",
-    "text": "代理（Proxy）"
-   },
-   {
-    "key": "C",
-    "text": "组合（Composite）"
-   },
-   {
-    "key": "D",
-    "text": "装饰器（Decorator）"
-   }
-  ],
-  "answer": "B",
-  "explanation": "本题考查设计模式的基本知识。\n\n适配器（Adapter）模式是将类的接口转换成客户希望的另外一个接口。代理 （Proxy）模式通过提供与对象相同的接口来控制对这个对象的访问，以使得在确实需要这个对象时才对它进行创建和初始化。组合（Composite）模式描述了如何构造一个类层次式结构。\n\n装饰器（Decorator）模式动态地给一个对象添加职责。",
-  "year": 2011,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2012H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 45 空〕\n\n设计模式中的 （　） 模式将对象组合成树形结构以表示\"部分-整体\"的层次结构，使得客户对单个对象和组合对象的使用具有一致性。下图为该模式的类图，其中， （　） 定义有子部件的那些部件的行为；组合部件的对象由 （　） 通过Component提供的接口操作。\n\n![题图](figures/fig-b0c96d1aa3.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "代理（Proxy）"
-   },
-   {
-    "key": "B",
-    "text": "桥接器（Bridge）"
-   },
-   {
-    "key": "C",
-    "text": "组合（Composite）"
-   },
-   {
-    "key": "D",
-    "text": "装饰器（Decorator）"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2012,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2012H-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 46 空〕\n\n设计模式中的 （　） 模式将对象组合成树形结构以表示\"部分-整体\"的层次结构，使得客户对单个对象和组合对象的使用具有一致性。下图为该模式的类图，其中， （　） 定义有子部件的那些部件的行为；组合部件的对象由 （　） 通过Component提供的接口操作。\n\n![题图](figures/fig-b0c96d1aa3.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "Client"
-   },
-   {
-    "key": "B",
-    "text": "Component"
-   },
-   {
-    "key": "C",
-    "text": "Leaf"
-   },
-   {
-    "key": "D",
-    "text": "Composite"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2012,
-  "session": "H",
-  "no": 46
- },
- {
-  "id": "2012H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 47 空〕\n\n设计模式中的 （　） 模式将对象组合成树形结构以表示\"部分-整体\"的层次结构，使得客户对单个对象和组合对象的使用具有一致性。下图为该模式的类图，其中， （　） 定义有子部件的那些部件的行为；组合部件的对象由 （　） 通过Component提供的接口操作。\n\n![题图](figures/fig-b0c96d1aa3.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "Client"
-   },
-   {
-    "key": "B",
-    "text": "Component"
-   },
-   {
-    "key": "C",
-    "text": "Leaf"
-   },
-   {
-    "key": "D",
-    "text": "Composite"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（45）～（47）分析本题考查设计模式的基本知识。\n\n代理（Proxy）模式是为其他对象提供一种代理以控制对这个对象的访问，使得只有在确实需要这个对象时才对其进行创建和初始化。桥接器（Bridge）模式将对象的抽象和其实现分离，从而可以独立地改变它们，当一个抽象可能有多个实现时，抽象类定义对该抽象的接口，而具体的子类则用不同方式加以实现。组合（Composite）模式描述了如何将对象组合成树形结构以构造一个层次结构来表示“部分-整体”，使得客户对单个对象和组合对象的使用具有一致性，这一结构由两种类型的对象所对应的类构成，使得可以组合基元对象以及其他的组合对象，从而形成任意复杂的结构。上图中的 Composite定义有子部件那些部件的行为；组合部件对象由 Client通过 Component提供接口操作。装饰器（Decorator）模式则描还动态地给一个对象添加一些额外的职责。",
-  "year": 2012,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2012L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "状态模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 44 空〕\n\n每种设计模式都有特定的意图。 （　） 模式使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。下图是采用该模式的有关TCP连接的结构图实例。该模式的核心思想是引入抽象类 （　） 来表示TCP连接的状态，声明不同操作状态的公共接口，其子类实现与特定状态相关的行为。当一个 （　） 对象收到其他对象的请求时，它根据自身的当前状态做出不同的反应。\n\n![题图](figures/fig-2666397b52.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "B",
-    "text": "命令（Command）"
-   },
-   {
-    "key": "C",
-    "text": "观察者（Visitor）"
-   },
-   {
-    "key": "D",
-    "text": "状态（State）"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2012,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2012L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "状态模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 45 空〕\n\n每种设计模式都有特定的意图。 （　） 模式使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。下图是采用该模式的有关TCP连接的结构图实例。该模式的核心思想是引入抽象类 （　） 来表示TCP连接的状态，声明不同操作状态的公共接口，其子类实现与特定状态相关的行为。当一个 （　） 对象收到其他对象的请求时，它根据自身的当前状态做出不同的反应。\n\n![题图](figures/fig-2666397b52.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "TCPConnection"
-   },
-   {
-    "key": "B",
-    "text": "state"
-   },
-   {
-    "key": "C",
-    "text": "TCPState"
-   },
-   {
-    "key": "D",
-    "text": "TCPEstablished"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2012,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2012L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "状态模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 46 空〕\n\n每种设计模式都有特定的意图。 （　） 模式使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。下图是采用该模式的有关TCP连接的结构图实例。该模式的核心思想是引入抽象类 （　） 来表示TCP连接的状态，声明不同操作状态的公共接口，其子类实现与特定状态相关的行为。当一个 （　） 对象收到其他对象的请求时，它根据自身的当前状态做出不同的反应。\n\n![题图](figures/fig-2666397b52.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "TCPConnection"
-   },
-   {
-    "key": "B",
-    "text": "state"
-   },
-   {
-    "key": "C",
-    "text": "TCPState"
-   },
-   {
-    "key": "D",
-    "text": "TCPEstablished"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（44）～（46）分析本题考查设计模式的基本知识。\n\n每种设计模式都有特定的意图。适配器（Adapter）模式将一个类的接口转换成客户希望另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n命令（Command）模式将一个请求封装为一个对象，从而使使用者可以采用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。观察者（Visitor）模式表示一个作用于某对象结构中的各元素的操作，是使用者可以在不改变各元素的类的前提下定义作用于这些元素的新操作。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。\n\n题目中是一个标识网络连接的实例，网络连接类为 TCPConnection，其对象状态处于不同状态之一：连接已建立（Established）、正在监听（Listening）、连接已关闭（Closed）。当一个 TCPConnection 对象受到其他对象的请求时，它根据自身的当前状态作出相应的反应。例如，一个 Open 请求的结果依赖于该连接是出于连接已关闭状态还是连接已建立状态。State 模式描还了 TCPConnection 如何做每一种状态下表现出不同行为。这一模式思想是引入了一个称为 TCPState 的抽象类来表示网络的连接状态。\n\nTCPState 类为各表示不同时操作状态的子类声明了一个公共接口。TCPState 的子类实现与特定状态相关的行为。例如，TCPEstablished 和 TCPClosed 类分别实现了特定于TCPConnection的连接已建立状态和连接已关闭状态钓行为。",
-  "year": 2012,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2012L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "单例模式"
-  ],
-  "stem": "欲使类A的所有使用者都使用A的同一个实例，应 （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "将A标识为final"
-   },
-   {
-    "key": "B",
-    "text": "将A标识为abstract"
-   },
-   {
-    "key": "C",
-    "text": "将单例（Singleton）模式应用于A"
-   },
-   {
-    "key": "D",
-    "text": "将备忘（Memento）模式应用于A"
-   }
-  ],
-  "answer": "C",
-  "explanation": "本题考查设计模式的基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n将类标识为 final限制类不能再被继承；将设计为 abstract 表示类中定义出类提供什么服务，而有些具体服务需要通过其子类来实现：单例（Singleton）模式是指系统运行过程中，一个类只有一个对象实例；备忘模式是指不破坏封装性的前提下捕获一个对象钓内部状态，并在该对象之外保存这个状态。",
-  "year": 2012,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2013L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "策略模式"
-  ],
-  "stem": "（　） 设计模式定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。这一模式使得算法可独立于它的客户而变化。",
-  "options": [
-   {
-    "key": "A",
-    "text": "策略（Strategy）"
-   },
-   {
-    "key": "B",
-    "text": "抽象工厂（Abstract Factory）"
-   },
-   {
-    "key": "C",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "D",
-    "text": "状态（State）"
-   }
-  ],
-  "answer": "A",
-  "explanation": "本题考查设计模式的基本概念。\n\n策略（Strategy）设计模式定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。这一模式使得算法可独立于它客户而变化。抽象工厂（Abstract Factory）模式提供一个创建一系列相关或相互依赖对象接口，而无须指定他们具体的类。观察者（Observer）模式定义对象间一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。",
-  "year": 2013,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2013L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "在发布-订阅（Publish-Subscribe）消息模型中，订阅者订阅一个主题后，当该主题有新消息到达时，所有订阅者都会收到通知。 （　） 设计模式最适合这一模型。",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "B",
-    "text": "通知（Notifier）"
-   },
-   {
-    "key": "C",
-    "text": "状态（State）"
-   },
-   {
-    "key": "D",
-    "text": "观察者（Observer）"
-   }
-  ],
-  "answer": "D",
-  "explanation": "本题考查设计模式的基本概念。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新，其别名为发布-订阅（Publish-Subscribe）模式。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。",
-  "year": 2013,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2013L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下图所示为 （　） 设计模式，适用于： （　） 。\n\n![题图](figures/fig-6544952353.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "组件（Component）"
-   },
-   {
-    "key": "B",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "C",
-    "text": "组合（Composite）"
-   },
-   {
-    "key": "D",
-    "text": "装饰器（Decorator）"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2013,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2013L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下图所示为 （　） 设计模式，适用于： （　） 。\n\n![题图](figures/fig-6544952353.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "表示对象的部分---整体层次结构"
-   },
-   {
-    "key": "B",
-    "text": "不希望在抽象和它的实现部分之间有一个固定的绑定关系"
-   },
-   {
-    "key": "C",
-    "text": "在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责"
-   },
-   {
-    "key": "D",
-    "text": "使所有接口不兼容类可以一起工作"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n组合（Composite）模式将对象组合成树形结构以表示“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。组件 Component 为组合的对象声明接口，通常定义父组件引用，Leaf 和 Composite 类可以继承这个引用以及管理这个应用的那些操作。\n\n装饰器（Decorator）模式描还了以透明围栏来支持修饰的类和对象的关系，动态地给一个对象添加一些额外的职责，从增加功能的角度来看，装饰器模式相比生成子类更加灵活。",
-  "year": 2013,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2014H-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "外观模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 44 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8f0c2d2703.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "B",
-    "text": "责任链（Chain of Responsibility）"
-   },
-   {
-    "key": "C",
-    "text": "外观（Facade）"
-   },
-   {
-    "key": "D",
-    "text": "桥接（Bridge）"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2014,
-  "session": "H",
-  "no": 44
- },
- {
-  "id": "2014H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "外观模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 45 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8f0c2d2703.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "有多个对象可以处理一个请求，在运行时刻自动确定由哪个对象处理"
-   },
-   {
-    "key": "B",
-    "text": "想使用一个已经存在的类，而其接口不符合要求"
-   },
-   {
-    "key": "C",
-    "text": "类的抽象和其实现之间不希望有一个固定的绑定关系"
-   },
-   {
-    "key": "D",
-    "text": "需要为一个复杂子系统提供一个简单接口"
-   }
-  ],
-  "answer": "D",
-  "explanation": "试题（44）、（45）分析本题考查设计模式基本概念。\n\n每种设计模式都有特定的意图和适用场景。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。适用于想使用一个已经存在的类，而其接口不符合要求的情况。\n\n责任链（Chain of Responsibility）模式使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。适用于有多个的对象可以处理一个请求，哪个对象处理该请求运行时刻自动确定的情况。\n\n桥接（Bridge）模式将抽象部分与其实现部分分离，使它们都可以独立地变化。适用于不希望在抽象和它实现部分之间有一个固定的绑定关系的情况。\n\n外观（Facade）模式为子系统中一组接口提供一个一致的界面，Facade 模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。适用于需要为一个复杂子系统提供一个简单接口的情况。",
-  "year": 2014,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2014L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8d3ab65b80.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "抽象工厂（Abstract Factory）"
-   },
-   {
-    "key": "B",
-    "text": "生成器（Builder）"
-   },
-   {
-    "key": "C",
-    "text": "工厂方法（Factory Method）"
-   },
-   {
-    "key": "D",
-    "text": "原型（Prototype）"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2014,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2014L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8d3ab65b80.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "一个系统要由多个产品系列中的一个来配置时"
-   },
-   {
-    "key": "B",
-    "text": "当一个类希望由它的子类来指定它所创建的对象时"
-   },
-   {
-    "key": "C",
-    "text": "当创建复杂对象的算法应该独立于该对象的组成部分及其装配方式时"
-   },
-   {
-    "key": "D",
-    "text": "当一个系统应该独立于它的产品创建、构成和表示时"
-   }
-  ],
-  "answer": "C",
-  "explanation": "试题（46）、（47）分析本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n抽象工厂（Abstract Factory）模式提供一个创建一系列相关或相互依赖对象的接口，而无须指定他们具体的类。抽象工厂模式适用于一个系统要独立于它的产品的创建、组合和表示时：一个系统要由多个产品系列中的一个来配置时；当要强调一系列相关产品对象的设计以便进行联合使用时；当提供一个产品类库，而只想显示它们的接口而不是实现时。\n\n生成器（Builder）模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同表示。生成器模式适用于当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；当构造过程必须允许被构造的对象有不同的表示时。\n\n工厂方法 （Factory Method）定义一个用于创建对象接口，让子类决定将哪一个类实例化，使一个类的实例化延迟到其子类。工厂方法模式适用于当一个类不知道它所必须创建的对象的类的时候；当一个类希望由它的子类来指定它所创建的对象的时候；当类将创建对象职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化的时候。\n\n原型（Prototype）模式用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于：当一个系统应该独立于它的产品创建、构成和表示时；\n\n当要实例化的类是在运行时刻指定时，例如通过动态装载，为了避免创建一个与产品类层次平行工厂类层次时；当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。",
-  "year": 2014,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2015H-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 44 空〕\n\n下图所示为 （　） 设计模式，属于 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-43df3ad27b.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "代理（Proxy）"
-   },
-   {
-    "key": "B",
-    "text": "生成器（Builder）"
-   },
-   {
-    "key": "C",
-    "text": "组合（Composite）"
-   },
-   {
-    "key": "D",
-    "text": "观察者（Observer）"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2015,
-  "session": "H",
-  "no": 44
- },
- {
-  "id": "2015H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 45 空〕\n\n下图所示为 （　） 设计模式，属于 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-43df3ad27b.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "创建型"
-   },
-   {
-    "key": "B",
-    "text": "结构型"
-   },
-   {
-    "key": "C",
-    "text": "行为"
-   },
-   {
-    "key": "D",
-    "text": "结构型和行为"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2015,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2015H-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "组合模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 46 空〕\n\n下图所示为 （　） 设计模式，属于 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-43df3ad27b.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "表示对象的部分-整体层次结构时"
-   },
-   {
-    "key": "B",
-    "text": "当一个对象必须通知其它对象，而它又不能假定其它对象是谁时"
-   },
-   {
-    "key": "C",
-    "text": "当创建复杂对象的算法应该独立于该对象的组成部分及其装配方式时"
-   },
-   {
-    "key": "D",
-    "text": "在需要比较通用和复杂的对象指针代替简单的指针时"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（44）～（46）分析本题考查设计模式的基本概念。\n\n每一个设计模式都集中于一个特定面向对象设计问题或设计要点，描述了什么时候使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。按照设计模式的目的可以分为创建型、结构型和行为型三大类。创建型模式与对象的创建有关：结构型模式处理类或对象的组合；行为型模式对类或对象怎样交互和怎样分配职责进行描述。每种设计模式都有其适应性，描述适用于解决问题场合。\n\n创建型模式包括 Factory Method、 Abstract Factory、Builder、Prototype 和 Singleton。\n\n结构型模式包括 Adapter（类）、Adapter（对象）、Bridge、 Composite、Decorator、 Fagade、Flyweight和 Proxy。行为型模式包括 Interpreter、Template Method、Chain of Responsibility、Command、Iterator、Mediator、Memento Observer State Strategy 和 Visitor。\n\nProxy 模式结构图如下所示：ClientSubjectRequestO-11111RealSubjectrealSubjectProxyRequest（Request（） or--------realSubjcct->Request（）sProxy 模式适用于在需要比较通用和复杂的对象指针代替简单的指针的时候，常见情况有：远程代理（Remote Proxy）为一个对象在不同地址空间提供据不代表；虚代理（Virtual Proxy）根据需要创建开销很大对象；保护代理（Protection Proxy） 控制对原始对象访问，用于对象应该有不同的访问权限的时候；智能指引（Smart Reference）取代了简单的指针，它在访问对象时执行一些附加操作。\n\nBuilder模式的结构图如下所示：DirectorbuilderBuilderConstructO oBuildPuriOfor all objects in structure ｛builder-> BuildPartOConcreteBuilderProductBuildPartoGetResult（Builder 模式适用于当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；当构造过程必须允许被构造前对象有不同的表示时。\n\nComposite 模式钓结构图如下所示：ClientComponentOperation（AdafComponent）Remove（Component）GerChild（int）childrenLeafCompesiteOperation（）Operation（） o--forallg in childrengOperation（：Add（Component）Remove（Component）GetChild（int）Composite 模式适用于：想表示对象部分-整体层次结构；希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\nObserver 模式的结构图如下所示：SubjectObserversObserverAttach（Observer）UpdateoDetach（Observer）for all o in observers （-NotifyO o--0-> Update（ConcreteObserversubjectobserverState=ConereteSubjeetUpdatelsubject-> GetState（）GetState（）•--observerStaterelum subjectStaleSetState（）subjectStateObserver模式适用于：当一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这两者封装在独立地对象中以使它们可以各自独立地改变和复用；当对一个对象的改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合的。",
-  "year": 2015,
-  "session": "H",
-  "no": 46
- },
- {
-  "id": "2015H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "访问者模式"
-  ],
-  "stem": "某些设计模式会引入总是被用作参数的对象。例如 （　） 对象是一个多态accept方法的参数。",
-  "options": [
-   {
-    "key": "A",
-    "text": "Visitor"
-   },
-   {
-    "key": "B",
-    "text": "Command"
-   },
-   {
-    "key": "C",
-    "text": "Memento"
-   },
-   {
-    "key": "D",
-    "text": "Observer"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（47）某些设计模式会引入总是被用作参数的对象。例如（47）对象是一个多态的 accept方法参数。\n\n（47） A. VisitorB. CommandC. MementoD. Observer本题考查设计模式的概念，对行为模式进行比较。\n\n很多行为模式注重封装变化。当一个程序的某个方面的特征经常发生改变时，这些模式就定义一个封装这个方面的对象。这样，当该程序其他部分依赖于这个方面时，它们都可以与此对象协作。一些模式引入总是被用作参数的对象。有些模式定义一些可作为令牌进行传递前对象，这些对象将在稍后被调用。\n\n在 Visitor 模式中，一个 Visitor 对象是一个多态旳 accept 操作的参数，这个操作作用于该 Visitor 对象访问的对象。在 Command模式中，令牌代表一个请求：在 Memento模式中，它代表在一个对象在某个特定时刻的内部状态。在这两种情况下，令牌都可以有一个复杂的内部表示，但客户并不会意识到这一点。在 Observer模式中，通过引入Observer 和 Subject 对象来分布通信。",
-  "year": 2015,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2015L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "单例模式"
-  ],
-  "stem": "以下关于Singleton（单例）设计模式的叙述中，不正确的是 （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "单例模式是创建型模式"
-   },
-   {
-    "key": "B",
-    "text": "单例模式保证一个类仅有一个实例"
-   },
-   {
-    "key": "C",
-    "text": "单例类提供一个访问唯一实例的全局访问点"
-   },
-   {
-    "key": "D",
-    "text": "单例类提供一个创建一系列相关或相互依赖对象的接口"
-   }
-  ],
-  "answer": "D",
-  "explanation": "本题考查设计模式基本概念。\n\nSingleton（单例）设计模式是一种创建型模式，其意图是保证一个类仅有一个实例，并提供一个访问这个唯一实例的全局访问点。单例模式适用于当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时，以及当这个唯一实例应该是通过子类化可扩展的，并且客户应该无须更改代码就能使用一个扩展的实例时。",
-  "year": 2015,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2016H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "命令模式"
-  ],
-  "stem": "（　） 设计模式将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。",
-  "options": [
-   {
-    "key": "A",
-    "text": "命令（Command）"
-   },
-   {
-    "key": "B",
-    "text": "责任链（Chain of Responsibility）"
-   },
-   {
-    "key": "C",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "D",
-    "text": "策略（Strategy）"
-   }
-  ],
-  "answer": "A",
-  "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n命令（Command）将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化：对请求排队或记录请求日志，以及支持可撤销的操作。\n\n责任链（Chain of Responsibility）使多个对象都有机会处理请求，从而避免请求发送者和接收者之间钓耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象前状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n策略（Strategy）定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。",
-  "year": 2016,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2016H-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "（　） 设计模式最适合用于发布/订阅消息模型，即当订阅者注册一个主题后，此主题有新消息到来时订阅者就会收到通知。",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "B",
-    "text": "通知（Notifier）"
-   },
-   {
-    "key": "C",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "D",
-    "text": "状态（State）"
-   }
-  ],
-  "answer": "C",
-  "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图和适用情况。\n\n适配器（Adapter）将一个类的接口转换成客户希望的另外一个接口。Adapter 模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。类适配使用多重继承对一个接口与另一个接口进行匹配：对象适配器依赖于对象组合。适用于：想使用一个已经存在的类，而它的接口不符合要求；想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容类）协同工作。（仅适用于对象Adapter）想使用一个已经存在的子类，但是不可能对每一个都进行子类化以匹配他们接口。对象适配器可以适配它的父类接口。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。适用于：当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立对象中以使它们可以各自独立地改变和复用：当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即：不希望这些对象是紧耦合的。此模式最适合用于发布/订阅消息模型由订阅者订阅消息主题，发布者一定有此主题消息发布，所有订阅者就会自动收到通知。\n\n状态（State）允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。适用于：一个对象的行为决定于它的状态，并且它必须在运行时刻根据状态改变它的行为；一个操作中含有庞大多分支的条件语句，且这些分支依赖于该对象的状态。这个状态通常用一个或多个枚举常量表示。通常，有多个操作包含这一相同条件结构。State模式将每一个条件分支放入一个独立的类中。这使得开发者可以根据对象自身的情况将对象的状态作为一个对象，这一对象可以不依赖于其他对象而独立变化。",
-  "year": 2016,
-  "session": "H",
-  "no": 46
- },
- {
-  "id": "2016H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "享元模式"
-  ],
-  "stem": "因使用大量的对象而造成很大的存储开销时，适合采用 （　） 模式进行对象共享，以减少对象数量从而达到较少的内存占用并提升性能。",
-  "options": [
-   {
-    "key": "A",
-    "text": "组合（Composite）"
-   },
-   {
-    "key": "B",
-    "text": "享元（Flyweight）"
-   },
-   {
-    "key": "C",
-    "text": "迭代器（Iterator）"
-   },
-   {
-    "key": "D",
-    "text": "备忘（Memento）"
-   }
-  ],
-  "answer": "B",
-  "explanation": "本题考查设计模式基本概念。每种设计模式都有特定意图和适用情况。\n\n组合（Composite）模式将对象组合成树形结构以表示“部分-整体”层次结构，使得用户对单个对象和组合对象前使用具有一致性。组件 Component 为组合的对象声明接口，通常定义父组件引用，用户引用此组件，Leaf和 Composite 类可以继承这个引用以及管理这个应用的那些操作。适用于：想表示对象“部分-整体”层次结构；希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\n享元（Flyweight）模式运用共享技术有效地支持大量细粒度的对象。\n\n迭代器（Iterator）提供一种方法顺序访问一个聚合对象中各个元素，而又不需暴露该对象的内部表示。适用于：访问一个聚合对象内容而无须暴露它的内部表示；支持对聚合对象多种遍历；为遍历不同聚合结构提供一个统一接口。\n\n备忘（Memento）在不破坏封装性的前提下，捕获一个对象的内部状态，并在对象之外保存这个状态。这样以后就可将对象恢复到原先保存的状态。适用于：必须保存一个对象在某一个时刻的（部分）状态，这样以后需要时它才能恢复到先前的状态；如果一个用接口来让其他对象直接得到这些状态，将会暴露对象实现细节并破坏对象封装性。",
-  "year": 2016,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2016L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "策略模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 44 空〕\n\n（　） 模式定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换，使得算法可以独立于使用它们的客户而变化。以下 （　） 情况适合选用该模式。（2016年下半年） ①一个客户需要使用一组相关对象 ②一个对象的改变需要改变其它对象 ③需要使用一个算法的不同变体 ④许多相关的类仅仅是行为有异",
-  "options": [
-   {
-    "key": "A",
-    "text": "命令（Command）"
-   },
-   {
-    "key": "B",
-    "text": "责任链（Chain of Responsibility）"
-   },
-   {
-    "key": "C",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "D",
-    "text": "策略（Strategy）"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2016,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2016L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "策略模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 45 空〕\n\n（　） 模式定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换，使得算法可以独立于使用它们的客户而变化。以下 （　） 情况适合选用该模式。（2016年下半年） ①一个客户需要使用一组相关对象 ②一个对象的改变需要改变其它对象 ③需要使用一个算法的不同变体 ④许多相关的类仅仅是行为有异",
-  "options": [
-   {
-    "key": "A",
-    "text": "①②"
-   },
-   {
-    "key": "B",
-    "text": "②③"
-   },
-   {
-    "key": "C",
-    "text": "③④"
-   },
-   {
-    "key": "D",
-    "text": "①④"
-   }
-  ],
-  "answer": "C",
-  "explanation": "试题（44）、（45）分析本题考查设计模式基本概念。每种设计模式都有特定的意图和适用情况。\n\n命令（Command）将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。命令模式适用于以下几种情况：① 抽象出待执行动作以参数化某对象，此模式是过程语言中的回调（callback）机制的一个面向对象的替代方式：② 在不同的时刻指定、排列和执行请求；\n\n③ 支持取消操作；\n\n④ 支持修改日志，这样当系统崩溃时，这些修改可以被重做一遍；\n\n⑤ 用构建在原语操作上的高层操作构造一个系统。\n\n责任链（Chain of Responsibility）使多个对象都有机会处理请求，从而避免请求发送者和接收者之间耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。责任链模式适用于以下几种情况：① 有多个时对象可以处理一个请求，哪个对象处理该请求在运行时刻自动确定；\n\n② 在不明确指定接收者的情况下，向多个对象中的一个提交一个请求；\n\n③ 可处理一个请求的对象集合应被动态指定。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它对象都得到通知并被自动更新。观察者适用于以下几种情况：① 当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立地对象中以使它们可以各自独立地改变和复用；\n\n② 当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时：③ 当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即：不希望这些对象是紧耦合的。\n\n策略（Strategy）定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。策略模式适用于以下几种情况：① 许多相关的类仅仅是行为有异。“策略”提供了一种用多个行为中的一个行为来配置一个类的方法；\n\n② 需要使用一个算法的不同变体。例如，定义一些反应不同空间的空间/时间权衡的算法。当这些变体实现为一个算法的类层次时，可以使用策略模式；\n\n③ 算法使用客户不应该知道的数据。可使用策略模式以避免暴露复杂的、与算法相关的数据结构；\n\n④ 一个类定义了多种行为，并且这些行为在这个类的操作中以多个条件语句前形式出现，将相关的条件分支移入它们各自的 Strategy类中，以代替这些条件语句。",
-  "year": 2016,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2016L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 46 空〕\n\n（　） 模式将一个复杂对象的构建与其表示分离，使得同样的构建过程可以创建不同的表示。以下 （　） 情况适合选用该模式。（2016年下半年） ①抽象复杂对象的构建步骤 ②基于构建过程的具体实现构建复杂对象的不同表示 ③一个类仅有一个实例 ④一个类的实例只能有几个不同状态组合中的一种",
-  "options": [
-   {
-    "key": "A",
-    "text": "生成器（Builder）"
-   },
-   {
-    "key": "B",
-    "text": "工厂方法（Factory Method）"
-   },
-   {
-    "key": "C",
-    "text": "原型（Prototype）"
-   },
-   {
-    "key": "D",
-    "text": "单例（Singleton）"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2016,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2016L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 47 空〕\n\n（　） 模式将一个复杂对象的构建与其表示分离，使得同样的构建过程可以创建不同的表示。以下 （　） 情况适合选用该模式。（2016年下半年） ①抽象复杂对象的构建步骤 ②基于构建过程的具体实现构建复杂对象的不同表示 ③一个类仅有一个实例 ④一个类的实例只能有几个不同状态组合中的一种",
-  "options": [
-   {
-    "key": "A",
-    "text": "①②"
-   },
-   {
-    "key": "B",
-    "text": "②③"
-   },
-   {
-    "key": "C",
-    "text": "③④"
-   },
-   {
-    "key": "D",
-    "text": "①④"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都集中于一个特定的面向对象设计问题或设计要点，有特定的意图和适用情况。\n\n生成器（Builder）模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式适用于以下几种情况：① 当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；\n\n② 当构造过程必须允许被构造的对象有不同表示时。\n\n工厂方法 （Factory Method）定义一个用于创建对象的接口，让子类决定将哪一个类实例化，使一个类的实例化延迟到其子类。工厂方法适用于以下儿种情况：① 当一个类不知道它所必须创建的对象的类的时候；\n\n② 当一个类希望由它子类来指定它所创建的对象时候；\n\n③ 当类将创建对象职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化时候。\n\n原型（Prototype）模式用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于以下几种情况：① 当一个系统应该独立于它产品创建、构成和表示时；\n\n② 当要实例化的类是在运行时刻指定时，例如，通过动态装载；\n\n③ 为了避免创建一个与产品类层次平行钓工厂类层次时；\n\n④ 当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。\n\n单例（Singleton）设计模式是一种创建型模式，其意图是保证一个类仅有一个实例，并提供一个访问这个唯一实例的全局访问点。单例模式适用于以下情况：① 当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时；\n\n② 当这个唯一实例应该是通过子类化可扩展，并且客户应该无须更改代码就能使用一个扩展的实例时。",
-  "year": 2016,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2017H-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 44 空〕\n\n下图所示为观察者（Observer）模式的抽象示意图，其中 （　） 知道其观察者，可以有任意多个观察者观察同一个目标;提供注册和删除观察者对象的接口。此模式体现的最主要的特征是 （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "Subject"
-   },
-   {
-    "key": "B",
-    "text": "Observer"
-   },
-   {
-    "key": "C",
-    "text": "ConcreteSubject"
-   },
-   {
-    "key": "D",
-    "text": "ConcreteObserver"
-   }
-  ],
-  "answer": "A",
-  "explanation": "observers<<interface>＞<<intertace>＞SubjectObserverregisterObserverlupdateoremove ObserverlnotifyObservers（）subiectConcrete SubjectConcreteObserverregisterObserver（） （..｝update（removeObserver（） （oufl/ other Observer specificnotifyObservers（）（.｝methodsgetState（）setState（）",
-  "year": 2017,
-  "session": "H",
-  "no": 44
- },
- {
-  "id": "2017H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 45 空〕\n\n下图所示为观察者（Observer）模式的抽象示意图，其中 （　） 知道其观察者，可以有任意多个观察者观察同一个目标;提供注册和删除观察者对象的接口。此模式体现的最主要的特征是 （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "类应该对扩展开放，对修改关闭"
-   },
-   {
-    "key": "B",
-    "text": "使所要交互的对象尽量松耦合"
-   },
-   {
-    "key": "C",
-    "text": "组合优先于继承使用"
-   },
-   {
-    "key": "D",
-    "text": "仅与直接关联类交互"
-   }
-  ],
-  "answer": "B",
-  "explanation": "试题（44）、（45）分析本题考查设计模式基本概念。每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式为行为设计模式，定义对象间一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它对象都得到通知并被自动更新。在题图所示观察者模式结构图中：Subject（目标）知道它观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象接口；\n\n② Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口；\n\n③ ConcreteSubject（具体目标）将有关状态存入各 ConcreteObserver 对象：当它的状态发生改变时，向其各个观察者发出通知；\n\n④ ConcreteObserver（具体观察者）维护一个指向 ConcreteSubject 对象引用；存储有关状态，这些状态应与目标的状态保持一致；实现 Observer的更新接口，以使自身状态与目标的状态保持一致。\n\n该模式的特点适用于以下情况：① 当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立的对象中以使它们可以各自独立地改变和复用；\n\n② 当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；\n\n③ 当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合的。\n\n题目中知道其观察者即为 Subject：空（45）中所描述选项中B所述使所要交互对象尽量松耦合，即上述适用性特点③。\n\nobservers<<interface>＞<<intertace>＞SubjectObserverregisterObserverlupdateoremove ObserverlnotifyObservers（）subiectConcrete SubjectConcreteObserverregisterObserver（） （..｝update（removeObserver（） （oufl/ other Observer specificnotifyObservers（）（.｝methodsgetState（）setState（）",
-  "year": 2017,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2017H-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "外观模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 46 空〕\n\n装饰器（Decorator）模式用于 （　） ;外观（Facade）模式用于 （　） 。（2017年上半年） ①将一个对象加以包装以给客户提供其希望的另外一个接口 ②将一个对象加以包装以提供一些额外的行为 ③将一个对象加以包装以控制对这个对象的访问 ④将一系列对象加以包装以简化其接口",
-  "options": [
-   {
-    "key": "A",
-    "text": "①"
-   },
-   {
-    "key": "B",
-    "text": "②"
-   },
-   {
-    "key": "C",
-    "text": "③"
-   },
-   {
-    "key": "D",
-    "text": "④"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2017,
-  "session": "H",
-  "no": 46
- },
- {
-  "id": "2017H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "外观模式"
-  ],
-  "stem": "〔本题共 2 空，当前是第 47 空〕\n\n装饰器（Decorator）模式用于 （　） ;外观（Facade）模式用于 （　） 。（2017年上半年） ①将一个对象加以包装以给客户提供其希望的另外一个接口 ②将一个对象加以包装以提供一些额外的行为 ③将一个对象加以包装以控制对这个对象的访问 ④将一系列对象加以包装以简化其接口",
-  "options": [
-   {
-    "key": "A",
-    "text": "①"
-   },
-   {
-    "key": "B",
-    "text": "②"
-   },
-   {
-    "key": "C",
-    "text": "③"
-   },
-   {
-    "key": "D",
-    "text": "④"
-   }
-  ],
-  "answer": "D",
-  "explanation": "试题（46）、（47）分析本题考查设计模式基本概念。\n\n装饰器（Decorator）模式和外观（Facade）模式均为对象结构型设计模式。装饰器模式动态地给一个对象添加一些额外的职责。就增加功能而言，此模式比生成子类更加灵活。外观模式为子系统中的一组接口提供一个统一的界面，此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。这两种模式适用于不同的情况。\n\n装饰器模式适用于以下几种情况：① 在不影响其他对象的情况下，以动态、透明前方式给单个对象添加职责；\n\n② 处理那些可以撤销职责；\n\n③ 当不能采用生成子类的方式进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是，由于类定义被隐藏，或类定义不能用于生成子类。\n\n外观模式适用于以下几种情况：l 要为一个复杂子系统提供一个简单接口时，子系统往往因为不断演化而变得越来越复杂，Facade 可以提供一个简单的默认视图，这一视图对大多数用户来说已经足够，而那些需要更多的可定制性的用户可以越过 Facade 层；\n\n② 客户程序与抽象类实现部分之间存在着很大的依赖性。引入 Facade 将这个子系统与客户以及其他的子系统分离，可以提高子系统独立性和可移植性；\n\n③ 当需要构建一个层次结构子系统时，使用 Facade模式定义子系统中每层入口点。如果子系统之间是相互依赖的，则可以让它们仅通过 Facade 进行通信，从而简化了它们之间依赖关系。\n\n本题所给4种情况中，②将一个对象加以包装以提供一些额外行为符合装饰器动态、透明地给单个对象添加职责的适用性；④将一系列对象加以包装以简化其接口符合外观模式主要特点。",
-  "year": 2017,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2017L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "状态模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 44 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "观察者（Obeserver）"
-   },
-   {
-    "key": "B",
-    "text": "状态（State）"
-   },
-   {
-    "key": "C",
-    "text": "策略（Strategy）"
-   },
-   {
-    "key": "D",
-    "text": "访问者（Visitor）"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2017,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2017L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "状态模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 45 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "VendingMachineState"
-   },
-   {
-    "key": "B",
-    "text": "Buy"
-   },
-   {
-    "key": "C",
-    "text": "VendingDepositState"
-   },
-   {
-    "key": "D",
-    "text": "VendingStockState"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2017,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2017L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "状态模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 46 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "创建型对象模式"
-   },
-   {
-    "key": "B",
-    "text": "结构型对象模式"
-   },
-   {
-    "key": "C",
-    "text": "行为型类模式"
-   },
-   {
-    "key": "D",
-    "text": "行为型对象模式"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2017,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2017L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "状态模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 47 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "当一个对象状态改变时所有依赖它的对象得到通知并自动更新"
-   },
-   {
-    "key": "B",
-    "text": "在不破坏封装性的前提下，捕获对象的内部状态并在对象之外保存"
-   },
-   {
-    "key": "C",
-    "text": "一个对象在其内部状态改变时改变其行为"
-   },
-   {
-    "key": "D",
-    "text": "将请求封装为对象从而可以使用不同的请求对客户进行参数化"
-   }
-  ],
-  "answer": "C",
-  "explanation": "试题（44）～（47）分析本题考查设计模式钓基本概念。\n\n按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。行为模式涉及算法和对象问职责的分配。行为模式不仅描述对象或类的模式，还描述它们之间的通信模式。观察者模式、状态模式、策略模式和访问者模式均为行为设计模式。\n\n每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它对象都得到通知并被自动更新。此模式结构图如下所示。\n\nSubjectobservers-● ObserverAttach（Observer）UpdatelDetach（Observer）for all o in observers ｛YNotifyO o---o-Update（）ConcreteObserverConcrete SubjectsubjectUpdate（）O-observerState=subject->GietState（）GetState（） 0--ObserverStateSetState（）retumn subjectStatesubjectSate其中，Subject（目标）知道它观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State）模式主要意图是：允许一个对象在其内部状态改变时改变它钓行为。\n\n对象看起来似乎修改了它的类。其结构图如下所示。\n\n其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State） 模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。\n\n对象看起来似乎修改了它类。其结构图如下所示。\n\nstateContextStateRequesto 9Handle（）state→>Handle（）ConcreteStateAConcreteStateBHandleOHandle（其中，Context（上下文）定义客户感兴趣的接口；State（状态）定义一个接口以封装与Context的一个特定状态相关行为。\n\n策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们客户而变化。其结构图如下所示。\n\nstrategyContextStrategyContextlnterface（）AlgorithmIntertace（）ConcreteStrategyAConcrete StrategyBConcrete StrategyCAlgorithmInterface（）AlgorithmInterface（）Algorithmlnterface（）其中，Strategy（策略）定义所有支持钓算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义算法。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrctc Visitor1ConcrctcVisitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）VisitConcreteElementB（ConcrcElementB）ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitorv） 9Accept（Visitor v）OperationA（OperationBOV→>VisitConcreteElementA（this）V→>VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\n本题描述自动售货机适合采用状态模式，属于行为型对象模式。自动售货机根据库存、存放货币量、找零能力、所选项目等项目不同而具有不同状态，这些内部状态改变会使自动售货机的行为也发生改变。在用户存入货币并选择购买时，自动售货机根据状态的不同会有以下几种不同行为：交付产品，不找零钱：交付产品并找零：因存入钱数不足而不交付产品：因库存不足而不交付产品。\n\n题图所示类图中，VendingMachineState 接口定义了所有具体状态公共接口handleO，封装与特定状态相关所有行为。VendingDepositState、VendingStockState 和Change AvailableState 是实现 VendingMachineState 接口的具体状态类，各自实现自己handle0行为。当 Buy发送请求并改变状态时，这些具体状态类中相关那个进行响应。\n\n此模式中，状态的变化发生在运行时，而非由客户端来决定。客户程序感兴趣和使用主要接口定义在 Buy 中，即对应于状态模式结构图中的 Context，可用状态来对其进行配置。",
-  "year": 2017,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2018H-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 44 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "B",
-    "text": "访问者（Visitor）"
-   },
-   {
-    "key": "C",
-    "text": "策略（Strategy）"
-   },
-   {
-    "key": "D",
-    "text": "桥接（Bridge）"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2018,
-  "session": "H",
-  "no": 44
- },
- {
-  "id": "2018H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 45 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "WebApplication"
-   },
-   {
-    "key": "B",
-    "text": "Blog"
-   },
-   {
-    "key": "C",
-    "text": "Theme"
-   },
-   {
-    "key": "D",
-    "text": "Light"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2018,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2018H-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 46 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "创建型对象模式"
-   },
-   {
-    "key": "B",
-    "text": "结构型对象模式"
-   },
-   {
-    "key": "C",
-    "text": "行为型类模式"
-   },
-   {
-    "key": "D",
-    "text": "行为型对象模式"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2018,
-  "session": "H",
-  "no": 46
- },
- {
-  "id": "2018H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 47 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "将抽象部分与其实现部分分离，使它们都可以独立地变化"
-   },
-   {
-    "key": "B",
-    "text": "动态地给一个对象添加一些额外的职责"
-   },
-   {
-    "key": "C",
-    "text": "为其他对象提供一种代理以控制对这个对象的访问"
-   },
-   {
-    "key": "D",
-    "text": "将一个类的接口转换成客户希望的另一个接口"
-   }
-  ],
-  "answer": "A",
-  "explanation": "试题（44）～（47）分析本题考查设计模式的基本知识。\n\n按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。创建型模式与对象前创建有关：结构型模式处理类或对象的组合以获得更大的结构：行为型模式对类或对象怎样交互和怎样分配职责进行描述。观察者模式、策略模式和访问者模式均为行为设计模式。桥接模式是结构型对象模式。每种设计模式都有特定意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式前结构图如下所示。\n\nSubrectobserversObserverAttach（Observer）UpdatelDetach（Observer）for all o in observers rYNotifyO o--o-Update（ConcreteObserversubjectConcreteSubjectUpdateOobserverState=subject->GetState（）GetState（） 0--ObserverStateSetStateOreturn sulbjectStatesubjectSate其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们前客户而变化。其结构如下图所示。\n\nStrategyContextStrategyContextlnterfaccOAlgorithmInterfaccoConcreteStrategyAConcrete StrategyBConcreteStrategyCAlgorithmInterface（AlgorithmInterfaceOAlgorithmInterfaceO其中，Strategy（策略）定义所有支持的算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义的算法。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素的操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA （ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrcte Visitor1Concrcte Visitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）VisitConcreteElementB（ConcreElementB）ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitor v）Accept（Visitor v）OperationAOOperationBOV->VisitConcreteElementA（this）v->VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\nBridge（桥接）模式的主要意图是：将抽象部分与其实现部分分离，使它们都可以独立地变化，其结构图如下所示。\n\nClientImpAbstractionTmplementorOperationO 9Operationlmp（imp→>OperationlmpO；\n\nConcretelmplementorAConcretelmplementorBRefinedAbstractionOperationlmpO）OperationlmpO其中，客户程序（Client）使用的主要接口是 Abstraction，它定义抽象类的接口，维护一个指向 Implementor 类型对象指针（引用）；RefinedAbstraction扩充由 Abstraction定义的接口；Implementor 定义实现类的接口，该接口不一定要与 Abstraction 的接口完全一致；事实上这两个接口可以完全不同。一般来说，Implementor接口仅提供基本操作，而 Abstraction 定义了基于这些基本操作的较高层次的操作；ConcreteImplementor 实现Implementor 接口并定义它的具体实现。\n\n本题描述创建一个 Web 应用框架并可以为每个 Web应用创建不同的主题样式适合采用桥接模式，属于结构型对象模式。题图中，Web 应用框架（WebApplication）对应Abstraction抽象类接口，是客户程序使用的主要接口，并维护对 Theme（对应Implementor）定义主题实现类的接口，由 Light和 Dark 具体实现类实现。Blog、Store 和 NewsSite 对应 RefinedAbstraction，扩充由 Abstraction 定义的接口。",
-  "year": 2018,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2018L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "访问者模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 44 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "B",
-    "text": "访问者（Visitor）"
-   },
-   {
-    "key": "C",
-    "text": "策略（Strategy）"
-   },
-   {
-    "key": "D",
-    "text": "桥接器（Bridge）"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2018,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2018L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "访问者模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 45 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "Item"
-   },
-   {
-    "key": "B",
-    "text": "Shopping_Cart"
-   },
-   {
-    "key": "C",
-    "text": "Checkout"
-   },
-   {
-    "key": "D",
-    "text": "Manual和Auto"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2018,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2018L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "访问者模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 46 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "创建型对象模式"
-   },
-   {
-    "key": "B",
-    "text": "结构型对象模式"
-   },
-   {
-    "key": "C",
-    "text": "行为型类模式"
-   },
-   {
-    "key": "D",
-    "text": "行为型对象模式"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2018,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2018L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "访问者模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 47 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "必须保存一个对象在某一个时刻的（部分）状态"
-   },
-   {
-    "key": "B",
-    "text": "想在不明确指定接收者的情况下向多个对象中的一个提交一个请求"
-   },
-   {
-    "key": "C",
-    "text": "需要对一个对象结构中的对象进行很多不同的并且不相关的操作"
-   },
-   {
-    "key": "D",
-    "text": "在不同的时刻指定、排列和执行请求"
-   }
-  ],
-  "answer": "C",
-  "explanation": "试题（44）～（47）分析本题考查设计模式的基本概念。\n\n按照设计模式目可以分为创建型模式、结构型模式以及行为型模式三大类。结构型模式涉及如何组合类和对象以获得更大的结构，行为模式涉及算法和对象间职责分配。桥接器模式属于结构型设计模式，观察者模式、访问者模式和策略模式均为行为设计模式。每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。\n\nSubjectObserversObserverAttach（Observer）UpdateODetach（Observer）for all o in observers ！\n\nNotify（） o-----o-xUpaate（）ConcreteObserverConcreteSubjectsubjectUpdatelobserverState=subject->GietStatel）GetState（） 0--observer StateSetStateOretum subjectstatesubjectSate其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象前接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA （ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrete VisitorlConcrete Visitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcrete ElementB（ConcreElementB）VisitConcreteElementB（ConcreElementB）- ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitorv）Accept（Visitorv） 9OperationAOOperationBOV→>VisitConcreteElementA（this）V->VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\n策略（Strategy）模式主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。其结构图如下所示。\n\nContextSlrategyStrategyContextInterfacelAlgorithmInterface（）ConcreteStrategyAConcreteStrategyBConcreteStrategyCAlgorithmInterface（AlgorithmInterface（）AlgorithmInterface（）其中，Strategy（策略）定义所有支持的算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义的算法。\n\nBridge（桥接）模式的主要意图是：将抽象部分与其实现部分分离，使它们都可以独立地变化。其结构图如下所示。\n\nClientImpAbstractionImplementorOperationO 9OperationlmpOimp→>OperationlmpO；\n\nConcretelmplementorAConcretelmplementorBRefinedAbstractionOperationImpOOperationlmpO其中，客户程序（Client）使用的主要接口是 Abstraction，它定义抽象类的接口，维护一个指向 Implementor 类型对象指针（引用）；RefinedAbstraction 扩充由 Abstraction定义的接口；Implementor 定义实现类的接口，该接口不一定要与 Abstraction 的接口完全一致；事实上这两个接口可以完全不同。一般来说，Implementor接口仅提供基本操作，而 Abstraction 定义了基于这些基本操作的较高层次操作；ConcreteImplementor 实现Implementor 接口并定义它的具体实现。\n\n本题描述简单超市销售系统在结账时在收银台（Checkout）采用人工 （Manual）或自动（Auto）对购物车（Shopping_Cart）中的每个物品（Item）进行访问汇总价格后结账，所以适合采用访问者模式。题图所示的类图中，物品（Item）对应前述访问者模式结构图中的 Element（元素），Checkout 对应 Visitor（访问者），所以 Item定义以一个访问者为参数的 accept操作，由子类实现此 accept操作。访问者模式属于行为型对象模式，适用于：①一个对象结构包含很多类对象，它们有不同的接口，而用户想对这些对象实施一些依赖于其具体类的操作；②需要对一个对象结构中的对象进行很多不同并且不相关的操作，而又想要避免这些操作“污染”这些对象的类；③定义对象结构的类很少改变，但经常需要在此结构上定义新的操作。",
-  "year": 2018,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2019H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "观察者模式"
-  ],
-  "stem": "观察者（Observer）模式适用于 （　） 。",
-  "options": [
-   {
-    "key": "A",
-    "text": "访问一个聚合对象的内容而无须暴露它的内部表示"
-   },
-   {
-    "key": "B",
-    "text": "减少多个对象或类之间的通信复杂性"
-   },
-   {
-    "key": "C",
-    "text": "将对象的状态恢复到先前的状态"
-   },
-   {
-    "key": "D",
-    "text": "一对多对象依赖关系，当一个对象修改后，依赖它的对象都自动得到通知"
-   }
-  ],
-  "answer": "D",
-  "explanation": "本题考查设计模式的基本概念。\n\n每一种设计模式都集中于一个特定前面向对象设计问题或设计要点，描还了什么时候适合使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。\n\n观察者（Observer）模式的结构图如下图所示。\n\nSubjectObserversObserverAttach（Observer）UpdateODetach（Observer）or allo in observers tNotityO o-o-paatelConcreteObserverConcreteSubjectsubjectUpdatelO-1-observerState=subject->GietState（）GetState（） 0--observerStateSetState（）return subjectStatesubjectSate观察者模式适用于在以下几种情况时定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新：①当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立的对象中以使它们可以各自独立地改变和复用；②当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；③当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合时。",
-  "year": 2019,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2019L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 44 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "适配器（Adapter）"
-   },
-   {
-    "key": "B",
-    "text": "装饰（Decorator）"
-   },
-   {
-    "key": "C",
-    "text": "桥接（Bridge）"
-   },
-   {
-    "key": "D",
-    "text": "组合（Composite）"
-   }
-  ],
-  "answer": "C",
-  "explanation": "ShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
-  "year": 2019,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2019L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 45 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "Shape"
-   },
-   {
-    "key": "B",
-    "text": "Circle和Rectangle"
-   },
-   {
-    "key": "C",
-    "text": "V1Drawing和V2Drawing"
-   },
-   {
-    "key": "D",
-    "text": "Drawing"
-   }
-  ],
-  "answer": "D",
-  "explanation": "ShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
-  "year": 2019,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2019L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 46 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "不希望在抽象和它的实现部分之间有一个固定绑定关系"
-   },
-   {
-    "key": "B",
-    "text": "想表示对象的部分---整体层次结构"
-   },
-   {
-    "key": "C",
-    "text": "想使用一个已经存在的类，而它的接口不符合要求"
-   },
-   {
-    "key": "D",
-    "text": "在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责"
-   }
-  ],
-  "answer": "A",
-  "explanation": "ShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
-  "year": 2019,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2019L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "桥接模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 47 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "创建型对象"
-   },
-   {
-    "key": "B",
-    "text": "结构型对象"
-   },
-   {
-    "key": "C",
-    "text": "行为型对象"
-   },
-   {
-    "key": "D",
-    "text": "结构型类"
-   }
-  ],
-  "answer": "B",
-  "explanation": "试题（44）～（47）分析本题考查设计模式的基本概念。\n\n按照设计模式的目的可以分为创建型模式、结构型模式以及行为型模式三大类。结构型模式涉及如何组合类和对象以获得更大的结构，行为模式涉及算法和对象间职责分配。适配器（Adapter）模式、装饰器（Decorator）模式、桥接（Bridge）模式和组合（Composite）模式均为结构型设计模式，其中适配器模式有适配器类模式和对象模式，其他三个均为结构型对象模式。每种设计模式都有特定的意图和适用情况。\n\n适配器模式的主要意图是：将一个类的接口转换成客户希望另外一个接口。\n\nAdapter 模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。类适配器使用多重继承对一个接口与另一个接口进行匹配，对象适配器依赖于对象组合，对象适配器结构图如下所示。\n\nClientTargetAdapteeRequest（）SpecificRequest（）adapteeAdapterRequest Ooadaptee→SpecificRequest（）其中，Target 定义 Client 使用的与特定领域相关的接口；Client 与符合Target 接口的对象协同；Adaptee 定义一个已经存在的接口，这个接口需要适配；Adapter对 Adaptee的接口与 Target 接口进行适配。\n\n适配器模式适用于：①想使用一个已经存在的类，而它的接口不符合要求；②想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容的类）协同工作；③（仅适用于对象 Adapter）想使用一个已经存在的子类，但是不可能对每一个都进行子类化以匹配它们的接口，对象适配器可以适配它的父类接口。\n\n装饰模式的主要意图是：动态地给一个对象添加一些额外前职责。就增加功能而言，Decorator 模式比生成子类更加灵活。其结构图如下所示。\n\nComponentOperation （）componentConcreteComponentDecoratorOperation （）Operation ）ocomponent→Operation （）ConcreteDecoratorAConcreteDecoratorBOperation （）Operation 0）o------Decorato：：Operation （）；\n\naddedStateAddedBehavior （）AddedBehavior （）；\n\n其中，Component 定义一个对象接口，可以给这些对象动态地添加职责；\n\nConcreteComponent 定义一个对象，可以给这个对象添加一些职责；Decorator 维持一个指向 Component 对象指针，并定义一个与 Component 接口一致的接口；\n\nConcreteDecorator 向组件添加职责。\n\n装饰模式适用于：①在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责：②处理那些可以撤销的职责；③当不能采用生成子类的方式进行扩充时。\n\n桥接模式的主要意图是：将抽象部分与其实现部分分离，使它们都可以独立地变化。\n\n其结构图如下所示。\n\nClientAbstraction1mpImplementorOperation （）oOperationlmp（）imp→Operationlmp（）；\n\nRefinedAbstractionConcretelmplementorAConcretelmplementorBOperationlmp（）Operationlmp（其中，客户程序（Client）使用的主要接口是 Abstraction，它定义抽象类的接口，维护一个指向 Implementor 类型对象的指针（引用），这一关系是组成关系，此实现遵循“优先选用组合而不是继承”这一原则；RefinedAbstraction 扩充由 Abstraction 定义的接口：Implementor 定义实现类的接口，该接口不一定要与 Abstraction 的接口完全一致；\n\n事实上这两个接口可以完全不同。一般来说，Implementor 接口仅提供基本操作，而Abstraction 定义了基于这些基本操作的较高层次的操作；ConcreteImplementor 实现Implementor 接口并定义它的具体实现。\n\n桥接模式适用于：①不希望在抽象和它的实现部分之间有一个固定绑定关系；\n\n②类的抽象以及它的实现都应该可以通过生成子类的方法加以扩充；③对一个抽象的实现部分的修改应对客户不产生影响，即客户代码不必重新编译：④想对客户完全隐藏抽象的实现部分；⑤有许多类要生成的类层次结构。\n\n组合模式主要意图是：将对象组合成树型结构以表示“部分一整体”层次结构。\n\nComposite 使得用户对单个对象和组合对象的使用具有一致性。其结构图如下所示。\n\nClientComponentOPeration（）Add Component，Remove （ComponentGetChild （int）LeafCompositee ChildrenOperation （）Jperation !o---forall g in childrenAdd （Component）g.OperationO）；\n\nRemove （Component）GetChild （int）其中，Component 为组合中的对象声明接口，提供给 Client 操纵组合组件的对象；\n\n在适当情况下实现所有类共有接口的默认行为；声明一个接口用于访问和管理Component的子组件。Leaf 在组合中表示叶结点对象，叶结点没有子结点；在组合中定义图元对象的行为。Composite 定义有子组件那些组件的行为，存储子组件，在Component 接口中实现与子组件有关的操作。\n\n组合模式适用于：①欲表示对象部分一整体层次结构；②希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\n本题描述绘图软件要求使用不同的绘图程序绘制不同的图形，其扩展性要求将不断扩充新的图形和新的绘图程序。题图所示的类图中，设计采用了桥接模式，将抽象图形部分与绘制实现部分分离。Shape 对应桥接模式中的 Abstraction，定义图形抽象类接口，维护一个指向 Drawing 哟指针（引用），其子类 Rectangle 和 Circle 等为具体形状；Drawing对应 Implementor，定义绘图实现的接口；VIDrawing 和 V2Drawing 则为实现 Drawing接口的具体绘图实现。\n\nShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
-  "year": 2019,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2020L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 44 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "生成器（Builder）"
-   },
-   {
-    "key": "B",
-    "text": "抽象工厂（Abstract Factory）"
-   },
-   {
-    "key": "C",
-    "text": "原型（Prototype）"
-   },
-   {
-    "key": "D",
-    "text": "工厂方法（Factory Method）"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2020,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2020L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 45 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "PizzaBuilder"
-   },
-   {
-    "key": "B",
-    "text": "SpicyPizzaBuilder"
-   },
-   {
-    "key": "C",
-    "text": "Waiter"
-   },
-   {
-    "key": "D",
-    "text": "Pizza"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2020,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2020L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 46 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "创建型对象"
-   },
-   {
-    "key": "B",
-    "text": "结构型对象"
-   },
-   {
-    "key": "C",
-    "text": "行为型对象"
-   },
-   {
-    "key": "D",
-    "text": "结构型类"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2020,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2020L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "生成器模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 47 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "当一个系统应该独立于它的产品创建、构成和表示时"
-   },
-   {
-    "key": "B",
-    "text": "当一个类希望由它的子类来指定它所创建的对象的时候"
-   },
-   {
-    "key": "C",
-    "text": "当要强调一系列相关的产品对象的设计以便进行联合使用时"
-   },
-   {
-    "key": "D",
-    "text": "当构造过程必须允许被构造的对象有不同的表示时"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2020,
-  "session": "L",
-  "no": 47
- },
- {
-  "id": "2021H-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "命令模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 44 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "命令（Command）"
-   },
-   {
-    "key": "B",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "C",
-    "text": "状态（State）"
-   },
-   {
-    "key": "D",
-    "text": "中介者（Mediator）"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2021,
-  "session": "H",
-  "no": 44
- },
- {
-  "id": "2021H-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "命令模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 45 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "Operation"
-   },
-   {
-    "key": "B",
-    "text": "SellOperation/BuyOperation/ViewOperation"
-   },
-   {
-    "key": "C",
-    "text": "Broker"
-   },
-   {
-    "key": "D",
-    "text": "Stock"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2021,
-  "session": "H",
-  "no": 45
- },
- {
-  "id": "2021H-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "命令模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 46 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "结构类型"
-   },
-   {
-    "key": "B",
-    "text": "结构型对象"
-   },
-   {
-    "key": "C",
-    "text": "创建类型"
-   },
-   {
-    "key": "D",
-    "text": "行为型对象"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2021,
-  "session": "H",
-  "no": 46
- },
- {
-  "id": "2021H-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "命令模式"
-  ],
-  "stem": "〔本题共 4 空，当前是第 47 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "一个对象必须通知其他对象，而它又不能假定其他对象是谁"
-   },
-   {
-    "key": "B",
-    "text": "抽象出执行的动作以参数化某对象"
-   },
-   {
-    "key": "C",
-    "text": "一个对象的行为决定于其状态且必须在运行时刻根据状态改变行为"
-   },
-   {
-    "key": "D",
-    "text": "一个对象引用其他很多对象并且直接与这些对象通信，导致难以复用该对"
-   }
-  ],
-  "answer": "B",
-  "explanation": "",
-  "year": 2021,
-  "session": "H",
-  "no": 47
- },
- {
-  "id": "2021L-44",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "中介者模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 44 空〕\n\n在某系统中，不同组（Group）访问数据的权限不同，每个用户（User）可以是一个或多个组中的成员，每个组包含零个或多个用户。现要求在用户和组之间设计映射，将用户和组之间的关系由映射进行维修，得到如下所示的类图。该设计采用 （　） 模式，用一个对象来封装一系列的对象交互；使用户对象和组对象不需要显式的相互引用，从而使其耦合松散，而且可以独立地改变它们之间地交互。该模式属于 （　） ，该模式适用 （　） 。\n\n![题图](figures/fig-51101c49eb.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "状态（State）"
-   },
-   {
-    "key": "B",
-    "text": "策略（Strategy）"
-   },
-   {
-    "key": "C",
-    "text": "解释器（Interpreter）"
-   },
-   {
-    "key": "D",
-    "text": "中介者（Mediator）"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2021,
-  "session": "L",
-  "no": 44
- },
- {
-  "id": "2021L-45",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "中介者模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 45 空〕\n\n在某系统中，不同组（Group）访问数据的权限不同，每个用户（User）可以是一个或多个组中的成员，每个组包含零个或多个用户。现要求在用户和组之间设计映射，将用户和组之间的关系由映射进行维修，得到如下所示的类图。该设计采用 （　） 模式，用一个对象来封装一系列的对象交互；使用户对象和组对象不需要显式的相互引用，从而使其耦合松散，而且可以独立地改变它们之间地交互。该模式属于 （　） ，该模式适用 （　） 。\n\n![题图](figures/fig-51101c49eb.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "创建型类"
-   },
-   {
-    "key": "B",
-    "text": "创建型对象"
-   },
-   {
-    "key": "C",
-    "text": "行为型对象"
-   },
-   {
-    "key": "D",
-    "text": "行为型类"
-   }
-  ],
-  "answer": "C",
-  "explanation": "",
-  "year": 2021,
-  "session": "L",
-  "no": 45
- },
- {
-  "id": "2021L-46",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "中介者模式"
-  ],
-  "stem": "〔本题共 3 空，当前是第 46 空〕\n\n在某系统中，不同组（Group）访问数据的权限不同，每个用户（User）可以是一个或多个组中的成员，每个组包含零个或多个用户。现要求在用户和组之间设计映射，将用户和组之间的关系由映射进行维修，得到如下所示的类图。该设计采用 （　） 模式，用一个对象来封装一系列的对象交互；使用户对象和组对象不需要显式的相互引用，从而使其耦合松散，而且可以独立地改变它们之间地交互。该模式属于 （　） ，该模式适用 （　） 。\n\n![题图](figures/fig-51101c49eb.png)",
-  "options": [
-   {
-    "key": "A",
-    "text": "需要使用一个算法地不同变体"
-   },
-   {
-    "key": "B",
-    "text": "有一个语言需要解释执行，并且可将句子表示为一个抽象语法树"
-   },
-   {
-    "key": "C",
-    "text": "一个对象地行为决定于其状态且必须在运行时刻根据状态改变行为"
-   },
-   {
-    "key": "D",
-    "text": "一组对象以定义良好但是复杂的方式进行通信，产生的相互依赖关系结构 混乱且难以理解。"
-   }
-  ],
-  "answer": "D",
-  "explanation": "",
-  "year": 2021,
-  "session": "L",
-  "no": 46
- },
- {
-  "id": "2021L-47",
-  "type": "single",
-  "area": "dp",
-  "difficulty": 2,
-  "source": "past-exam",
-  "tags": [
-   "策略模式"
-  ],
-  "stem": "在设计某购物中心的收银软件系统时，要求能够支持在不同时期推出打折、返利、满减等不同促销活动，则适合采用 （　） 模式。",
-  "options": [
-   {
-    "key": "A",
-    "text": "策略（Strategy）"
-   },
-   {
-    "key": "B",
-    "text": "访问者（Visitor）"
-   },
-   {
-    "key": "C",
-    "text": "观察者（Observer）"
-   },
-   {
-    "key": "D",
-    "text": "中介者（Mediator）"
-   }
-  ],
-  "answer": "A",
-  "explanation": "",
-  "year": 2021,
-  "session": "L",
-  "no": 47
- }
+    "stem": "某类要求在整个系统中只能存在一个实例，并提供全局访问点，应采用（　）模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "工厂方法"
+      },
+      {
+        "key": "B",
+        "text": "单例"
+      },
+      {
+        "key": "C",
+        "text": "原型"
+      },
+      {
+        "key": "D",
+        "text": "建造者"
+      }
+    ],
+    "answer": "B",
+    "explanation": "**单例模式（Singleton）**要点：\n\n1. 私有化构造函数，禁止外部 new；\n2. 内部持有静态私有实例；\n3. 提供静态公有方法返回该实例。\n\n常见变体：饿汉式（类加载即创建，线程安全但可能浪费）、懒汉式（首次使用时创建，需处理并发，通常用双重检查锁定）。\n\n对比：原型（Prototype）用于复制已有对象；建造者（Builder）用于分步构建复杂对象；工厂方法用于把对象创建延迟到子类。"
+  },
+  {
+    "id": "dp-002",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "seed",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新，这种设计应采用（　）模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "中介者"
+      },
+      {
+        "key": "B",
+        "text": "观察者"
+      },
+      {
+        "key": "C",
+        "text": "责任链"
+      },
+      {
+        "key": "D",
+        "text": "命令"
+      }
+    ],
+    "answer": "B",
+    "explanation": "**观察者模式（Observer）**定义对象间一对多的依赖关系：被观察者（Subject）维护一个观察者列表，状态变化时遍历通知所有观察者。\n\n典型应用：GUI 事件监听、发布订阅、MVC 中 Model 变化通知 View。\n\n易混对比：\n- **中介者（Mediator）**：把多对多的网状交互收敛为一对多（星形），减少对象间直接引用；\n- **责任链（Chain of Responsibility）**：请求沿链传递直到被处理；\n- **命令（Command）**：把请求封装成对象，支持撤销与队列。"
+  },
+  {
+    "id": "dp-003",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "seed",
+    "tags": [
+      "适配器模式"
+    ],
+    "stem": "需要将一个类的接口转换成客户希望的另一个接口，使原本因接口不兼容而无法合作的类能一起工作，应采用（　）模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器"
+      },
+      {
+        "key": "B",
+        "text": "桥接"
+      },
+      {
+        "key": "C",
+        "text": "外观"
+      },
+      {
+        "key": "D",
+        "text": "代理"
+      }
+    ],
+    "answer": "A",
+    "explanation": "四个易混结构型模式的判别关键词：\n\n| 模式 | 目的 |\n|---|---|\n| **适配器** | **转换接口**，让不兼容的接口能协作（事后补救，如旧系统对接） |\n| 桥接 | **分离抽象与实现**两个独立变化的维度 |\n| 外观 | 为一组子系统提供**统一的高层接口**，简化调用 |\n| 代理 | **控制对对象的访问**（远程、虚拟、保护、智能引用） |\n\n一句话区分：适配器改接口，桥接拆维度，外观做简化，代理控访问。"
+  },
+  {
+    "id": "dp-004",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "seed",
+    "tags": [
+      "策略模式"
+    ],
+    "stem": "系统需要支持多种排序算法，并允许在运行时动态切换，最适宜采用（　）模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "模板方法"
+      },
+      {
+        "key": "B",
+        "text": "策略"
+      },
+      {
+        "key": "C",
+        "text": "装饰器"
+      },
+      {
+        "key": "D",
+        "text": "访问者"
+      }
+    ],
+    "answer": "B",
+    "explanation": "**策略模式（Strategy）**把一系列可互换的算法各自封装成类，使它们可以互相替换，且算法的变化独立于使用它的客户。\n\n与**状态模式**的区别（高频混淆点）：\n- 策略：由**客户端**选择算法，策略之间通常互不感知；\n- 状态：由对象**内部状态**驱动行为切换，状态之间会相互转移。\n\n与**模板方法**的区别：模板方法用继承固定算法骨架、由子类填充步骤；策略用组合替换整个算法，更灵活。"
+  },
+  {
+    "id": "dp-005",
+    "type": "fill",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "seed",
+    "tags": [
+      "装饰器模式"
+    ],
+    "stem": "需要在不改变对象接口的前提下，动态地给一个对象增加额外职责，应采用（1）模式。",
+    "blanks": [
+      {
+        "id": "b1",
+        "answers": [
+          "装饰器",
+          "装饰",
+          "Decorator",
+          "装饰者",
+          "装饰模式"
+        ],
+        "hint": "填三个字，中文名称",
+        "size": "md"
+      }
+    ],
+    "explanation": "**装饰器模式（Decorator）**通过持有一个与被装饰对象相同的接口的引用，在调用前后附加行为，从而在运行时叠加职责。\n\n优点：比继承更灵活，可任意组合；避免子类数量爆炸。Java I/O 中的 `BufferedInputStream(new FileInputStream(...))` 就是典型应用。\n\n与代理的区别：装饰器目的是**增强功能**，且可层层嵌套；代理目的是**控制访问**，通常只包一层。"
+  },
+  {
+    "id": "dp-006",
+    "type": "case",
+    "area": "dp",
+    "difficulty": 3,
+    "source": "seed",
+    "tags": [
+      "设计模式综合",
+      "桥接模式"
+    ],
+    "stem": "阅读下列说明，回答问题。\n\n某系统需要实现一个日志组件，要求如下：\n\n1. 日志可以输出到控制台、本地文件或远程服务器；\n2. 输出目标的种类可能在系统运行期间增加；\n3. 日志格式也有多种（纯文本、JSON），且格式的变化与输出目标无关；\n4. 不希望输出目标与格式的组合导致类的数量爆炸。",
+    "subQuestions": [
+      {
+        "no": "1",
+        "stem": "若采用继承方式分别实现“输出目标 × 日志格式”的所有组合，会产生什么问题？",
+        "reference": "会产生**类爆炸**：若有 m 种输出目标、n 种格式，就需要 m × n 个具体类（控制台-文本、控制台-JSON、文件-文本、文件-JSON……）。\n\n更严重的是**两个维度被耦合在一个继承层次中**：新增一种输出目标要写 n 个新类，新增一种格式要写 m 个新类，扩展方向是乘法关系；而且编译期就固定了组合，无法在运行时切换格式。",
+        "keyPoints": [
+          "指出类数量为 m×n 的乘积关系",
+          "指出两个变化维度被耦合",
+          "指出无法运行时切换或扩展成本高"
+        ]
+      },
+      {
+        "no": "2",
+        "stem": "给出合适的设计模式（可组合使用多个），并说明各模式承担的角色。",
+        "reference": "推荐以**桥接模式（Bridge）**为主，可选配合**工厂方法**：\n\n- **抽象部分（Abstraction）**：`Logger`，持有对 `LogOutput` 的引用，对外提供 `log(msg)`；`Logger` 向下细分为 `TextLogger`、`JsonLogger`，体现“格式”这一维度。\n- **实现部分（Implementor）**：`LogOutput` 接口，声明 `write(String)`；具体实现为 `ConsoleOutput`、`FileOutput`、`RemoteOutput`，体现“输出目标”这一维度。\n- **工厂方法**：用于根据配置创建具体的 `LogOutput` 实例，把创建逻辑集中在一处，便于新增目标类型。\n\n若格式的组装逻辑本身很复杂、需要动态叠加（如加时间戳、加请求 ID），可再用**装饰器**包装格式化结果。",
+        "keyPoints": [
+          "识别出桥接模式分离两个独立变化维度",
+          "明确抽象侧与实现侧的类职责",
+          "提到工厂方法/配置化创建",
+          "（可选）提到装饰器叠加格式职责"
+        ]
+      },
+      {
+        "no": "3",
+        "stem": "说明改造后新增一种输出目标需要修改哪些类，并解释该方案如何满足需求 2 和 3。",
+        "reference": "新增输出目标（例如数据库输出）时：\n\n- 只需新增一个实现 `LogOutput` 的类 `DbOutput`；\n- 在工厂的创建分支中增加一个 case（若用配置化反射则连这里都不用改）；\n- **无需修改** `Logger`、`TextLogger`、`JsonLogger` 等任何已有类，符合开闭原则。\n\n满足需求 2：输出目标与格式各自独立扩展，新增 m 种目标或 n 种格式都是**加法**关系，不是乘法。\n满足需求 3：`Logger` 只在运行时持有一个 `LogOutput` 引用，通过 `setOutput()` 即可在运行期切换目标，格式与目标互不感知。",
+        "keyPoints": [
+          "新增类只需实现统一接口",
+          "不修改既有类（开闭原则）",
+          "说明扩展从乘法变加法",
+          "说明运行时切换依赖组合而非继承"
+        ]
+      }
+    ],
+    "explanation": "这是软考下午题设计模式部分的典型形态：先问“不用模式会怎样”，再问“用什么模式”，最后问“改造成本”。三问层层递进，实际考的是你能否把**变化点**识别出来。\n\n识别变化点的通用方法：看题干里出现“多种”“可能增加”“与……无关”这类表述，每一个独立变化的维度就应该被抽象成一个继承层次，维度之间用**组合**连接——这正是桥接模式的定义。"
+  },
+  {
+    "id": "2009L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下列UML类图表示的是 （　） 设计模式。该设计模式中， （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "备忘录（Memento）"
+      },
+      {
+        "key": "B",
+        "text": "策略（Strategy）"
+      },
+      {
+        "key": "C",
+        "text": "状态（State）"
+      },
+      {
+        "key": "D",
+        "text": "观察者（Observer）"
+      }
+    ],
+    "answer": "D",
+    "explanation": "SubjectObserver-Observer-subject+Attach（Observer）+Detach（Observer）+Update（）+NotityOfor allo in observer！\n\n0->UpdatelConcreteObserverConereteSubject-observerState-subjectState+Update（）observerState=+GietState（）return subjectStatesubject->GietState（）+SetState（",
+    "year": 2009,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2009L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下列UML类图表示的是 （　） 设计模式。该设计模式中， （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "一个Subject对象可对应多个Observer对象"
+      },
+      {
+        "key": "B",
+        "text": "Subject只能有一个ConcreteSubject子类"
+      },
+      {
+        "key": "C",
+        "text": "Observer只能有一个ConcreteObserver子类"
+      },
+      {
+        "key": "D",
+        "text": "一个Subject对象必须至少对应一个Observer对象"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（46）、（47）分析本题考查面向对象设计中的设计模式。\n\n题中的图标是观察者设计模式，在该设计模式中，一个 Subject 类可以有多个ConcreteSubject 子类，一个 Observer 类也可以有多个 ConcreteObserver 予类；一个 Subject对象可以对应多个 Observer 对象。\n\nSubjectObserver-Observer-subject+Attach（Observer）+Detach（Observer）+Update（）+NotityOfor allo in observer！\n\n0->UpdatelConcreteObserverConereteSubject-observerState-subjectState+Update（）observerState=+GietState（）return subjectStatesubject->GietState（）+SetState（",
+    "year": 2009,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2010H-43",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "抽象工厂模式"
+    ],
+    "stem": "下列UML类图表示的是 （　） 设计模式。关于该设计模式的叙述中，错误的是（　） 。\n\n![题图](figures/fig-6eb8110614.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "工厂方法"
+      },
+      {
+        "key": "B",
+        "text": "策略"
+      },
+      {
+        "key": "C",
+        "text": "抽象工厂"
+      },
+      {
+        "key": "D",
+        "text": "观察者"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2010,
+    "session": "H",
+    "no": 43
+  },
+  {
+    "id": "2010L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下面的UML类图描绘的是 （　） 设计模式。关于该设计模式的叙述中，错误的是（　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "桥接"
+      },
+      {
+        "key": "B",
+        "text": "策略"
+      },
+      {
+        "key": "C",
+        "text": "抽象工厂"
+      },
+      {
+        "key": "D",
+        "text": "观察者"
+      }
+    ],
+    "answer": "D",
+    "explanation": "SubjectObserver-Observers-subject+Attach （Observer）+Detach （Observer）+UpdateO）+NotifyOfor all o in observers！\n\n0->Update（）ConcreteObserverConcreteSubject-observerState-subjectState+UpdateOobserverState=+GetStatcOreturn subjectState+SetState（）subject->GietState（）",
+    "year": 2010,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2010L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下面的UML类图描绘的是 （　） 设计模式。关于该设计模式的叙述中，错误的是（　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "该设计模式中的Observer需要维护至少一个Subject对象"
+      },
+      {
+        "key": "B",
+        "text": "该设计模式中的ConcreteObserver可以绕过Subject及其子类的封装"
+      },
+      {
+        "key": "C",
+        "text": "该设计模式中一个Subject对象需要维护多个Observer对象"
+      },
+      {
+        "key": "D",
+        "text": "该设计模式中Subject需要通知Observer对象其自身的状态变化"
+      }
+    ],
+    "answer": "B",
+    "explanation": "试题（46）、（47）分析本题考查面向对象设计中的设计模式。\n\n题中的类图是观察者设计模式，在该设计模式中的 Subject 和 Observer 分别表示抽象的被观察者和观察者。通常，一个观察者（Observer）观察一个被观察者（Subject），而一个被观察者可以被多个观察者关注。当 Subject 的状态发生变化时，Subject 将通知所有 Observer，告知状态已经发生了变化，而 Observer 收到通知后，将查询 Subject状态。\n\nSubjectObserver-Observers-subject+Attach （Observer）+Detach （Observer）+UpdateO）+NotifyOfor all o in observers！\n\n0->Update（）ConcreteObserverConcreteSubject-observerState-subjectState+UpdateOobserverState=+GetStatcOreturn subjectState+SetState（）subject->GietState（）",
+    "year": 2010,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2011H-43",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "设计模式"
+    ],
+    "stem": "在面向对象软件开发过程中，采用设计模式 （　） ，",
+    "options": [
+      {
+        "key": "A",
+        "text": "以复用成功的设计"
+      },
+      {
+        "key": "B",
+        "text": "以保证程序的运行速度达到最优值"
+      },
+      {
+        "key": "C",
+        "text": "以减少设计过程创建的类的个数"
+      },
+      {
+        "key": "D",
+        "text": "允许在非面向对象程序设计语言中使用面向对象的概念"
+      }
+    ],
+    "answer": "A",
+    "explanation": "本题考查设计模式钓基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，就能重复地使用该方案而不必做重复劳动。设计模式的核心在于提供了相关问题解决方案。因此，面向对象软件开发过程中，采用设计模式的主要目的就是复用成功的设计。",
+    "year": 2011,
+    "session": "H",
+    "no": 43
+  },
+  {
+    "id": "2011H-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 44 空〕\n\n设计模式 （　） 将抽象部分与其实现部分相分离，使它们都可以独立地变化。下图为该设计模式的类图，其中， （　） 用于定义实现部分的接口。\n\n![题图](figures/fig-5180a9df3b.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "Bridge（桥接）"
+      },
+      {
+        "key": "B",
+        "text": "Composite（组合）"
+      },
+      {
+        "key": "C",
+        "text": "Facade（外观）"
+      },
+      {
+        "key": "D",
+        "text": "Singleton（单例）"
+      }
+    ],
+    "answer": "A",
+    "explanation": "",
+    "year": 2011,
+    "session": "H",
+    "no": 44
+  },
+  {
+    "id": "2011H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 45 空〕\n\n设计模式 （　） 将抽象部分与其实现部分相分离，使它们都可以独立地变化。下图为该设计模式的类图，其中， （　） 用于定义实现部分的接口。\n\n![题图](figures/fig-5180a9df3b.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "Abstraction"
+      },
+      {
+        "key": "B",
+        "text": "ConcretelmplementorA"
+      },
+      {
+        "key": "C",
+        "text": "ConcretelmplementorB"
+      },
+      {
+        "key": "D",
+        "text": "Implementor"
+      }
+    ],
+    "answer": "D",
+    "explanation": "试题（44）、（45）分析本题考查设计模式钓基本知识。\n\nBridge（桥接）模式将对象抽象和其实现分离，从而可以独立地改变它们，抽象类定义对该抽象的接口，如上图中 Implementor，而具体的子类则用不同方式加以实现，如 ConcreteImplementorA 和 ConcreteTmplementorB。Composite（组合）模式是结构型对象模式一个实例。它描述了如何构造一个类层次式结构，这一结构由两种类型对象所对应的类构成，其中的组合对象使得用户可以组合基元对象以及其他的组合对象，从而形成任意复杂结构。Facade（外观）模式则描述了如何用单个对象表示整个子系统。\n\nSingleton（单例）模式保证一个类只产生唯一的一个实例。",
+    "year": 2011,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2011H-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "单例模式"
+    ],
+    "stem": "以下关于Singleton（单例）模式的描述中，正确的是 （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "它描述了只有一个方法的类的集合"
+      },
+      {
+        "key": "B",
+        "text": "它描述了只有一个属性的类的集合"
+      },
+      {
+        "key": "C",
+        "text": "它能够保证一个类的方法只能被一个唯一的类调用"
+      },
+      {
+        "key": "D",
+        "text": "它能够保证一个类只产生唯一的一个实例"
+      }
+    ],
+    "answer": "D",
+    "explanation": "本题考查设计模式钓基本知识。\n\n例如，通常用户可以对应用系统进行配置，并将配置信息保存在配置文件中，应用系统启动时首先加载配置文件，而这一配置信息在内存中仅有一份。为了保证这一配置实例只有一份，采用 Singleton（单例）模式，以保证一个类只产生唯一的一个实例。",
+    "year": 2011,
+    "session": "H",
+    "no": 46
+  },
+  {
+    "id": "2011H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "适配器模式"
+    ],
+    "stem": "（　） 将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。",
+    "options": [
+      {
+        "key": "A",
+        "text": "Adapter（适配器）模式"
+      },
+      {
+        "key": "B",
+        "text": "Command（命令）模式"
+      },
+      {
+        "key": "C",
+        "text": "Singleton（单例）模式"
+      },
+      {
+        "key": "D",
+        "text": "Strategy（策略）模式"
+      }
+    ],
+    "answer": "A",
+    "explanation": "本题考查设计模式的基本知识。\n\nAdapter 模式是将类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作那些类可以一起工作。Command 模式将请求封装在对象中，这样它就可作为参数来传递，也可以被存储在历史列表里，或者以其他方式使用。Singleton（单例）模式保证一个类只产生唯一的一个实例。策略模式（Strategy）定义一系列算法，把它们一个个封装起来，并便它们可以相互替换，这一模式使得算法可以独立于使用它的客户而变化。",
+    "year": 2011,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2011L-40",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 40 空〕\n\n（　） 设计模式允许一个对象在其状态改变时，通知依赖它的所有对象。该设计模式的类图如下图，其中， （　） 在其状态发生改变时，向它的各个观察者发出通知。",
+    "options": [
+      {
+        "key": "A",
+        "text": "命令（Command）"
+      },
+      {
+        "key": "B",
+        "text": "责任链（Chain of Responsibility）"
+      },
+      {
+        "key": "C",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "D",
+        "text": "迭代器（Iterator）"
+      }
+    ],
+    "answer": "C",
+    "explanation": "-ObserversSubjectObserver+Attach（Observer）+Update（）+Detach（Observer）for all o in observers ｛+NotityO0->Update（ConcreteObserverConcreteSubject-subject-observerState-subjectStateobserverState=+Updatel+GetState（）subject->GetState（）return subjectState+SetState（）",
+    "year": 2011,
+    "session": "L",
+    "no": 40
+  },
+  {
+    "id": "2011L-41",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 41 空〕\n\n（　） 设计模式允许一个对象在其状态改变时，通知依赖它的所有对象。该设计模式的类图如下图，其中， （　） 在其状态发生改变时，向它的各个观察者发出通知。",
+    "options": [
+      {
+        "key": "A",
+        "text": "Subject"
+      },
+      {
+        "key": "B",
+        "text": "ConcreteSubject"
+      },
+      {
+        "key": "C",
+        "text": "Observer"
+      },
+      {
+        "key": "D",
+        "text": "ConcreteObserver"
+      }
+    ],
+    "answer": "B",
+    "explanation": "试题（40）、（41）分析本题考查设计模式钓基本知识。\n\n命令（Command）模式通过将请求封装为一个对象，可将不同的请求对客户进行参数化。责任链 （Chain of Responsibility）模式将多个对象的请求连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止，避免请求的发送者和接收者之间的耦合关系。观察者（Observer）模式定义对象之间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n在上述观察者模式的类图中，Subject（目标）知道其观察者，可以有任意多个观察者观察同一个目标，提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知对象定义一个更新接口。ConcreteSubject（具体目标）将有关状态存入各 ConcreteObserver 对象，当它钓状态发生改变时，向它钓各个观察者发出通知。ConcreteObserver（具体观察者）维护一个指向 ConcreteSubject 对象引用，存储有关状态，实现 Observer的更新接口以使自身状态与目标的状态保持一致。\n\n-ObserversSubjectObserver+Attach（Observer）+Update（）+Detach（Observer）for all o in observers ｛+NotityO0->Update（ConcreteObserverConcreteSubject-subject-observerState-subjectStateobserverState=+Updatel+GetState（）subject->GetState（）return subjectState+SetState（）",
+    "year": 2011,
+    "session": "L",
+    "no": 41
+  },
+  {
+    "id": "2011L-43",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "装饰器模式"
+    ],
+    "stem": "欲动态地给一个对象添加职责，宜采用 （　） 模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "B",
+        "text": "桥接（Bridge）"
+      },
+      {
+        "key": "C",
+        "text": "组合（Composite）"
+      },
+      {
+        "key": "D",
+        "text": "装饰器（Decorator）"
+      }
+    ],
+    "answer": "D",
+    "explanation": "本题考查设计模式的基本知识。\n\n适配器（Adapter）模式是将类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。Bridge（桥接）模式将对象抽象和其实现分离，从而可以独立地改变它们。组合（Composite）模式描述了如何构造一个类层次式结构。装饰器（Decorator）模式的意图是动态地给一个对象添加一些额外职责。在需要给某个对象而不是整个类添加一些功能时使用。这种模式对增加功能比生成子类更加灵活。",
+    "year": 2011,
+    "session": "L",
+    "no": 43
+  },
+  {
+    "id": "2011L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "代理模式"
+    ],
+    "stem": "（　） 模式通过提供与对象相同的接口来控制对这个对象的访问。",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "B",
+        "text": "代理（Proxy）"
+      },
+      {
+        "key": "C",
+        "text": "组合（Composite）"
+      },
+      {
+        "key": "D",
+        "text": "装饰器（Decorator）"
+      }
+    ],
+    "answer": "B",
+    "explanation": "本题考查设计模式的基本知识。\n\n适配器（Adapter）模式是将类的接口转换成客户希望的另外一个接口。代理 （Proxy）模式通过提供与对象相同的接口来控制对这个对象的访问，以使得在确实需要这个对象时才对它进行创建和初始化。组合（Composite）模式描述了如何构造一个类层次式结构。\n\n装饰器（Decorator）模式动态地给一个对象添加职责。",
+    "year": 2011,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2012H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 45 空〕\n\n设计模式中的 （　） 模式将对象组合成树形结构以表示\"部分-整体\"的层次结构，使得客户对单个对象和组合对象的使用具有一致性。下图为该模式的类图，其中， （　） 定义有子部件的那些部件的行为；组合部件的对象由 （　） 通过Component提供的接口操作。\n\n![题图](figures/fig-b0c96d1aa3.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "代理（Proxy）"
+      },
+      {
+        "key": "B",
+        "text": "桥接器（Bridge）"
+      },
+      {
+        "key": "C",
+        "text": "组合（Composite）"
+      },
+      {
+        "key": "D",
+        "text": "装饰器（Decorator）"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2012,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2012H-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 46 空〕\n\n设计模式中的 （　） 模式将对象组合成树形结构以表示\"部分-整体\"的层次结构，使得客户对单个对象和组合对象的使用具有一致性。下图为该模式的类图，其中， （　） 定义有子部件的那些部件的行为；组合部件的对象由 （　） 通过Component提供的接口操作。\n\n![题图](figures/fig-b0c96d1aa3.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "Client"
+      },
+      {
+        "key": "B",
+        "text": "Component"
+      },
+      {
+        "key": "C",
+        "text": "Leaf"
+      },
+      {
+        "key": "D",
+        "text": "Composite"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2012,
+    "session": "H",
+    "no": 46
+  },
+  {
+    "id": "2012H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 47 空〕\n\n设计模式中的 （　） 模式将对象组合成树形结构以表示\"部分-整体\"的层次结构，使得客户对单个对象和组合对象的使用具有一致性。下图为该模式的类图，其中， （　） 定义有子部件的那些部件的行为；组合部件的对象由 （　） 通过Component提供的接口操作。\n\n![题图](figures/fig-b0c96d1aa3.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "Client"
+      },
+      {
+        "key": "B",
+        "text": "Component"
+      },
+      {
+        "key": "C",
+        "text": "Leaf"
+      },
+      {
+        "key": "D",
+        "text": "Composite"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（45）～（47）分析本题考查设计模式的基本知识。\n\n代理（Proxy）模式是为其他对象提供一种代理以控制对这个对象的访问，使得只有在确实需要这个对象时才对其进行创建和初始化。桥接器（Bridge）模式将对象的抽象和其实现分离，从而可以独立地改变它们，当一个抽象可能有多个实现时，抽象类定义对该抽象的接口，而具体的子类则用不同方式加以实现。组合（Composite）模式描述了如何将对象组合成树形结构以构造一个层次结构来表示“部分-整体”，使得客户对单个对象和组合对象的使用具有一致性，这一结构由两种类型的对象所对应的类构成，使得可以组合基元对象以及其他的组合对象，从而形成任意复杂的结构。上图中的 Composite定义有子部件那些部件的行为；组合部件对象由 Client通过 Component提供接口操作。装饰器（Decorator）模式则描还动态地给一个对象添加一些额外的职责。",
+    "year": 2012,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2012L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "状态模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 44 空〕\n\n每种设计模式都有特定的意图。 （　） 模式使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。下图是采用该模式的有关TCP连接的结构图实例。该模式的核心思想是引入抽象类 （　） 来表示TCP连接的状态，声明不同操作状态的公共接口，其子类实现与特定状态相关的行为。当一个 （　） 对象收到其他对象的请求时，它根据自身的当前状态做出不同的反应。\n\n![题图](figures/fig-2666397b52.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "B",
+        "text": "命令（Command）"
+      },
+      {
+        "key": "C",
+        "text": "观察者（Visitor）"
+      },
+      {
+        "key": "D",
+        "text": "状态（State）"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2012,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2012L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "状态模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 45 空〕\n\n每种设计模式都有特定的意图。 （　） 模式使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。下图是采用该模式的有关TCP连接的结构图实例。该模式的核心思想是引入抽象类 （　） 来表示TCP连接的状态，声明不同操作状态的公共接口，其子类实现与特定状态相关的行为。当一个 （　） 对象收到其他对象的请求时，它根据自身的当前状态做出不同的反应。\n\n![题图](figures/fig-2666397b52.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "TCPConnection"
+      },
+      {
+        "key": "B",
+        "text": "state"
+      },
+      {
+        "key": "C",
+        "text": "TCPState"
+      },
+      {
+        "key": "D",
+        "text": "TCPEstablished"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2012,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2012L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "状态模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 46 空〕\n\n每种设计模式都有特定的意图。 （　） 模式使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。下图是采用该模式的有关TCP连接的结构图实例。该模式的核心思想是引入抽象类 （　） 来表示TCP连接的状态，声明不同操作状态的公共接口，其子类实现与特定状态相关的行为。当一个 （　） 对象收到其他对象的请求时，它根据自身的当前状态做出不同的反应。\n\n![题图](figures/fig-2666397b52.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "TCPConnection"
+      },
+      {
+        "key": "B",
+        "text": "state"
+      },
+      {
+        "key": "C",
+        "text": "TCPState"
+      },
+      {
+        "key": "D",
+        "text": "TCPEstablished"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（44）～（46）分析本题考查设计模式的基本知识。\n\n每种设计模式都有特定的意图。适配器（Adapter）模式将一个类的接口转换成客户希望另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n命令（Command）模式将一个请求封装为一个对象，从而使使用者可以采用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。观察者（Visitor）模式表示一个作用于某对象结构中的各元素的操作，是使用者可以在不改变各元素的类的前提下定义作用于这些元素的新操作。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。\n\n题目中是一个标识网络连接的实例，网络连接类为 TCPConnection，其对象状态处于不同状态之一：连接已建立（Established）、正在监听（Listening）、连接已关闭（Closed）。当一个 TCPConnection 对象受到其他对象的请求时，它根据自身的当前状态作出相应的反应。例如，一个 Open 请求的结果依赖于该连接是出于连接已关闭状态还是连接已建立状态。State 模式描还了 TCPConnection 如何做每一种状态下表现出不同行为。这一模式思想是引入了一个称为 TCPState 的抽象类来表示网络的连接状态。\n\nTCPState 类为各表示不同时操作状态的子类声明了一个公共接口。TCPState 的子类实现与特定状态相关的行为。例如，TCPEstablished 和 TCPClosed 类分别实现了特定于TCPConnection的连接已建立状态和连接已关闭状态钓行为。",
+    "year": 2012,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2012L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "单例模式"
+    ],
+    "stem": "欲使类A的所有使用者都使用A的同一个实例，应 （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "将A标识为final"
+      },
+      {
+        "key": "B",
+        "text": "将A标识为abstract"
+      },
+      {
+        "key": "C",
+        "text": "将单例（Singleton）模式应用于A"
+      },
+      {
+        "key": "D",
+        "text": "将备忘（Memento）模式应用于A"
+      }
+    ],
+    "answer": "C",
+    "explanation": "本题考查设计模式的基本知识。\n\n每一个设计模式描述了一个在我们周围不断重复发生的问题，以及该问题解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n将类标识为 final限制类不能再被继承；将设计为 abstract 表示类中定义出类提供什么服务，而有些具体服务需要通过其子类来实现：单例（Singleton）模式是指系统运行过程中，一个类只有一个对象实例；备忘模式是指不破坏封装性的前提下捕获一个对象钓内部状态，并在该对象之外保存这个状态。",
+    "year": 2012,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2013L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "策略模式"
+    ],
+    "stem": "（　） 设计模式定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。这一模式使得算法可独立于它的客户而变化。",
+    "options": [
+      {
+        "key": "A",
+        "text": "策略（Strategy）"
+      },
+      {
+        "key": "B",
+        "text": "抽象工厂（Abstract Factory）"
+      },
+      {
+        "key": "C",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "D",
+        "text": "状态（State）"
+      }
+    ],
+    "answer": "A",
+    "explanation": "本题考查设计模式的基本概念。\n\n策略（Strategy）设计模式定义一系列算法，把它们一个个封装起来，并且使它们可相互替换。这一模式使得算法可独立于它客户而变化。抽象工厂（Abstract Factory）模式提供一个创建一系列相关或相互依赖对象接口，而无须指定他们具体的类。观察者（Observer）模式定义对象间一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。",
+    "year": 2013,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2013L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "在发布-订阅（Publish-Subscribe）消息模型中，订阅者订阅一个主题后，当该主题有新消息到达时，所有订阅者都会收到通知。 （　） 设计模式最适合这一模型。",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "B",
+        "text": "通知（Notifier）"
+      },
+      {
+        "key": "C",
+        "text": "状态（State）"
+      },
+      {
+        "key": "D",
+        "text": "观察者（Observer）"
+      }
+    ],
+    "answer": "D",
+    "explanation": "本题考查设计模式的基本概念。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新，其别名为发布-订阅（Publish-Subscribe）模式。状态（State）模式是使得一个对象在其内部状态改变时通过调用另一个类中的方法改变其行为，使这个对象看起来如同修改了它的类。",
+    "year": 2013,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2013L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下图所示为 （　） 设计模式，适用于： （　） 。\n\n![题图](figures/fig-6544952353.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "组件（Component）"
+      },
+      {
+        "key": "B",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "C",
+        "text": "组合（Composite）"
+      },
+      {
+        "key": "D",
+        "text": "装饰器（Decorator）"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2013,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2013L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下图所示为 （　） 设计模式，适用于： （　） 。\n\n![题图](figures/fig-6544952353.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "表示对象的部分---整体层次结构"
+      },
+      {
+        "key": "B",
+        "text": "不希望在抽象和它的实现部分之间有一个固定的绑定关系"
+      },
+      {
+        "key": "C",
+        "text": "在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责"
+      },
+      {
+        "key": "D",
+        "text": "使所有接口不兼容类可以一起工作"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。\n\n组合（Composite）模式将对象组合成树形结构以表示“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。组件 Component 为组合的对象声明接口，通常定义父组件引用，Leaf 和 Composite 类可以继承这个引用以及管理这个应用的那些操作。\n\n装饰器（Decorator）模式描还了以透明围栏来支持修饰的类和对象的关系，动态地给一个对象添加一些额外的职责，从增加功能的角度来看，装饰器模式相比生成子类更加灵活。",
+    "year": 2013,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2014H-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "外观模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 44 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8f0c2d2703.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "B",
+        "text": "责任链（Chain of Responsibility）"
+      },
+      {
+        "key": "C",
+        "text": "外观（Facade）"
+      },
+      {
+        "key": "D",
+        "text": "桥接（Bridge）"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2014,
+    "session": "H",
+    "no": 44
+  },
+  {
+    "id": "2014H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "外观模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 45 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8f0c2d2703.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "有多个对象可以处理一个请求，在运行时刻自动确定由哪个对象处理"
+      },
+      {
+        "key": "B",
+        "text": "想使用一个已经存在的类，而其接口不符合要求"
+      },
+      {
+        "key": "C",
+        "text": "类的抽象和其实现之间不希望有一个固定的绑定关系"
+      },
+      {
+        "key": "D",
+        "text": "需要为一个复杂子系统提供一个简单接口"
+      }
+    ],
+    "answer": "D",
+    "explanation": "试题（44）、（45）分析本题考查设计模式基本概念。\n\n每种设计模式都有特定的意图和适用场景。\n\n适配器（Adapter）模式将一个类的接口转换成客户希望的另外一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。适用于想使用一个已经存在的类，而其接口不符合要求的情况。\n\n责任链（Chain of Responsibility）模式使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。适用于有多个的对象可以处理一个请求，哪个对象处理该请求运行时刻自动确定的情况。\n\n桥接（Bridge）模式将抽象部分与其实现部分分离，使它们都可以独立地变化。适用于不希望在抽象和它实现部分之间有一个固定的绑定关系的情况。\n\n外观（Facade）模式为子系统中一组接口提供一个一致的界面，Facade 模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。适用于需要为一个复杂子系统提供一个简单接口的情况。",
+    "year": 2014,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2014L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 46 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8d3ab65b80.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "抽象工厂（Abstract Factory）"
+      },
+      {
+        "key": "B",
+        "text": "生成器（Builder）"
+      },
+      {
+        "key": "C",
+        "text": "工厂方法（Factory Method）"
+      },
+      {
+        "key": "D",
+        "text": "原型（Prototype）"
+      }
+    ],
+    "answer": "B",
+    "explanation": "",
+    "year": 2014,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2014L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 47 空〕\n\n下图所示为 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-8d3ab65b80.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "一个系统要由多个产品系列中的一个来配置时"
+      },
+      {
+        "key": "B",
+        "text": "当一个类希望由它的子类来指定它所创建的对象时"
+      },
+      {
+        "key": "C",
+        "text": "当创建复杂对象的算法应该独立于该对象的组成部分及其装配方式时"
+      },
+      {
+        "key": "D",
+        "text": "当一个系统应该独立于它的产品创建、构成和表示时"
+      }
+    ],
+    "answer": "C",
+    "explanation": "试题（46）、（47）分析本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n抽象工厂（Abstract Factory）模式提供一个创建一系列相关或相互依赖对象的接口，而无须指定他们具体的类。抽象工厂模式适用于一个系统要独立于它的产品的创建、组合和表示时：一个系统要由多个产品系列中的一个来配置时；当要强调一系列相关产品对象的设计以便进行联合使用时；当提供一个产品类库，而只想显示它们的接口而不是实现时。\n\n生成器（Builder）模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同表示。生成器模式适用于当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；当构造过程必须允许被构造的对象有不同的表示时。\n\n工厂方法 （Factory Method）定义一个用于创建对象接口，让子类决定将哪一个类实例化，使一个类的实例化延迟到其子类。工厂方法模式适用于当一个类不知道它所必须创建的对象的类的时候；当一个类希望由它的子类来指定它所创建的对象的时候；当类将创建对象职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化的时候。\n\n原型（Prototype）模式用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于：当一个系统应该独立于它的产品创建、构成和表示时；\n\n当要实例化的类是在运行时刻指定时，例如通过动态装载，为了避免创建一个与产品类层次平行工厂类层次时；当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。",
+    "year": 2014,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2015H-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 44 空〕\n\n下图所示为 （　） 设计模式，属于 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-43df3ad27b.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "代理（Proxy）"
+      },
+      {
+        "key": "B",
+        "text": "生成器（Builder）"
+      },
+      {
+        "key": "C",
+        "text": "组合（Composite）"
+      },
+      {
+        "key": "D",
+        "text": "观察者（Observer）"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2015,
+    "session": "H",
+    "no": 44
+  },
+  {
+    "id": "2015H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 45 空〕\n\n下图所示为 （　） 设计模式，属于 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-43df3ad27b.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "创建型"
+      },
+      {
+        "key": "B",
+        "text": "结构型"
+      },
+      {
+        "key": "C",
+        "text": "行为"
+      },
+      {
+        "key": "D",
+        "text": "结构型和行为"
+      }
+    ],
+    "answer": "B",
+    "explanation": "",
+    "year": 2015,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2015H-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "组合模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 46 空〕\n\n下图所示为 （　） 设计模式，属于 （　） 设计模式，适用于 （　） 。\n\n![题图](figures/fig-43df3ad27b.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "表示对象的部分-整体层次结构时"
+      },
+      {
+        "key": "B",
+        "text": "当一个对象必须通知其它对象，而它又不能假定其它对象是谁时"
+      },
+      {
+        "key": "C",
+        "text": "当创建复杂对象的算法应该独立于该对象的组成部分及其装配方式时"
+      },
+      {
+        "key": "D",
+        "text": "在需要比较通用和复杂的对象指针代替简单的指针时"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（44）～（46）分析本题考查设计模式的基本概念。\n\n每一个设计模式都集中于一个特定面向对象设计问题或设计要点，描述了什么时候使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。按照设计模式的目的可以分为创建型、结构型和行为型三大类。创建型模式与对象的创建有关：结构型模式处理类或对象的组合；行为型模式对类或对象怎样交互和怎样分配职责进行描述。每种设计模式都有其适应性，描述适用于解决问题场合。\n\n创建型模式包括 Factory Method、 Abstract Factory、Builder、Prototype 和 Singleton。\n\n结构型模式包括 Adapter（类）、Adapter（对象）、Bridge、 Composite、Decorator、 Fagade、Flyweight和 Proxy。行为型模式包括 Interpreter、Template Method、Chain of Responsibility、Command、Iterator、Mediator、Memento Observer State Strategy 和 Visitor。\n\nProxy 模式结构图如下所示：ClientSubjectRequestO-11111RealSubjectrealSubjectProxyRequest（Request（） or--------realSubjcct->Request（）sProxy 模式适用于在需要比较通用和复杂的对象指针代替简单的指针的时候，常见情况有：远程代理（Remote Proxy）为一个对象在不同地址空间提供据不代表；虚代理（Virtual Proxy）根据需要创建开销很大对象；保护代理（Protection Proxy） 控制对原始对象访问，用于对象应该有不同的访问权限的时候；智能指引（Smart Reference）取代了简单的指针，它在访问对象时执行一些附加操作。\n\nBuilder模式的结构图如下所示：DirectorbuilderBuilderConstructO oBuildPuriOfor all objects in structure ｛builder-> BuildPartOConcreteBuilderProductBuildPartoGetResult（Builder 模式适用于当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；当构造过程必须允许被构造前对象有不同的表示时。\n\nComposite 模式钓结构图如下所示：ClientComponentOperation（AdafComponent）Remove（Component）GerChild（int）childrenLeafCompesiteOperation（）Operation（） o--forallg in childrengOperation（：Add（Component）Remove（Component）GetChild（int）Composite 模式适用于：想表示对象部分-整体层次结构；希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\nObserver 模式的结构图如下所示：SubjectObserversObserverAttach（Observer）UpdateoDetach（Observer）for all o in observers （-NotifyO o--0-> Update（ConcreteObserversubjectobserverState=ConereteSubjeetUpdatelsubject-> GetState（）GetState（）•--observerStaterelum subjectStaleSetState（）subjectStateObserver模式适用于：当一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这两者封装在独立地对象中以使它们可以各自独立地改变和复用；当对一个对象的改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合的。",
+    "year": 2015,
+    "session": "H",
+    "no": 46
+  },
+  {
+    "id": "2015H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "访问者模式"
+    ],
+    "stem": "某些设计模式会引入总是被用作参数的对象。例如 （　） 对象是一个多态accept方法的参数。",
+    "options": [
+      {
+        "key": "A",
+        "text": "Visitor"
+      },
+      {
+        "key": "B",
+        "text": "Command"
+      },
+      {
+        "key": "C",
+        "text": "Memento"
+      },
+      {
+        "key": "D",
+        "text": "Observer"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（47）某些设计模式会引入总是被用作参数的对象。例如（47）对象是一个多态的 accept方法参数。\n\n（47） A. VisitorB. CommandC. MementoD. Observer本题考查设计模式的概念，对行为模式进行比较。\n\n很多行为模式注重封装变化。当一个程序的某个方面的特征经常发生改变时，这些模式就定义一个封装这个方面的对象。这样，当该程序其他部分依赖于这个方面时，它们都可以与此对象协作。一些模式引入总是被用作参数的对象。有些模式定义一些可作为令牌进行传递前对象，这些对象将在稍后被调用。\n\n在 Visitor 模式中，一个 Visitor 对象是一个多态旳 accept 操作的参数，这个操作作用于该 Visitor 对象访问的对象。在 Command模式中，令牌代表一个请求：在 Memento模式中，它代表在一个对象在某个特定时刻的内部状态。在这两种情况下，令牌都可以有一个复杂的内部表示，但客户并不会意识到这一点。在 Observer模式中，通过引入Observer 和 Subject 对象来分布通信。",
+    "year": 2015,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2015L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "单例模式"
+    ],
+    "stem": "以下关于Singleton（单例）设计模式的叙述中，不正确的是 （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "单例模式是创建型模式"
+      },
+      {
+        "key": "B",
+        "text": "单例模式保证一个类仅有一个实例"
+      },
+      {
+        "key": "C",
+        "text": "单例类提供一个访问唯一实例的全局访问点"
+      },
+      {
+        "key": "D",
+        "text": "单例类提供一个创建一系列相关或相互依赖对象的接口"
+      }
+    ],
+    "answer": "D",
+    "explanation": "本题考查设计模式基本概念。\n\nSingleton（单例）设计模式是一种创建型模式，其意图是保证一个类仅有一个实例，并提供一个访问这个唯一实例的全局访问点。单例模式适用于当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时，以及当这个唯一实例应该是通过子类化可扩展的，并且客户应该无须更改代码就能使用一个扩展的实例时。",
+    "year": 2015,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2016H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "命令模式"
+    ],
+    "stem": "（　） 设计模式将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。",
+    "options": [
+      {
+        "key": "A",
+        "text": "命令（Command）"
+      },
+      {
+        "key": "B",
+        "text": "责任链（Chain of Responsibility）"
+      },
+      {
+        "key": "C",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "D",
+        "text": "策略（Strategy）"
+      }
+    ],
+    "answer": "A",
+    "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图，描述一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心，使该方案能够重用而不必做重复劳动。\n\n命令（Command）将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化：对请求排队或记录请求日志，以及支持可撤销的操作。\n\n责任链（Chain of Responsibility）使多个对象都有机会处理请求，从而避免请求发送者和接收者之间钓耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象前状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。\n\n策略（Strategy）定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。",
+    "year": 2016,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2016H-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "（　） 设计模式最适合用于发布/订阅消息模型，即当订阅者注册一个主题后，此主题有新消息到来时订阅者就会收到通知。",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "B",
+        "text": "通知（Notifier）"
+      },
+      {
+        "key": "C",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "D",
+        "text": "状态（State）"
+      }
+    ],
+    "answer": "C",
+    "explanation": "本题考查设计模式的基本概念。每种设计模式都有特定的意图和适用情况。\n\n适配器（Adapter）将一个类的接口转换成客户希望的另外一个接口。Adapter 模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。类适配使用多重继承对一个接口与另一个接口进行匹配：对象适配器依赖于对象组合。适用于：想使用一个已经存在的类，而它的接口不符合要求；想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容类）协同工作。（仅适用于对象Adapter）想使用一个已经存在的子类，但是不可能对每一个都进行子类化以匹配他们接口。对象适配器可以适配它的父类接口。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。适用于：当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立对象中以使它们可以各自独立地改变和复用：当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即：不希望这些对象是紧耦合的。此模式最适合用于发布/订阅消息模型由订阅者订阅消息主题，发布者一定有此主题消息发布，所有订阅者就会自动收到通知。\n\n状态（State）允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。适用于：一个对象的行为决定于它的状态，并且它必须在运行时刻根据状态改变它的行为；一个操作中含有庞大多分支的条件语句，且这些分支依赖于该对象的状态。这个状态通常用一个或多个枚举常量表示。通常，有多个操作包含这一相同条件结构。State模式将每一个条件分支放入一个独立的类中。这使得开发者可以根据对象自身的情况将对象的状态作为一个对象，这一对象可以不依赖于其他对象而独立变化。",
+    "year": 2016,
+    "session": "H",
+    "no": 46
+  },
+  {
+    "id": "2016H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "享元模式"
+    ],
+    "stem": "因使用大量的对象而造成很大的存储开销时，适合采用 （　） 模式进行对象共享，以减少对象数量从而达到较少的内存占用并提升性能。",
+    "options": [
+      {
+        "key": "A",
+        "text": "组合（Composite）"
+      },
+      {
+        "key": "B",
+        "text": "享元（Flyweight）"
+      },
+      {
+        "key": "C",
+        "text": "迭代器（Iterator）"
+      },
+      {
+        "key": "D",
+        "text": "备忘（Memento）"
+      }
+    ],
+    "answer": "B",
+    "explanation": "本题考查设计模式基本概念。每种设计模式都有特定意图和适用情况。\n\n组合（Composite）模式将对象组合成树形结构以表示“部分-整体”层次结构，使得用户对单个对象和组合对象前使用具有一致性。组件 Component 为组合的对象声明接口，通常定义父组件引用，用户引用此组件，Leaf和 Composite 类可以继承这个引用以及管理这个应用的那些操作。适用于：想表示对象“部分-整体”层次结构；希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\n享元（Flyweight）模式运用共享技术有效地支持大量细粒度的对象。\n\n迭代器（Iterator）提供一种方法顺序访问一个聚合对象中各个元素，而又不需暴露该对象的内部表示。适用于：访问一个聚合对象内容而无须暴露它的内部表示；支持对聚合对象多种遍历；为遍历不同聚合结构提供一个统一接口。\n\n备忘（Memento）在不破坏封装性的前提下，捕获一个对象的内部状态，并在对象之外保存这个状态。这样以后就可将对象恢复到原先保存的状态。适用于：必须保存一个对象在某一个时刻的（部分）状态，这样以后需要时它才能恢复到先前的状态；如果一个用接口来让其他对象直接得到这些状态，将会暴露对象实现细节并破坏对象封装性。",
+    "year": 2016,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2016L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "策略模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 44 空〕\n\n（　） 模式定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换，使得算法可以独立于使用它们的客户而变化。以下 （　） 情况适合选用该模式。（2016年下半年） ①一个客户需要使用一组相关对象 ②一个对象的改变需要改变其它对象 ③需要使用一个算法的不同变体 ④许多相关的类仅仅是行为有异",
+    "options": [
+      {
+        "key": "A",
+        "text": "命令（Command）"
+      },
+      {
+        "key": "B",
+        "text": "责任链（Chain of Responsibility）"
+      },
+      {
+        "key": "C",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "D",
+        "text": "策略（Strategy）"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2016,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2016L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "策略模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 45 空〕\n\n（　） 模式定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换，使得算法可以独立于使用它们的客户而变化。以下 （　） 情况适合选用该模式。（2016年下半年） ①一个客户需要使用一组相关对象 ②一个对象的改变需要改变其它对象 ③需要使用一个算法的不同变体 ④许多相关的类仅仅是行为有异",
+    "options": [
+      {
+        "key": "A",
+        "text": "①②"
+      },
+      {
+        "key": "B",
+        "text": "②③"
+      },
+      {
+        "key": "C",
+        "text": "③④"
+      },
+      {
+        "key": "D",
+        "text": "①④"
+      }
+    ],
+    "answer": "C",
+    "explanation": "试题（44）、（45）分析本题考查设计模式基本概念。每种设计模式都有特定的意图和适用情况。\n\n命令（Command）将一个请求封装为一个对象，从而使得可以用不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作。命令模式适用于以下几种情况：① 抽象出待执行动作以参数化某对象，此模式是过程语言中的回调（callback）机制的一个面向对象的替代方式：② 在不同的时刻指定、排列和执行请求；\n\n③ 支持取消操作；\n\n④ 支持修改日志，这样当系统崩溃时，这些修改可以被重做一遍；\n\n⑤ 用构建在原语操作上的高层操作构造一个系统。\n\n责任链（Chain of Responsibility）使多个对象都有机会处理请求，从而避免请求发送者和接收者之间耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。责任链模式适用于以下几种情况：① 有多个时对象可以处理一个请求，哪个对象处理该请求在运行时刻自动确定；\n\n② 在不明确指定接收者的情况下，向多个对象中的一个提交一个请求；\n\n③ 可处理一个请求的对象集合应被动态指定。\n\n观察者（Observer）模式定义对象间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它对象都得到通知并被自动更新。观察者适用于以下几种情况：① 当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立地对象中以使它们可以各自独立地改变和复用；\n\n② 当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时：③ 当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即：不希望这些对象是紧耦合的。\n\n策略（Strategy）定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。策略模式适用于以下几种情况：① 许多相关的类仅仅是行为有异。“策略”提供了一种用多个行为中的一个行为来配置一个类的方法；\n\n② 需要使用一个算法的不同变体。例如，定义一些反应不同空间的空间/时间权衡的算法。当这些变体实现为一个算法的类层次时，可以使用策略模式；\n\n③ 算法使用客户不应该知道的数据。可使用策略模式以避免暴露复杂的、与算法相关的数据结构；\n\n④ 一个类定义了多种行为，并且这些行为在这个类的操作中以多个条件语句前形式出现，将相关的条件分支移入它们各自的 Strategy类中，以代替这些条件语句。",
+    "year": 2016,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2016L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 46 空〕\n\n（　） 模式将一个复杂对象的构建与其表示分离，使得同样的构建过程可以创建不同的表示。以下 （　） 情况适合选用该模式。（2016年下半年） ①抽象复杂对象的构建步骤 ②基于构建过程的具体实现构建复杂对象的不同表示 ③一个类仅有一个实例 ④一个类的实例只能有几个不同状态组合中的一种",
+    "options": [
+      {
+        "key": "A",
+        "text": "生成器（Builder）"
+      },
+      {
+        "key": "B",
+        "text": "工厂方法（Factory Method）"
+      },
+      {
+        "key": "C",
+        "text": "原型（Prototype）"
+      },
+      {
+        "key": "D",
+        "text": "单例（Singleton）"
+      }
+    ],
+    "answer": "A",
+    "explanation": "",
+    "year": 2016,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2016L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 47 空〕\n\n（　） 模式将一个复杂对象的构建与其表示分离，使得同样的构建过程可以创建不同的表示。以下 （　） 情况适合选用该模式。（2016年下半年） ①抽象复杂对象的构建步骤 ②基于构建过程的具体实现构建复杂对象的不同表示 ③一个类仅有一个实例 ④一个类的实例只能有几个不同状态组合中的一种",
+    "options": [
+      {
+        "key": "A",
+        "text": "①②"
+      },
+      {
+        "key": "B",
+        "text": "②③"
+      },
+      {
+        "key": "C",
+        "text": "③④"
+      },
+      {
+        "key": "D",
+        "text": "①④"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（46）、（47） 分析本题考查设计模式的基本概念。每种设计模式都集中于一个特定的面向对象设计问题或设计要点，有特定的意图和适用情况。\n\n生成器（Builder）模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式适用于以下几种情况：① 当创建复杂对象算法应该独立于该对象组成部分以及它们的装配方式时；\n\n② 当构造过程必须允许被构造的对象有不同表示时。\n\n工厂方法 （Factory Method）定义一个用于创建对象的接口，让子类决定将哪一个类实例化，使一个类的实例化延迟到其子类。工厂方法适用于以下儿种情况：① 当一个类不知道它所必须创建的对象的类的时候；\n\n② 当一个类希望由它子类来指定它所创建的对象时候；\n\n③ 当类将创建对象职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化时候。\n\n原型（Prototype）模式用原型实例指定创建对象的种类，并且通过拷贝这个原型来创建新的对象。原型模式适用于以下几种情况：① 当一个系统应该独立于它产品创建、构成和表示时；\n\n② 当要实例化的类是在运行时刻指定时，例如，通过动态装载；\n\n③ 为了避免创建一个与产品类层次平行钓工厂类层次时；\n\n④ 当一个类的实例只能有几个不同状态组合中的一种时，建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。\n\n单例（Singleton）设计模式是一种创建型模式，其意图是保证一个类仅有一个实例，并提供一个访问这个唯一实例的全局访问点。单例模式适用于以下情况：① 当类只能有一个实例而且客户可以从一个众所周知的访问点访问它时；\n\n② 当这个唯一实例应该是通过子类化可扩展，并且客户应该无须更改代码就能使用一个扩展的实例时。",
+    "year": 2016,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2017H-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 44 空〕\n\n下图所示为观察者（Observer）模式的抽象示意图，其中 （　） 知道其观察者，可以有任意多个观察者观察同一个目标;提供注册和删除观察者对象的接口。此模式体现的最主要的特征是 （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "Subject"
+      },
+      {
+        "key": "B",
+        "text": "Observer"
+      },
+      {
+        "key": "C",
+        "text": "ConcreteSubject"
+      },
+      {
+        "key": "D",
+        "text": "ConcreteObserver"
+      }
+    ],
+    "answer": "A",
+    "explanation": "observers<<interface>＞<<intertace>＞SubjectObserverregisterObserverlupdateoremove ObserverlnotifyObservers（）subiectConcrete SubjectConcreteObserverregisterObserver（） （..｝update（removeObserver（） （oufl/ other Observer specificnotifyObservers（）（.｝methodsgetState（）setState（）",
+    "year": 2017,
+    "session": "H",
+    "no": 44
+  },
+  {
+    "id": "2017H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 45 空〕\n\n下图所示为观察者（Observer）模式的抽象示意图，其中 （　） 知道其观察者，可以有任意多个观察者观察同一个目标;提供注册和删除观察者对象的接口。此模式体现的最主要的特征是 （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "类应该对扩展开放，对修改关闭"
+      },
+      {
+        "key": "B",
+        "text": "使所要交互的对象尽量松耦合"
+      },
+      {
+        "key": "C",
+        "text": "组合优先于继承使用"
+      },
+      {
+        "key": "D",
+        "text": "仅与直接关联类交互"
+      }
+    ],
+    "answer": "B",
+    "explanation": "试题（44）、（45）分析本题考查设计模式基本概念。每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式为行为设计模式，定义对象间一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它对象都得到通知并被自动更新。在题图所示观察者模式结构图中：Subject（目标）知道它观察者，可以有任意多个观察者观察同一个目标；提供注册和删除观察者对象接口；\n\n② Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口；\n\n③ ConcreteSubject（具体目标）将有关状态存入各 ConcreteObserver 对象：当它的状态发生改变时，向其各个观察者发出通知；\n\n④ ConcreteObserver（具体观察者）维护一个指向 ConcreteSubject 对象引用；存储有关状态，这些状态应与目标的状态保持一致；实现 Observer的更新接口，以使自身状态与目标的状态保持一致。\n\n该模式的特点适用于以下情况：① 当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立的对象中以使它们可以各自独立地改变和复用；\n\n② 当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；\n\n③ 当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合的。\n\n题目中知道其观察者即为 Subject：空（45）中所描述选项中B所述使所要交互对象尽量松耦合，即上述适用性特点③。\n\nobservers<<interface>＞<<intertace>＞SubjectObserverregisterObserverlupdateoremove ObserverlnotifyObservers（）subiectConcrete SubjectConcreteObserverregisterObserver（） （..｝update（removeObserver（） （oufl/ other Observer specificnotifyObservers（）（.｝methodsgetState（）setState（）",
+    "year": 2017,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2017H-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "外观模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 46 空〕\n\n装饰器（Decorator）模式用于 （　） ;外观（Facade）模式用于 （　） 。（2017年上半年） ①将一个对象加以包装以给客户提供其希望的另外一个接口 ②将一个对象加以包装以提供一些额外的行为 ③将一个对象加以包装以控制对这个对象的访问 ④将一系列对象加以包装以简化其接口",
+    "options": [
+      {
+        "key": "A",
+        "text": "①"
+      },
+      {
+        "key": "B",
+        "text": "②"
+      },
+      {
+        "key": "C",
+        "text": "③"
+      },
+      {
+        "key": "D",
+        "text": "④"
+      }
+    ],
+    "answer": "B",
+    "explanation": "",
+    "year": 2017,
+    "session": "H",
+    "no": 46
+  },
+  {
+    "id": "2017H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "外观模式"
+    ],
+    "stem": "〔本题共 2 空，当前是第 47 空〕\n\n装饰器（Decorator）模式用于 （　） ;外观（Facade）模式用于 （　） 。（2017年上半年） ①将一个对象加以包装以给客户提供其希望的另外一个接口 ②将一个对象加以包装以提供一些额外的行为 ③将一个对象加以包装以控制对这个对象的访问 ④将一系列对象加以包装以简化其接口",
+    "options": [
+      {
+        "key": "A",
+        "text": "①"
+      },
+      {
+        "key": "B",
+        "text": "②"
+      },
+      {
+        "key": "C",
+        "text": "③"
+      },
+      {
+        "key": "D",
+        "text": "④"
+      }
+    ],
+    "answer": "D",
+    "explanation": "试题（46）、（47）分析本题考查设计模式基本概念。\n\n装饰器（Decorator）模式和外观（Facade）模式均为对象结构型设计模式。装饰器模式动态地给一个对象添加一些额外的职责。就增加功能而言，此模式比生成子类更加灵活。外观模式为子系统中的一组接口提供一个统一的界面，此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。这两种模式适用于不同的情况。\n\n装饰器模式适用于以下几种情况：① 在不影响其他对象的情况下，以动态、透明前方式给单个对象添加职责；\n\n② 处理那些可以撤销职责；\n\n③ 当不能采用生成子类的方式进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是，由于类定义被隐藏，或类定义不能用于生成子类。\n\n外观模式适用于以下几种情况：l 要为一个复杂子系统提供一个简单接口时，子系统往往因为不断演化而变得越来越复杂，Facade 可以提供一个简单的默认视图，这一视图对大多数用户来说已经足够，而那些需要更多的可定制性的用户可以越过 Facade 层；\n\n② 客户程序与抽象类实现部分之间存在着很大的依赖性。引入 Facade 将这个子系统与客户以及其他的子系统分离，可以提高子系统独立性和可移植性；\n\n③ 当需要构建一个层次结构子系统时，使用 Facade模式定义子系统中每层入口点。如果子系统之间是相互依赖的，则可以让它们仅通过 Facade 进行通信，从而简化了它们之间依赖关系。\n\n本题所给4种情况中，②将一个对象加以包装以提供一些额外行为符合装饰器动态、透明地给单个对象添加职责的适用性；④将一系列对象加以包装以简化其接口符合外观模式主要特点。",
+    "year": 2017,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2017L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "状态模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 44 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "观察者（Obeserver）"
+      },
+      {
+        "key": "B",
+        "text": "状态（State）"
+      },
+      {
+        "key": "C",
+        "text": "策略（Strategy）"
+      },
+      {
+        "key": "D",
+        "text": "访问者（Visitor）"
+      }
+    ],
+    "answer": "B",
+    "explanation": "",
+    "year": 2017,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2017L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "状态模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 45 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "VendingMachineState"
+      },
+      {
+        "key": "B",
+        "text": "Buy"
+      },
+      {
+        "key": "C",
+        "text": "VendingDepositState"
+      },
+      {
+        "key": "D",
+        "text": "VendingStockState"
+      }
+    ],
+    "answer": "B",
+    "explanation": "",
+    "year": 2017,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2017L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "状态模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 46 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "创建型对象模式"
+      },
+      {
+        "key": "B",
+        "text": "结构型对象模式"
+      },
+      {
+        "key": "C",
+        "text": "行为型类模式"
+      },
+      {
+        "key": "D",
+        "text": "行为型对象模式"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2017,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2017L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "状态模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 47 空〕\n\n自动售货机根据库存、存放货币量、找零能力、所选项目等不同，在货币存入并进行选择时具有如下行为：交付产品不找零；交付产品并找零；存入货币不足而不提供任何产品；库存不足而不提供任何产品。这一业务需求适合采用 （　） 模式设计实现，其类图如下图所示，其中 （　） 是客户程序使用的主要接口，可用状态来对其进行配置。此模式为 （　） ，体现的最主要的意图是 （　） 。\n\n![题图](figures/fig-5cfef462f6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "当一个对象状态改变时所有依赖它的对象得到通知并自动更新"
+      },
+      {
+        "key": "B",
+        "text": "在不破坏封装性的前提下，捕获对象的内部状态并在对象之外保存"
+      },
+      {
+        "key": "C",
+        "text": "一个对象在其内部状态改变时改变其行为"
+      },
+      {
+        "key": "D",
+        "text": "将请求封装为对象从而可以使用不同的请求对客户进行参数化"
+      }
+    ],
+    "answer": "C",
+    "explanation": "试题（44）～（47）分析本题考查设计模式钓基本概念。\n\n按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。行为模式涉及算法和对象问职责的分配。行为模式不仅描述对象或类的模式，还描述它们之间的通信模式。观察者模式、状态模式、策略模式和访问者模式均为行为设计模式。\n\n每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它对象都得到通知并被自动更新。此模式结构图如下所示。\n\nSubjectobservers-● ObserverAttach（Observer）UpdatelDetach（Observer）for all o in observers ｛YNotifyO o---o-Update（）ConcreteObserverConcrete SubjectsubjectUpdate（）O-observerState=subject->GietState（）GetState（） 0--ObserverStateSetState（）retumn subjectStatesubjectSate其中，Subject（目标）知道它观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State）模式主要意图是：允许一个对象在其内部状态改变时改变它钓行为。\n\n对象看起来似乎修改了它的类。其结构图如下所示。\n\n其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象的接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n状态（State） 模式主要意图是：允许一个对象在其内部状态改变时改变它的行为。\n\n对象看起来似乎修改了它类。其结构图如下所示。\n\nstateContextStateRequesto 9Handle（）state→>Handle（）ConcreteStateAConcreteStateBHandleOHandle（其中，Context（上下文）定义客户感兴趣的接口；State（状态）定义一个接口以封装与Context的一个特定状态相关行为。\n\n策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们客户而变化。其结构图如下所示。\n\nstrategyContextStrategyContextlnterface（）AlgorithmIntertace（）ConcreteStrategyAConcrete StrategyBConcrete StrategyCAlgorithmInterface（）AlgorithmInterface（）Algorithmlnterface（）其中，Strategy（策略）定义所有支持钓算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义算法。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrctc Visitor1ConcrctcVisitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）VisitConcreteElementB（ConcrcElementB）ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitorv） 9Accept（Visitor v）OperationA（OperationBOV→>VisitConcreteElementA（this）V→>VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\n本题描述自动售货机适合采用状态模式，属于行为型对象模式。自动售货机根据库存、存放货币量、找零能力、所选项目等项目不同而具有不同状态，这些内部状态改变会使自动售货机的行为也发生改变。在用户存入货币并选择购买时，自动售货机根据状态的不同会有以下几种不同行为：交付产品，不找零钱：交付产品并找零：因存入钱数不足而不交付产品：因库存不足而不交付产品。\n\n题图所示类图中，VendingMachineState 接口定义了所有具体状态公共接口handleO，封装与特定状态相关所有行为。VendingDepositState、VendingStockState 和Change AvailableState 是实现 VendingMachineState 接口的具体状态类，各自实现自己handle0行为。当 Buy发送请求并改变状态时，这些具体状态类中相关那个进行响应。\n\n此模式中，状态的变化发生在运行时，而非由客户端来决定。客户程序感兴趣和使用主要接口定义在 Buy 中，即对应于状态模式结构图中的 Context，可用状态来对其进行配置。",
+    "year": 2017,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2018H-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 44 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "B",
+        "text": "访问者（Visitor）"
+      },
+      {
+        "key": "C",
+        "text": "策略（Strategy）"
+      },
+      {
+        "key": "D",
+        "text": "桥接（Bridge）"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2018,
+    "session": "H",
+    "no": 44
+  },
+  {
+    "id": "2018H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 45 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "WebApplication"
+      },
+      {
+        "key": "B",
+        "text": "Blog"
+      },
+      {
+        "key": "C",
+        "text": "Theme"
+      },
+      {
+        "key": "D",
+        "text": "Light"
+      }
+    ],
+    "answer": "A",
+    "explanation": "",
+    "year": 2018,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2018H-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 46 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "创建型对象模式"
+      },
+      {
+        "key": "B",
+        "text": "结构型对象模式"
+      },
+      {
+        "key": "C",
+        "text": "行为型类模式"
+      },
+      {
+        "key": "D",
+        "text": "行为型对象模式"
+      }
+    ],
+    "answer": "B",
+    "explanation": "",
+    "year": 2018,
+    "session": "H",
+    "no": 46
+  },
+  {
+    "id": "2018H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 47 空〕\n\n假设现在要创建一个Web应用框架，基于此框架能创建不同的具体Web应用，比如博客，新闻网站和网上商店等；并可以为每个Web应用创建不同的主题样式，比如浅色或深色等。这一业务需求的类图设计适合采用 （　） 模式（如下图所示）。其中 （　） 是客户程序使用的主要接口，维护对主题类型的应用。此模式为 （　） ，提现的最主要的意图是 （　） 。\n\n![题图](figures/fig-7bbf74c49f.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "将抽象部分与其实现部分分离，使它们都可以独立地变化"
+      },
+      {
+        "key": "B",
+        "text": "动态地给一个对象添加一些额外的职责"
+      },
+      {
+        "key": "C",
+        "text": "为其他对象提供一种代理以控制对这个对象的访问"
+      },
+      {
+        "key": "D",
+        "text": "将一个类的接口转换成客户希望的另一个接口"
+      }
+    ],
+    "answer": "A",
+    "explanation": "试题（44）～（47）分析本题考查设计模式的基本知识。\n\n按照设计模式目的可以分为创建新模式、结构型模式以及行为型模式三大类。创建型模式与对象前创建有关：结构型模式处理类或对象的组合以获得更大的结构：行为型模式对类或对象怎样交互和怎样分配职责进行描述。观察者模式、策略模式和访问者模式均为行为设计模式。桥接模式是结构型对象模式。每种设计模式都有特定意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式前结构图如下所示。\n\nSubrectobserversObserverAttach（Observer）UpdatelDetach（Observer）for all o in observers rYNotifyO o--o-Update（ConcreteObserversubjectConcreteSubjectUpdateOobserverState=subject->GetState（）GetState（） 0--ObserverStateSetStateOreturn sulbjectStatesubjectSate其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n策略（Strategy）模式的主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们前客户而变化。其结构如下图所示。\n\nStrategyContextStrategyContextlnterfaccOAlgorithmInterfaccoConcreteStrategyAConcrete StrategyBConcreteStrategyCAlgorithmInterface（AlgorithmInterfaceOAlgorithmInterfaceO其中，Strategy（策略）定义所有支持的算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义的算法。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素的操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA （ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrcte Visitor1Concrcte Visitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcreteElementB（ConcreElementB）VisitConcreteElementB（ConcreElementB）ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitor v）Accept（Visitor v）OperationAOOperationBOV->VisitConcreteElementA（this）v->VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\nBridge（桥接）模式的主要意图是：将抽象部分与其实现部分分离，使它们都可以独立地变化，其结构图如下所示。\n\nClientImpAbstractionTmplementorOperationO 9Operationlmp（imp→>OperationlmpO；\n\nConcretelmplementorAConcretelmplementorBRefinedAbstractionOperationlmpO）OperationlmpO其中，客户程序（Client）使用的主要接口是 Abstraction，它定义抽象类的接口，维护一个指向 Implementor 类型对象指针（引用）；RefinedAbstraction扩充由 Abstraction定义的接口；Implementor 定义实现类的接口，该接口不一定要与 Abstraction 的接口完全一致；事实上这两个接口可以完全不同。一般来说，Implementor接口仅提供基本操作，而 Abstraction 定义了基于这些基本操作的较高层次的操作；ConcreteImplementor 实现Implementor 接口并定义它的具体实现。\n\n本题描述创建一个 Web 应用框架并可以为每个 Web应用创建不同的主题样式适合采用桥接模式，属于结构型对象模式。题图中，Web 应用框架（WebApplication）对应Abstraction抽象类接口，是客户程序使用的主要接口，并维护对 Theme（对应Implementor）定义主题实现类的接口，由 Light和 Dark 具体实现类实现。Blog、Store 和 NewsSite 对应 RefinedAbstraction，扩充由 Abstraction 定义的接口。",
+    "year": 2018,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2018L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "访问者模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 44 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "B",
+        "text": "访问者（Visitor）"
+      },
+      {
+        "key": "C",
+        "text": "策略（Strategy）"
+      },
+      {
+        "key": "D",
+        "text": "桥接器（Bridge）"
+      }
+    ],
+    "answer": "B",
+    "explanation": "",
+    "year": 2018,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2018L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "访问者模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 45 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "Item"
+      },
+      {
+        "key": "B",
+        "text": "Shopping_Cart"
+      },
+      {
+        "key": "C",
+        "text": "Checkout"
+      },
+      {
+        "key": "D",
+        "text": "Manual和Auto"
+      }
+    ],
+    "answer": "A",
+    "explanation": "",
+    "year": 2018,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2018L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "访问者模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 46 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "创建型对象模式"
+      },
+      {
+        "key": "B",
+        "text": "结构型对象模式"
+      },
+      {
+        "key": "C",
+        "text": "行为型类模式"
+      },
+      {
+        "key": "D",
+        "text": "行为型对象模式"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2018,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2018L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "访问者模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 47 空〕\n\n假设现在要创建一个简单的超市销售系统，顾客将毛巾、饼干、酸奶等物品（Item）加入购物车（Shopping_Cart），在收银台（Checkout）人工（Manual）或自动（Auto）地将购物车中每个物品的价格汇总到总价格后结帐。这一业务需求的类图（方法略）设计如下图所示，采用了 （　） 模式。其中 （　） 定义以一个Checkout对象为参数的accept操作，由子类实现此accept操作。此模式为 （　） ，适用于 （　） 。\n\n![题图](figures/fig-37ee6b29a3.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "必须保存一个对象在某一个时刻的（部分）状态"
+      },
+      {
+        "key": "B",
+        "text": "想在不明确指定接收者的情况下向多个对象中的一个提交一个请求"
+      },
+      {
+        "key": "C",
+        "text": "需要对一个对象结构中的对象进行很多不同的并且不相关的操作"
+      },
+      {
+        "key": "D",
+        "text": "在不同的时刻指定、排列和执行请求"
+      }
+    ],
+    "answer": "C",
+    "explanation": "试题（44）～（47）分析本题考查设计模式的基本概念。\n\n按照设计模式目可以分为创建型模式、结构型模式以及行为型模式三大类。结构型模式涉及如何组合类和对象以获得更大的结构，行为模式涉及算法和对象间职责分配。桥接器模式属于结构型设计模式，观察者模式、访问者模式和策略模式均为行为设计模式。每种设计模式都有特定的意图和适用情况。\n\n观察者（Observer）模式的主要意图是：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。此模式的结构图如下所示。\n\nSubjectObserversObserverAttach（Observer）UpdateODetach（Observer）for all o in observers ！\n\nNotify（） o-----o-xUpaate（）ConcreteObserverConcreteSubjectsubjectUpdatelobserverState=subject->GietStatel）GetState（） 0--observer StateSetStateOretum subjectstatesubjectSate其中，Subject（目标）知道它的观察者，可以有任意多个观察者观察同一个目标；\n\n提供注册和删除观察者对象前接口。Observer（观察者）为那些在目标发生改变时需获得通知的对象定义一个更新接口。\n\n访问者（Visitor）模式的主要意图是：表示一个作用于某对象结构中的各元素操作。它允许在不改变各元素的类的前提下定义作用于这些元素的新操作。其结构图如下所示。\n\nClientVisitorVisitConcreteElementA （ConcreElementA）VisitConcreteElementB（ConcreElementB）Concrete VisitorlConcrete Visitor2VisitConcreteElementA（ConcreElementA）VisitConcreteElementA（ConcreElementA）VisitConcrete ElementB（ConcreElementB）VisitConcreteElementB（ConcreElementB）- ObjectStructureElementAccept（Visitor）ConcreteElementAConcreteElementBAccept（Visitorv）Accept（Visitorv） 9OperationAOOperationBOV→>VisitConcreteElementA（this）V->VisitConcreteElementB（this）其中，Visitor（访问者）为该对象结构中 ConcreteElement 的每一个类声明一个 Visit操作。Element（元素）定义以一个访问者为参数的 Accept操作。\n\n策略（Strategy）模式主要意图是：定义一系列的算法，把它们一个个封装起来，并且使它们可以相互替换。此模式使得算法可以独立于使用它们的客户而变化。其结构图如下所示。\n\nContextSlrategyStrategyContextInterfacelAlgorithmInterface（）ConcreteStrategyAConcreteStrategyBConcreteStrategyCAlgorithmInterface（AlgorithmInterface（）AlgorithmInterface（）其中，Strategy（策略）定义所有支持的算法的公共接口。Context 使用这个接口来调用某 ConcreteStrategy 定义的算法。\n\nBridge（桥接）模式的主要意图是：将抽象部分与其实现部分分离，使它们都可以独立地变化。其结构图如下所示。\n\nClientImpAbstractionImplementorOperationO 9OperationlmpOimp→>OperationlmpO；\n\nConcretelmplementorAConcretelmplementorBRefinedAbstractionOperationImpOOperationlmpO其中，客户程序（Client）使用的主要接口是 Abstraction，它定义抽象类的接口，维护一个指向 Implementor 类型对象指针（引用）；RefinedAbstraction 扩充由 Abstraction定义的接口；Implementor 定义实现类的接口，该接口不一定要与 Abstraction 的接口完全一致；事实上这两个接口可以完全不同。一般来说，Implementor接口仅提供基本操作，而 Abstraction 定义了基于这些基本操作的较高层次操作；ConcreteImplementor 实现Implementor 接口并定义它的具体实现。\n\n本题描述简单超市销售系统在结账时在收银台（Checkout）采用人工 （Manual）或自动（Auto）对购物车（Shopping_Cart）中的每个物品（Item）进行访问汇总价格后结账，所以适合采用访问者模式。题图所示的类图中，物品（Item）对应前述访问者模式结构图中的 Element（元素），Checkout 对应 Visitor（访问者），所以 Item定义以一个访问者为参数的 accept操作，由子类实现此 accept操作。访问者模式属于行为型对象模式，适用于：①一个对象结构包含很多类对象，它们有不同的接口，而用户想对这些对象实施一些依赖于其具体类的操作；②需要对一个对象结构中的对象进行很多不同并且不相关的操作，而又想要避免这些操作“污染”这些对象的类；③定义对象结构的类很少改变，但经常需要在此结构上定义新的操作。",
+    "year": 2018,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2019H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "观察者模式"
+    ],
+    "stem": "观察者（Observer）模式适用于 （　） 。",
+    "options": [
+      {
+        "key": "A",
+        "text": "访问一个聚合对象的内容而无须暴露它的内部表示"
+      },
+      {
+        "key": "B",
+        "text": "减少多个对象或类之间的通信复杂性"
+      },
+      {
+        "key": "C",
+        "text": "将对象的状态恢复到先前的状态"
+      },
+      {
+        "key": "D",
+        "text": "一对多对象依赖关系，当一个对象修改后，依赖它的对象都自动得到通知"
+      }
+    ],
+    "answer": "D",
+    "explanation": "本题考查设计模式的基本概念。\n\n每一种设计模式都集中于一个特定前面向对象设计问题或设计要点，描还了什么时候适合使用它，在另一些设计约束条件下是否还能使用，以及使用的效果和如何取舍。\n\n观察者（Observer）模式的结构图如下图所示。\n\nSubjectObserversObserverAttach（Observer）UpdateODetach（Observer）or allo in observers tNotityO o-o-paatelConcreteObserverConcreteSubjectsubjectUpdatelO-1-observerState=subject->GietState（）GetState（） 0--observerStateSetState（）return subjectStatesubjectSate观察者模式适用于在以下几种情况时定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新：①当一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两者封装在独立的对象中以使它们可以各自独立地改变和复用；②当对一个对象改变需要同时改变其他对象，而不知道具体有多少对象有待改变时；③当一个对象必须通知其他对象，而它又不能假定其他对象是谁，即不希望这些对象是紧耦合时。",
+    "year": 2019,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2019L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 44 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "适配器（Adapter）"
+      },
+      {
+        "key": "B",
+        "text": "装饰（Decorator）"
+      },
+      {
+        "key": "C",
+        "text": "桥接（Bridge）"
+      },
+      {
+        "key": "D",
+        "text": "组合（Composite）"
+      }
+    ],
+    "answer": "C",
+    "explanation": "ShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
+    "year": 2019,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2019L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 45 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "Shape"
+      },
+      {
+        "key": "B",
+        "text": "Circle和Rectangle"
+      },
+      {
+        "key": "C",
+        "text": "V1Drawing和V2Drawing"
+      },
+      {
+        "key": "D",
+        "text": "Drawing"
+      }
+    ],
+    "answer": "D",
+    "explanation": "ShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
+    "year": 2019,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2019L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 46 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "不希望在抽象和它的实现部分之间有一个固定绑定关系"
+      },
+      {
+        "key": "B",
+        "text": "想表示对象的部分---整体层次结构"
+      },
+      {
+        "key": "C",
+        "text": "想使用一个已经存在的类，而它的接口不符合要求"
+      },
+      {
+        "key": "D",
+        "text": "在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责"
+      }
+    ],
+    "answer": "A",
+    "explanation": "ShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
+    "year": 2019,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2019L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "桥接模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 47 空〕\n\n欲开发一个绘图软件，要求使用不同的绘图程序绘制不同的图形，该绘图软件的扩展性要求将不断扩充新的图形和新的绘图程序，以绘制直线和图形为例，得到如下图所示的类图，该设计采用 （　） 模式将抽象部分与其实现部分分离，使它们都可以独立地变化。其中 （　） 定义了实现类地接口，该模式适用于 （　） 的情况，该模式属于 （　） 模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "创建型对象"
+      },
+      {
+        "key": "B",
+        "text": "结构型对象"
+      },
+      {
+        "key": "C",
+        "text": "行为型对象"
+      },
+      {
+        "key": "D",
+        "text": "结构型类"
+      }
+    ],
+    "answer": "B",
+    "explanation": "试题（44）～（47）分析本题考查设计模式的基本概念。\n\n按照设计模式的目的可以分为创建型模式、结构型模式以及行为型模式三大类。结构型模式涉及如何组合类和对象以获得更大的结构，行为模式涉及算法和对象间职责分配。适配器（Adapter）模式、装饰器（Decorator）模式、桥接（Bridge）模式和组合（Composite）模式均为结构型设计模式，其中适配器模式有适配器类模式和对象模式，其他三个均为结构型对象模式。每种设计模式都有特定的意图和适用情况。\n\n适配器模式的主要意图是：将一个类的接口转换成客户希望另外一个接口。\n\nAdapter 模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。类适配器使用多重继承对一个接口与另一个接口进行匹配，对象适配器依赖于对象组合，对象适配器结构图如下所示。\n\nClientTargetAdapteeRequest（）SpecificRequest（）adapteeAdapterRequest Ooadaptee→SpecificRequest（）其中，Target 定义 Client 使用的与特定领域相关的接口；Client 与符合Target 接口的对象协同；Adaptee 定义一个已经存在的接口，这个接口需要适配；Adapter对 Adaptee的接口与 Target 接口进行适配。\n\n适配器模式适用于：①想使用一个已经存在的类，而它的接口不符合要求；②想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容的类）协同工作；③（仅适用于对象 Adapter）想使用一个已经存在的子类，但是不可能对每一个都进行子类化以匹配它们的接口，对象适配器可以适配它的父类接口。\n\n装饰模式的主要意图是：动态地给一个对象添加一些额外前职责。就增加功能而言，Decorator 模式比生成子类更加灵活。其结构图如下所示。\n\nComponentOperation （）componentConcreteComponentDecoratorOperation （）Operation ）ocomponent→Operation （）ConcreteDecoratorAConcreteDecoratorBOperation （）Operation 0）o------Decorato：：Operation （）；\n\naddedStateAddedBehavior （）AddedBehavior （）；\n\n其中，Component 定义一个对象接口，可以给这些对象动态地添加职责；\n\nConcreteComponent 定义一个对象，可以给这个对象添加一些职责；Decorator 维持一个指向 Component 对象指针，并定义一个与 Component 接口一致的接口；\n\nConcreteDecorator 向组件添加职责。\n\n装饰模式适用于：①在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责：②处理那些可以撤销的职责；③当不能采用生成子类的方式进行扩充时。\n\n桥接模式的主要意图是：将抽象部分与其实现部分分离，使它们都可以独立地变化。\n\n其结构图如下所示。\n\nClientAbstraction1mpImplementorOperation （）oOperationlmp（）imp→Operationlmp（）；\n\nRefinedAbstractionConcretelmplementorAConcretelmplementorBOperationlmp（）Operationlmp（其中，客户程序（Client）使用的主要接口是 Abstraction，它定义抽象类的接口，维护一个指向 Implementor 类型对象的指针（引用），这一关系是组成关系，此实现遵循“优先选用组合而不是继承”这一原则；RefinedAbstraction 扩充由 Abstraction 定义的接口：Implementor 定义实现类的接口，该接口不一定要与 Abstraction 的接口完全一致；\n\n事实上这两个接口可以完全不同。一般来说，Implementor 接口仅提供基本操作，而Abstraction 定义了基于这些基本操作的较高层次的操作；ConcreteImplementor 实现Implementor 接口并定义它的具体实现。\n\n桥接模式适用于：①不希望在抽象和它的实现部分之间有一个固定绑定关系；\n\n②类的抽象以及它的实现都应该可以通过生成子类的方法加以扩充；③对一个抽象的实现部分的修改应对客户不产生影响，即客户代码不必重新编译：④想对客户完全隐藏抽象的实现部分；⑤有许多类要生成的类层次结构。\n\n组合模式主要意图是：将对象组合成树型结构以表示“部分一整体”层次结构。\n\nComposite 使得用户对单个对象和组合对象的使用具有一致性。其结构图如下所示。\n\nClientComponentOPeration（）Add Component，Remove （ComponentGetChild （int）LeafCompositee ChildrenOperation （）Jperation !o---forall g in childrenAdd （Component）g.OperationO）；\n\nRemove （Component）GetChild （int）其中，Component 为组合中的对象声明接口，提供给 Client 操纵组合组件的对象；\n\n在适当情况下实现所有类共有接口的默认行为；声明一个接口用于访问和管理Component的子组件。Leaf 在组合中表示叶结点对象，叶结点没有子结点；在组合中定义图元对象的行为。Composite 定义有子组件那些组件的行为，存储子组件，在Component 接口中实现与子组件有关的操作。\n\n组合模式适用于：①欲表示对象部分一整体层次结构；②希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。\n\n本题描述绘图软件要求使用不同的绘图程序绘制不同的图形，其扩展性要求将不断扩充新的图形和新的绘图程序。题图所示的类图中，设计采用了桥接模式，将抽象图形部分与绘制实现部分分离。Shape 对应桥接模式中的 Abstraction，定义图形抽象类接口，维护一个指向 Drawing 哟指针（引用），其子类 Rectangle 和 Circle 等为具体形状；Drawing对应 Implementor，定义绘图实现的接口；VIDrawing 和 V2Drawing 则为实现 Drawing接口的具体绘图实现。\n\nShapeDrawing+draw（）+drawLine （）+drawLine（）+drawCircle （）+drawCircle （）RectangleCircleV1DrawingV2Drawing+draw （）+draw（）+drawLine （）+drawLine （）+drawCircle（）+drawCircle （）DP1DP2+drawline （）taraw_a_line （）+draw_a circle （）+drawcircle（）",
+    "year": 2019,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2020L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 44 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "生成器（Builder）"
+      },
+      {
+        "key": "B",
+        "text": "抽象工厂（Abstract Factory）"
+      },
+      {
+        "key": "C",
+        "text": "原型（Prototype）"
+      },
+      {
+        "key": "D",
+        "text": "工厂方法（Factory Method）"
+      }
+    ],
+    "answer": "A",
+    "explanation": "第一问后面给出了定义，很容易得出是构建器（生成器），waiter是使用 builder 接口的对象。该模式属于创建型模式，适用于构造不同的对象表示。",
+    "year": 2020,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2020L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 45 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "PizzaBuilder"
+      },
+      {
+        "key": "B",
+        "text": "SpicyPizzaBuilder"
+      },
+      {
+        "key": "C",
+        "text": "Waiter"
+      },
+      {
+        "key": "D",
+        "text": "Pizza"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2020,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2020L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 46 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "创建型对象"
+      },
+      {
+        "key": "B",
+        "text": "结构型对象"
+      },
+      {
+        "key": "C",
+        "text": "行为型对象"
+      },
+      {
+        "key": "D",
+        "text": "结构型类"
+      }
+    ],
+    "answer": "A",
+    "explanation": "",
+    "year": 2020,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2020L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "生成器模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 47 空〕\n\n某快餐厅主要制作并出售儿童套餐，一般包括主餐（各类比萨）、饮料和玩具，其餐品种类可能不同，但制作过程相同。前台服务员（Waiter）调度厨师制作套餐。欲开发一软件，实现该制作过程，设计如下所示类图。该设计采用 （　） 模式将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。其中， （　） 构造一个使用Builder接口的对象。该模式属于 （　） 模式，该模式适用于 （　） 的情况。\n\n![题图](figures/fig-9843a44c5d.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "当一个系统应该独立于它的产品创建、构成和表示时"
+      },
+      {
+        "key": "B",
+        "text": "当一个类希望由它的子类来指定它所创建的对象的时候"
+      },
+      {
+        "key": "C",
+        "text": "当要强调一系列相关的产品对象的设计以便进行联合使用时"
+      },
+      {
+        "key": "D",
+        "text": "当构造过程必须允许被构造的对象有不同的表示时"
+      }
+    ],
+    "answer": "D",
+    "explanation": "第一问后面给出了定义，很容易得出是构建器（生成器），waiter是使用 builder 接口的对象。该模式属于创建型模式，适用于构造不同的对象表示。",
+    "year": 2020,
+    "session": "L",
+    "no": 47
+  },
+  {
+    "id": "2021H-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "命令模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 44 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "命令（Command）"
+      },
+      {
+        "key": "B",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "C",
+        "text": "状态（State）"
+      },
+      {
+        "key": "D",
+        "text": "中介者（Mediator）"
+      }
+    ],
+    "answer": "A",
+    "explanation": "第一问给了定义，很容易得出是命令模式，其属于行为型对象模式；适用于抽象出特执行的动作以参数化某对象；第1,3,4问都是纯定义和记忆，比较容易拿分，第2 问注意是声明执行操作的接口，\nB 选项的三个是实际的执行操作，其共同指向的是声明的接口。下图可参考：命令模式（Command）结构图要求该命令执行这个请求用来声明执行操作接口\nClient\nInvoker\n《＜interface >>\nCommand\n+Ercute 0\nReceiver\nreceiver\nConcreteCommand\nTeceiver: Receiver\n+Action O\nI+Execute O\n知道如何实施与执行一个请求相关的操作，任何类都可能作为一个接收者将一个接收者对象绑定于一个动作，调用接收者相应的操作，以实现Execute",
+    "year": 2021,
+    "session": "H",
+    "no": 44
+  },
+  {
+    "id": "2021H-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "命令模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 45 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "Operation"
+      },
+      {
+        "key": "B",
+        "text": "SellOperation/BuyOperation/ViewOperation"
+      },
+      {
+        "key": "C",
+        "text": "Broker"
+      },
+      {
+        "key": "D",
+        "text": "Stock"
+      }
+    ],
+    "answer": "A",
+    "explanation": "",
+    "year": 2021,
+    "session": "H",
+    "no": 45
+  },
+  {
+    "id": "2021H-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "命令模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 46 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "结构类型"
+      },
+      {
+        "key": "B",
+        "text": "结构型对象"
+      },
+      {
+        "key": "C",
+        "text": "创建类型"
+      },
+      {
+        "key": "D",
+        "text": "行为型对象"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2021,
+    "session": "H",
+    "no": 46
+  },
+  {
+    "id": "2021H-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "命令模式"
+    ],
+    "stem": "〔本题共 4 空，当前是第 47 空〕\n\n股票交易中，股票代理（Broker）根据客户发出的股票操作指示进行股票的买卖，设计如下所示类图。该设计模式采用 （　） 模式将一个请求封装为一个对象，从而使得以不同的请求对客户进行参数化；对请求排队或记录请求日志，以及支持可撤销的操作，其中， （　） 声明执行操作的接口。该模式属于 （　） 模式，该模式适用于： （　） 。\n\n![题图](figures/fig-23c44eb9b6.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "一个对象必须通知其他对象，而它又不能假定其他对象是谁"
+      },
+      {
+        "key": "B",
+        "text": "抽象出执行的动作以参数化某对象"
+      },
+      {
+        "key": "C",
+        "text": "一个对象的行为决定于其状态且必须在运行时刻根据状态改变行为"
+      },
+      {
+        "key": "D",
+        "text": "一个对象引用其他很多对象并且直接与这些对象通信，导致难以复用该对"
+      }
+    ],
+    "answer": "B",
+    "explanation": "第一问给了定义，很容易得出是命令模式，其属于行为型对象模式；适用于抽象出特执行的动作以参数化某对象；第1,3,4问都是纯定义和记忆，比较容易拿分，第2 问注意是声明执行操作的接口，\nB 选项的三个是实际的执行操作，其共同指向的是声明的接口。下图可参考：命令模式（Command）结构图要求该命令执行这个请求用来声明执行操作接口\nClient\nInvoker\n《＜interface >>\nCommand\n+Ercute 0\nReceiver\nreceiver\nConcreteCommand\nTeceiver: Receiver\n+Action O\nI+Execute O\n知道如何实施与执行一个请求相关的操作，任何类都可能作为一个接收者将一个接收者对象绑定于一个动作，调用接收者相应的操作，以实现Execute",
+    "year": 2021,
+    "session": "H",
+    "no": 47
+  },
+  {
+    "id": "2021L-44",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "中介者模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 44 空〕\n\n在某系统中，不同组（Group）访问数据的权限不同，每个用户（User）可以是一个或多个组中的成员，每个组包含零个或多个用户。现要求在用户和组之间设计映射，将用户和组之间的关系由映射进行维修，得到如下所示的类图。该设计采用 （　） 模式，用一个对象来封装一系列的对象交互；使用户对象和组对象不需要显式的相互引用，从而使其耦合松散，而且可以独立地改变它们之间地交互。该模式属于 （　） ，该模式适用 （　） 。\n\n![题图](figures/fig-51101c49eb.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "状态（State）"
+      },
+      {
+        "key": "B",
+        "text": "策略（Strategy）"
+      },
+      {
+        "key": "C",
+        "text": "解释器（Interpreter）"
+      },
+      {
+        "key": "D",
+        "text": "中介者（Mediator）"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2021,
+    "session": "L",
+    "no": 44
+  },
+  {
+    "id": "2021L-45",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "中介者模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 45 空〕\n\n在某系统中，不同组（Group）访问数据的权限不同，每个用户（User）可以是一个或多个组中的成员，每个组包含零个或多个用户。现要求在用户和组之间设计映射，将用户和组之间的关系由映射进行维修，得到如下所示的类图。该设计采用 （　） 模式，用一个对象来封装一系列的对象交互；使用户对象和组对象不需要显式的相互引用，从而使其耦合松散，而且可以独立地改变它们之间地交互。该模式属于 （　） ，该模式适用 （　） 。\n\n![题图](figures/fig-51101c49eb.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "创建型类"
+      },
+      {
+        "key": "B",
+        "text": "创建型对象"
+      },
+      {
+        "key": "C",
+        "text": "行为型对象"
+      },
+      {
+        "key": "D",
+        "text": "行为型类"
+      }
+    ],
+    "answer": "C",
+    "explanation": "",
+    "year": 2021,
+    "session": "L",
+    "no": 45
+  },
+  {
+    "id": "2021L-46",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "中介者模式"
+    ],
+    "stem": "〔本题共 3 空，当前是第 46 空〕\n\n在某系统中，不同组（Group）访问数据的权限不同，每个用户（User）可以是一个或多个组中的成员，每个组包含零个或多个用户。现要求在用户和组之间设计映射，将用户和组之间的关系由映射进行维修，得到如下所示的类图。该设计采用 （　） 模式，用一个对象来封装一系列的对象交互；使用户对象和组对象不需要显式的相互引用，从而使其耦合松散，而且可以独立地改变它们之间地交互。该模式属于 （　） ，该模式适用 （　） 。\n\n![题图](figures/fig-51101c49eb.png)",
+    "options": [
+      {
+        "key": "A",
+        "text": "需要使用一个算法地不同变体"
+      },
+      {
+        "key": "B",
+        "text": "有一个语言需要解释执行，并且可将句子表示为一个抽象语法树"
+      },
+      {
+        "key": "C",
+        "text": "一个对象地行为决定于其状态且必须在运行时刻根据状态改变行为"
+      },
+      {
+        "key": "D",
+        "text": "一组对象以定义良好但是复杂的方式进行通信，产生的相互依赖关系结构 混乱且难以理解。"
+      }
+    ],
+    "answer": "D",
+    "explanation": "",
+    "year": 2021,
+    "session": "L",
+    "no": 46
+  },
+  {
+    "id": "2021L-47",
+    "type": "single",
+    "area": "dp",
+    "difficulty": 2,
+    "source": "past-exam",
+    "tags": [
+      "策略模式"
+    ],
+    "stem": "在设计某购物中心的收银软件系统时，要求能够支持在不同时期推出打折、返利、满减等不同促销活动，则适合采用 （　） 模式。",
+    "options": [
+      {
+        "key": "A",
+        "text": "策略（Strategy）"
+      },
+      {
+        "key": "B",
+        "text": "访问者（Visitor）"
+      },
+      {
+        "key": "C",
+        "text": "观察者（Observer）"
+      },
+      {
+        "key": "D",
+        "text": "中介者（Mediator）"
+      }
+    ],
+    "answer": "A",
+    "explanation": "不同时期打折、返利、满减等促销，可以封装成算法，相互替换。",
+    "year": 2021,
+    "session": "L",
+    "no": 47
+  }
 ]
