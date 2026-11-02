@@ -809,6 +809,17 @@ a {
   background: var(--bad-weak);
 }
 
+/* 自评已提交后锁定：避免连点重复写入作答记录 */
+.self-btn:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.self-btn:disabled.is-ok,
+.self-btn:disabled.is-bad {
+  opacity: 1;
+}
+
 /* 答题底部操作条 */
 .actionbar {
   position: fixed;

@@ -31,6 +31,10 @@ interface Draft {
   /** 最后写入时间，用于判断草稿是否过期 */
   updatedAt?: number;
   index?: number;
+  /** 下午卷自评进度，不存就会在刷新后退回答题页、自评全部作废 */
+  marks?: Marks;
+  /** 停在哪一阶段：答题中 / 自评中 */
+  phase?: 'answer' | 'mark';
 }
 
 interface Result {
@@ -77,6 +81,7 @@ export function MockRun() {
   const { saveExam, recordAnswer } = useApp();
 
   const [items, setItems] = useState<Question[] | null>(null);
+  const [loadError, setLoadError] = useState(false);
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
   const [marks, setMarks] = useState<Marks>({});
   const [index, setIndex] = useState(0);
@@ -87,10 +92,18 @@ export function MockRun() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [openReview, setOpenReview] = useState<Record<string, boolean>>({});
   const [restoredDraft, setRestoredDraft] = useState(false);
+  /** 上次的草稿已超出考试时长，被丢弃重新组卷 */
+  const [expiredNotice, setExpiredNotice] = useState(false);
+  /** 是否因时间耗尽而自动交卷，用于在成绩页 / 自评页说明原因 */
+  const [autoSubmitted, setAutoSubmitted] = useState(false);
   const submitted = useRef(false);
+  const timeUp = useRef(false);
 
   const keyOk = isValidKey(key);
-  const title = !keyOk
+  // 卷型写错（/mock/xx/mock）时不能静默当成上午卷，否则用户以为在考下午卷
+  const partOk = params.part === 'am' || params.part === 'pm';
+  const paperOk = keyOk && partOk;
+  const title = !paperOk
     ? '未知试卷'
     : key === 'mock'
       ? `模拟${meta.label}`
@@ -107,16 +120,28 @@ export function MockRun() {
           const d = JSON.parse(raw) as Draft;
           const stamp = d.updatedAt ?? d.startedAt ?? 0;
           const stale = Date.now() - stamp > DRAFT_TTL_MS;
+          const startedTs = d.startedAt || Date.now();
+          // 考试时长已经用完了：这份草稿不能恢复。
+          // 以前只校验 12 小时 TTL，3 小时前进场、150 分钟的卷子一打开就直接静默交卷，
+          // 用户没见过题目就先吃到一张 0 分的成绩单。
+          const overtime = Date.now() - startedTs > meta.minutes * 60 * 1000;
           const byId = new Map(all.map((q) => [q.id, q]));
           const restored = d.ids.map((id) => byId.get(id)).filter(Boolean) as Question[];
-          if (!stale && restored.length > 0) {
+          if (!stale && !overtime && restored.length > 0) {
             setItems(restored);
             setAnswers(d.answers ?? {});
-            setStartedAt(d.startedAt || Date.now());
+            setMarks(d.marks ?? {});
+            setStartedAt(startedTs);
             setIndex(Math.min(d.index ?? 0, restored.length - 1));
+            // 自评中途离开的，回到自评页而不是答题页
+            if (d.phase === 'mark') {
+              submitted.current = true;
+              setPhase('mark');
+            }
             setRestoredDraft(true);
             return;
           }
+          if (overtime && !stale) setExpiredNotice(true);
           localStorage.removeItem(draftKey(part, key));
         } catch {
           /* 草稿损坏则重新组卷 */
@@ -124,11 +149,13 @@ export function MockRun() {
       }
       setItems(buildPaper(all, part, key));
       setStartedAt(Date.now());
+    }).catch(() => {
+      if (alive) setLoadError(true);
     });
     return () => {
       alive = false;
     };
-  }, [part, key]);
+  }, [part, key, meta.minutes]);
 
   // 计时
   useEffect(() => {
@@ -137,22 +164,24 @@ export function MockRun() {
     return () => clearInterval(t);
   }, [phase]);
 
-  // 答题中存草稿，防止刷新/关页丢失
+  // 答题 / 自评过程中存草稿，防止刷新、关页丢失
   useEffect(() => {
-    if (!items || phase !== 'answer') return;
+    if (!items || phase === 'done') return;
     const draft: Draft = {
       ids: items.map((q) => q.id),
       answers,
       startedAt,
       updatedAt: Date.now(),
       index,
+      marks,
+      phase: phase === 'mark' ? 'mark' : 'answer',
     };
     try {
       localStorage.setItem(draftKey(part, key), JSON.stringify(draft));
     } catch {
       /* 存储不可用时由全局提示接管，不阻塞答题 */
     }
-  }, [items, answers, startedAt, phase, part, key, index]);
+  }, [items, answers, startedAt, phase, part, key, index, marks]);
 
   const elapsed = now - startedAt;
   const remain = Math.max(0, meta.minutes * 60 * 1000 - elapsed);
@@ -242,7 +271,11 @@ export function MockRun() {
   // 时间到自动交卷（下午卷仍要进入自评）
   useEffect(() => {
     if (!items || phase !== 'answer') return;
-    if (remain <= 0) submit();
+    if (remain <= 0 && !timeUp.current) {
+      timeUp.current = true;
+      setAutoSubmitted(true);
+      submit();
+    }
   }, [remain, items, phase, submit]);
 
   /** 下午卷自评汇总 */
@@ -353,6 +386,31 @@ export function MockRun() {
 
   const back = () => nav('/mock');
 
+  /* ---------- 路由不合法：不能把错链接当成上午卷来考 ---------- */
+  if (!paperOk) {
+    return (
+      <div className="page page--full">
+        <div className="topbar">
+          <button className="icon-btn" onClick={back} aria-label="返回">
+            <IconBack />
+          </button>
+          <span className="topbar__title">试卷不存在</span>
+        </div>
+        <div className="empty">
+          <div className="empty__title">这套卷子不存在</div>
+          <div>链接里的试卷编号或卷型不正确，请从模考列表重新选择</div>
+        </div>
+        <div className="actionbar">
+          <div className="actionbar__inner">
+            <button className="btn btn--primary btn--block" onClick={back}>
+              返回模考列表
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   /* ---------- 加载 / 空态 ---------- */
   if (!items) {
     return (
@@ -363,7 +421,16 @@ export function MockRun() {
           </button>
           <span className="topbar__title">{title}</span>
         </div>
-        <div className="empty">正在组卷…</div>
+        <div className="empty">
+          {loadError ? (
+            <>
+              <div className="empty__title">题库加载失败</div>
+              <div>可能是网络中断，重新加载即可</div>
+            </>
+          ) : (
+            '正在组卷…'
+          )}
+        </div>
       </div>
     );
   }
@@ -379,12 +446,12 @@ export function MockRun() {
         </div>
         <div className="empty">
           <div className="empty__title">
-            {keyOk ? '这套卷子还没有题目' : '这套卷子不存在'}
+            {paperOk ? '这套卷子还没有题目' : '这套卷子不存在'}
           </div>
           <div>
-            {keyOk
+            {paperOk
               ? '题库中缺少该卷型的题目，请先补充题库'
-              : '链接里的试卷编号不正确，请从模考列表重新选择'}
+              : '链接里的试卷编号或卷型不正确，请从模考列表重新选择'}
           </div>
         </div>
         <div className="actionbar">
@@ -429,6 +496,12 @@ export function MockRun() {
               : `案例小问自评 ${result.correct}/${result.total}（${rate}%）· 按比例折算 ${meta.fullScore} 分`}
           </div>
         </div>
+
+        {autoSubmitted && (
+          <div className="banner banner--info">
+            考试时间（{meta.minutes} 分钟）已用完，系统自动交卷。未作答的题按缺考处理。
+          </div>
+        )}
 
         {part === 'am' && skipped > 0 && (
           <div className="banner banner--info">
@@ -598,6 +671,8 @@ export function MockRun() {
                 localStorage.removeItem(draftKey(part, key));
                 loadAll().then((all) => {
                   submitted.current = false;
+                  timeUp.current = false;
+                  setAutoSubmitted(false);
                   setItems(buildPaper(all, part, key));
                   setAnswers({});
                   setMarks({});
@@ -630,10 +705,41 @@ export function MockRun() {
           <span className="chip">已评 {markedCount.n}/{markedCount.all}</span>
         </div>
 
+        {restoredDraft && (
+          <div className="banner banner--ok fade-in" style={{ marginTop: 10 }}>
+            已恢复上次的自评进度（已评 {markedCount.n}/{markedCount.all}），接着评完即可保存成绩。
+          </div>
+        )}
+
+        {autoSubmitted && (
+          <div className="banner banner--info" style={{ marginTop: 10 }}>
+            考试时间（{meta.minutes} 分钟）已用完，系统自动交卷，请继续完成自评后保存成绩。
+          </div>
+        )}
+
         <div className="banner banner--info" style={{ marginTop: 12 }}>
           下午卷为主观题，请逐个小问对照参考答案与采分要点，如实选择「我答到了 / 没答到」。
           得分按小问比例折算，不诚实只会骗到自己的分数。
         </div>
+
+        {remain > 0 ? (
+          <button
+            className="btn btn--ghost btn--sm"
+            style={{ marginTop: 10 }}
+            onClick={() => {
+              // 误点交卷的退路：回答题页继续检查，重新交卷后才会再进自评
+              submitted.current = false;
+              setRestoredDraft(false);
+              setPhase('answer');
+            }}
+          >
+            ← 返回继续检查答案（还剩 {formatDuration(remain)}）
+          </button>
+        ) : (
+          <div className="sub" style={{ marginTop: 10 }}>
+            考试时间已用完，只能完成自评后保存成绩。
+          </div>
+        )}
 
         <div className="card" style={{ padding: '4px 14px 14px' }}>
           {items.map((it, i) => (
@@ -751,10 +857,19 @@ export function MockRun() {
         />
       </div>
 
+      {expiredNotice && (
+        <div className="banner banner--info fade-in" style={{ marginTop: 10 }}>
+          上次的作答已超过考试时长（{meta.minutes} 分钟），无法继续续考，已为你重新组卷。
+          答题中途关掉页面超过 {meta.minutes} 分钟也会是这个结果。
+        </div>
+      )}
+
       {restoredDraft && (
         <div className="banner banner--info fade-in" style={{ marginTop: 10 }}>
-          已恢复上次的作答进度（第 {index + 1} 题，已答 {answeredCount}/{total}）。
-          进度保存在本机浏览器，关掉页面也不会丢。
+          {part === 'pm'
+            ? `已恢复上次的作答进度（第 ${index + 1} 题 / 共 ${total} 题），自评进度也一并保留。`
+            : `已恢复上次的作答进度（第 ${index + 1} 题，已答 ${answeredCount}/${total}）。
+          进度保存在本机浏览器，关掉页面也不会丢。`}
           <button
             className="btn btn--ghost btn--sm"
             style={{ marginLeft: 8 }}

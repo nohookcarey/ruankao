@@ -1,17 +1,31 @@
 import { useRef, useState } from 'react';
 import { useApp } from '../model/StateContext';
 import {
+  clearPrevState,
   decodeSyncCode,
   encodeSyncCode,
   exportJSON,
+  loadPrevState,
   parseImport,
+  stashPrevState,
 } from '../model/state';
+import type { AppState } from '../model/types';
+
+/** 覆盖式操作的二次确认：把「会丢什么」说清楚，并提示有快照 */
+function confirmOverwrite(what: string, state: AppState): boolean {
+  const answered = Object.values(state.progress).filter((p) => p?.tries).length;
+  const wrong = Object.values(state.wrong).filter((w) => !w.cleared).length;
+  return window.confirm(
+    `即将用${what}覆盖本机记录。\n\n当前有 ${answered} 道题的作答记录、${wrong} 道待复习错题，覆盖后会被替换。\n（覆盖前的数据会自动存一份快照，可在本页一键恢复）\n\n确定继续吗？`,
+  );
+}
 
 export function Settings() {
   const { state, updateSettings, replaceState, reset } = useApp();
   const [toast, setToast] = useState('');
   const [syncCode, setSyncCode] = useState('');
   const [pasteCode, setPasteCode] = useState('');
+  const [hasPrev, setHasPrev] = useState(() => Boolean(loadPrevState()));
   const fileRef = useRef<HTMLInputElement>(null);
 
   const flash = (msg: string) => {
@@ -39,6 +53,9 @@ export function Settings() {
     reader.onload = () => {
       try {
         const next = parseImport(String(reader.result ?? ''));
+        if (!confirmOverwrite('这份备份文件', state)) return;
+        stashPrevState(state);
+        setHasPrev(true);
         replaceState(next);
         flash('导入成功，记录已恢复');
       } catch (e) {
@@ -67,13 +84,31 @@ export function Settings() {
   const applyCode = () => {
     if (!pasteCode.trim()) return;
     try {
+      // 先解码再确认：码本身无效时不该弹「要不要覆盖」的吓人提示
       const next = decodeSyncCode(pasteCode);
+      if (!confirmOverwrite('这条同步码', state)) return;
+      stashPrevState(state);
+      setHasPrev(true);
       replaceState(next);
       setPasteCode('');
       flash('同步完成，记录已覆盖为本机最新');
     } catch (e) {
       flash(`同步码无效：${(e as Error).message}`);
     }
+  };
+
+  const restorePrev = () => {
+    const prev = loadPrevState();
+    if (!prev) {
+      flash('没有可恢复的快照');
+      setHasPrev(false);
+      return;
+    }
+    if (!window.confirm('将当前记录换回「上一次导入前」的状态？当前记录会被替换。')) return;
+    replaceState(prev);
+    clearPrevState();
+    setHasPrev(false);
+    flash('已恢复到导入前的数据');
   };
 
   return (
@@ -209,6 +244,18 @@ export function Settings() {
               e.target.value = '';
             }}
           />
+
+          {hasPrev && (
+            <button className="setting-row" style={{ width: '100%' }} onClick={restorePrev}>
+              <div className="setting-row__main">
+                <div className="setting-row__title">恢复导入前的数据</div>
+                <div className="setting-row__desc">
+                  把上一次导入 / 同步覆盖掉的记录换回来（快照只能用一次）
+                </div>
+              </div>
+              <span className="chevron">›</span>
+            </button>
+          )}
 
           <div style={{ padding: 14, borderTop: '1px solid var(--line)' }}>
             <div className="setting-row__title" style={{ marginBottom: 6 }}>

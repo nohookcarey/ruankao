@@ -133,7 +133,15 @@ export function Wrong() {
                         >
                           {state.fav.includes(q.id) ? '取消收藏' : '收藏'}
                         </button>
-                        <button className="btn btn--ghost btn--sm" onClick={() => removeWrong(q.id)}>
+                        <button
+                          className="btn btn--ghost btn--sm"
+                          onClick={() => {
+                            // 误点一下就把错题删了，且无法撤销，必须确认
+                            if (window.confirm('从错题本移除这道题？之后答错会重新收录。')) {
+                              removeWrong(q.id);
+                            }
+                          }}
+                        >
                           移除
                         </button>
                       </>

@@ -37,9 +37,14 @@ let allPromise: Promise<Question[]> | null = null;
 
 export function loadAll(): Promise<Question[]> {
   if (!allPromise) {
-    allPromise = Promise.all(areas.map((a) => loadArea(a.id))).then((groups) =>
-      groups.flat(),
-    );
+    allPromise = Promise.all(areas.map((a) => loadArea(a.id)))
+      .then((groups) => groups.flat())
+      .catch((e: unknown) => {
+        // 不能把 rejected 的 Promise 永久缓存：分片拉取失败一次（弱网、部署切换），
+        // 之后所有页面都会立刻拿到同一个失败结果，整站卡在「加载中」直到手动刷新。
+        allPromise = null;
+        throw e;
+      });
   }
   return allPromise;
 }

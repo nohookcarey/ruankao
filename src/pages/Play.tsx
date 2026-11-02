@@ -33,6 +33,8 @@ export function Play() {
   const { state, recordAnswer, toggleFav, setResume, saveDaily } = useApp();
 
   const [items, setItems] = useState<Question[] | null>(null);
+  /** 题库分片拉取失败：不能一直停在「加载题库…」不给出路 */
+  const [loadError, setLoadError] = useState(false);
   /** 全量题库，用于判断章节/考点是否存在（空态时 items 是空的，判断不了） */
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [index, setIndex] = useState(0);
@@ -55,6 +57,12 @@ export function Play() {
    * 光靠 reveal 判断会重复判分（一次连点能刷满连对进度）。用 ref 立刻上锁。
    */
   const judging = useRef(false);
+  /**
+   * 自评锁：案例题的两个自评按钮原先没有互斥，
+   * 连点 3 次「我会做」就会写 3 条作答记录、tries 和 streak 一起涨，
+   * 等于白送错题归档进度。一道题只接受一次自评。
+   */
+  const selfJudged = useRef(false);
 
   // 组卷：只在挂载时快照一次，避免答题过程中列表变动导致错位
   useEffect(() => {
@@ -101,6 +109,8 @@ export function Play() {
       const saved = kind === 'daily' || kind === 'review' ? 0 : snapshot.current.resume[setKey] ?? 0;
       const start = saved > 0 && saved < list.length ? saved : 0;
       setIndex(start);
+    }).catch(() => {
+      if (alive) setLoadError(true);
     });
     return () => {
       alive = false;
@@ -114,6 +124,7 @@ export function Play() {
   // 换题时清空作答态；背题模式直接展开答案
   useEffect(() => {
     judging.current = false;
+    selfJudged.current = false;
     setPicked(null);
     setInputs([]);
     setReveal(memorize);
@@ -184,17 +195,18 @@ export function Play() {
       judgeAndRecord(Boolean(ok));
       return;
     }
-    // 案例题：展开参考答案
+    // 案例题：先亮参考答案，等用户自评后再计入本轮完成数。
+    // 这里不能直接 +1，否则「我答到了 / 没答到」都没点也算作答，正确率被凭空拉低。
     setReveal(true);
     setShowExp(true);
-    setSession((s) => ({ ...s, done: s.done + 1 }));
   };
 
   const handleSelf = (known: boolean) => {
-    if (!q) return;
+    if (!q || selfJudged.current) return;
+    selfJudged.current = true;
     setSelfMark(known ? 'known' : 'unknown');
     recordAnswer(q, known);
-    setSession((s) => ({ ...s, ok: s.ok + (known ? 1 : 0) }));
+    setSession((s) => ({ done: s.done + 1, ok: s.ok + (known ? 1 : 0) }));
   };
 
   const primaryLabel = useMemo(() => {
@@ -270,7 +282,26 @@ export function Play() {
           </button>
           <span className="topbar__title">{title}</span>
         </div>
-        <div className="empty">加载题库…</div>
+        {loadError ? (
+          <>
+            <div className="empty">
+              <div className="empty__title">题库加载失败</div>
+              <div>可能是网络中断或刚部署了新版本，重新加载即可</div>
+            </div>
+            <div className="actionbar">
+              <div className="actionbar__inner">
+                <button
+                  className="btn btn--primary btn--block"
+                  onClick={() => window.location.reload()}
+                >
+                  重新加载
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="empty">加载题库…</div>
+        )}
       </div>
     );
   }
@@ -340,6 +371,11 @@ export function Play() {
             </div>
             <div className="result-sub">本轮速览完毕 · 背题模式只读，不计入作答统计</div>
           </div>
+        ) : session.done === 0 ? (
+          <div className="result-hero">
+            <div className="result-score">—</div>
+            <div className="result-sub">这一轮没有作答（都跳过了），不生成正确率</div>
+          </div>
         ) : (
           <div className="result-hero">
             <div className="result-score">
@@ -348,6 +384,7 @@ export function Play() {
             </div>
             <div className="result-sub">
               本轮作答 {session.done} 题，答对 {session.ok} 题
+              {session.done < total && ` · 跳过 ${total - session.done} 题`}
             </div>
           </div>
         )}

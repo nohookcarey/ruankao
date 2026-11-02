@@ -217,12 +217,14 @@ export function QuestionView({
               <button
                 className={`self-btn${selfMark === 'known' ? ' is-ok' : ''}`}
                 onClick={() => onSelf(true)}
+                disabled={selfMark != null}
               >
                 我会做
               </button>
               <button
                 className={`self-btn${selfMark === 'unknown' ? ' is-bad' : ''}`}
                 onClick={() => onSelf(false)}
+                disabled={selfMark != null}
               >
                 没答上来
               </button>

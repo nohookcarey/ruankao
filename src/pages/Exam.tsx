@@ -42,6 +42,7 @@ export function Exam() {
   const { saveExam, recordAnswer } = useApp();
 
   const [items, setItems] = useState<Question[] | null>(null);
+  const [loadError, setLoadError] = useState(false);
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
   const [index, setIndex] = useState(0);
   const [startedAt, setStartedAt] = useState<number>(0);
@@ -49,37 +50,51 @@ export function Exam() {
   const [result, setResult] = useState<Result | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [restoredDraft, setRestoredDraft] = useState(false);
+  /** 上次的草稿已超出考试时长，被丢弃重新组卷 */
+  const [expiredNotice, setExpiredNotice] = useState(false);
+  /** 是否因时间耗尽而自动交卷，用于在成绩页说明原因 */
+  const [autoSubmitted, setAutoSubmitted] = useState(false);
   const submitted = useRef(false);
+  const timeUp = useRef(false);
 
   // 组卷或恢复草稿
   useEffect(() => {
     let alive = true;
     loadAll().then((all) => {
       if (!alive) return;
+      // 随机卷只取客观题：案例题要自评，混进来既判不了分，
+      // 又会让「已答 x / 总题数」的分母对不上
+      const pool = all.filter((q) => q.type !== 'case');
       const raw = localStorage.getItem(DRAFT_KEY);
       if (raw) {
         try {
           const d = JSON.parse(raw) as Draft;
           const stamp = d.updatedAt ?? d.startedAt ?? 0;
           const stale = Date.now() - stamp > DRAFT_TTL_MS;
+          const startedTs = d.startedAt || Date.now();
+          // 超过 150 分钟就作废：否则一打开页面就被自动交卷，直接吃一张 0 分成绩单
+          const overtime = Date.now() - startedTs > DURATION_MIN * 60 * 1000;
           const byId = new Map(all.map((q) => [q.id, q]));
           const restored = d.ids.map((id) => byId.get(id)).filter(Boolean) as Question[];
-          if (!stale && restored.length > 0) {
+          if (!stale && !overtime && restored.length > 0) {
             setItems(restored);
             setAnswers(d.answers ?? {});
-            setStartedAt(d.startedAt || Date.now());
+            setStartedAt(startedTs);
             setIndex(Math.min(d.index ?? 0, restored.length - 1));
             setRestoredDraft(true);
             return;
           }
+          if (overtime && !stale) setExpiredNotice(true);
           localStorage.removeItem(DRAFT_KEY);
         } catch {
           /* 草稿损坏则重新组卷 */
         }
       }
-      const list = shuffle(all).slice(0, Math.min(75, all.length));
+      const list = shuffle(pool).slice(0, Math.min(75, pool.length));
       setItems(list);
       setStartedAt(Date.now());
+    }).catch(() => {
+      if (alive) setLoadError(true);
     });
     return () => {
       alive = false;
@@ -168,7 +183,11 @@ export function Exam() {
   // 时间到自动交卷
   useEffect(() => {
     if (!items || result) return;
-    if (remain <= 0) submit();
+    if (remain <= 0 && !timeUp.current) {
+      timeUp.current = true;
+      setAutoSubmitted(true);
+      submit();
+    }
   }, [remain, items, result, submit]);
 
   const q = items?.[index];
@@ -204,7 +223,16 @@ export function Exam() {
           </button>
           <span className="topbar__title">模考</span>
         </div>
-        <div className="empty">正在组卷…</div>
+        <div className="empty">
+          {loadError ? (
+            <>
+              <div className="empty__title">题库加载失败</div>
+              <div>可能是网络中断，重新加载即可</div>
+            </>
+          ) : (
+            '正在组卷…'
+          )}
+        </div>
       </div>
     );
   }
@@ -259,6 +287,12 @@ export function Exam() {
           </div>
         </div>
 
+        {autoSubmitted && (
+          <div className="banner banner--info">
+            考试时间（{DURATION_MIN} 分钟）已用完，系统自动交卷。未作答的题按缺考处理。
+          </div>
+        )}
+
         {skipped > 0 && (
           <div className="banner banner--info">
             有 {skipped} 题未作答，按缺考处理：不计入已刷题数，也不进错题本。
@@ -306,12 +340,15 @@ export function Exam() {
               onClick={() => {
                 localStorage.removeItem(DRAFT_KEY);
                 submitted.current = false;
+                timeUp.current = false;
+                setAutoSubmitted(false);
                 setResult(null);
                 setAnswers({});
                 setIndex(0);
                 setRestoredDraft(false);
                 loadAll().then((all) => {
-                  const list = shuffle(all).slice(0, Math.min(75, all.length));
+                  const pool = all.filter((x) => x.type !== 'case');
+                  const list = shuffle(pool).slice(0, Math.min(75, pool.length));
                   setItems(list);
                   setStartedAt(Date.now());
                 });
@@ -363,6 +400,12 @@ export function Exam() {
           style={{ width: `${(answeredCount / items.length) * 100}%` }}
         />
       </div>
+
+      {expiredNotice && (
+        <div className="banner banner--info fade-in" style={{ marginTop: 10 }}>
+          上次的作答已超过考试时长（{DURATION_MIN} 分钟），无法继续续考，已为你重新组卷。
+        </div>
+      )}
 
       {restoredDraft && (
         <div className="banner banner--info fade-in" style={{ marginTop: 10 }}>

@@ -151,7 +151,46 @@ export function encodeSyncCode(state: AppState): string {
 export function decodeSyncCode(code: string): AppState {
   const json = LZString.decompressFromBase64(code.trim());
   if (!json) throw new Error('同步码无法解析，请确认内容完整');
-  return parseImport(json);
+  try {
+    return parseImport(json);
+  } catch {
+    // 解压能出字符但内容不是备份数据（粘错、粘了半截）：
+    // 不要把 JSON.parse 的原始报错抛给用户
+    throw new Error('同步码内容不是有效的备份数据，请确认已完整复制');
+  }
+}
+
+/**
+ * 覆盖式操作（导入文件 / 应用同步码）前的兜底快照。
+ * 这类操作会整份替换本机记录，一旦粘错码就全没了，
+ * 所以先把旧状态存一格，用户后悔时能一键退回。
+ */
+export const PREV_STATE_KEY = 'ruankao.state.prev';
+
+export function stashPrevState(state: AppState): void {
+  try {
+    localStorage.setItem(PREV_STATE_KEY, JSON.stringify(state));
+  } catch {
+    /* 空间不足时放弃快照，至少不阻断导入 */
+  }
+}
+
+export function loadPrevState(): AppState | null {
+  try {
+    const raw = localStorage.getItem(PREV_STATE_KEY);
+    if (!raw) return null;
+    return hydrate(JSON.parse(raw) as Partial<AppState>);
+  } catch {
+    return null;
+  }
+}
+
+export function clearPrevState(): void {
+  try {
+    localStorage.removeItem(PREV_STATE_KEY);
+  } catch {
+    /* 忽略 */
+  }
 }
 
 export function formatDuration(ms: number): string {

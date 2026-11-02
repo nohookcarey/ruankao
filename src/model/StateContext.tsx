@@ -157,7 +157,15 @@ export function StateProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setResume = useCallback((key: string, index: number) => {
-    setState((prev) => ({ ...prev, resume: { ...prev.resume, [key]: index } }));
+    setState((prev) => {
+      // 先 delete 再赋值，让这个键排到对象末尾。
+      // 首页靠「最后一个键」认定最近练的题集，而覆盖已有键不会改变插入顺序，
+      // 之前就会出现「刚练完数据库，继续上次练习却跳回操作系统」。
+      const resume = { ...prev.resume };
+      delete resume[key];
+      resume[key] = index;
+      return { ...prev, resume };
+    });
   }, []);
 
   const replaceState = useCallback((next: AppState) => {
